@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateSkillsMenu : MonoBehaviour {
+public class CreateInventoryMenu : MonoBehaviour {
 
 //	[SerializeField]
 	private GameObject server;
-	private Dictionary<int,Dictionary<int, long>> playerSkills;
-	[SerializeField]
-	private List<Skill> skillsDB;
 	[SerializeField]
 	private GameObject panel1;
     [SerializeField]
@@ -18,17 +15,6 @@ public class CreateSkillsMenu : MonoBehaviour {
 	private GameObject panel3;
     [SerializeField]
     private GameObject buttonMenuPrefab;
-    [SerializeField]
-    private GameObject buttonTechMenuPrefab;
-	[SerializeField]
-	private GameObject panelTechInfoPopup;
-	[SerializeField]
-	private GameObject PopupCancelButton;
-	[SerializeField]
-	private GameObject PopupLevelButton;
-	[SerializeField]
-	private GameObject PopupTechButton;
-
 
 
 
@@ -38,7 +24,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 		server = GameObject.Find ("ServerGo");
 		Debug.Log (server.name);
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
-        skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
+        //skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
         BuildMenu1();
 	}
 
@@ -58,51 +44,8 @@ public class CreateSkillsMenu : MonoBehaviour {
             }
         }
     }
-    private void BuildMenu2 (Skill _rootSkill)
-	{
-        //clear panel
-        foreach (Transform child in panel2.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-		int j = 0;
-		for (int i = 0; i < skillsDB.Count; i++) {
-			if (skillsDB[i].depend_id ==_rootSkill.id) {
-				j++;
-				MenuAdd (skillsDB[i],2,j);
-			}
-		}
-	}
-    private void BuildTechMenu(Skill _skill) {
-        foreach (Transform child in panel3.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        for (int tech=1;tech>0;tech++){
-            long points = server.GetComponent<PlayerSkillsServer>().SkillLearned(0, _skill.id, tech); //0-  player_id
-//			Debug.Log(points+" "+_skill.id);
-			if (points > 0) {
-				float level = SkillLevelCalc (tech, _skill.difficulty, points);
-				TechMenuAdd (_skill, tech, points, level);
-			} else {
-				break;
-			}
-			if (tech > 10)
-				break;
-        }
-        
-    }
-    private void TechMenuAdd(Skill skill, int tech,long points,float level)
-    {
-        GameObject menu_button = (GameObject)Instantiate(buttonTechMenuPrefab);
-        menu_button.transform.SetParent(panel3.transform, false);
-        menu_button.GetComponent<RectTransform>().position += Vector3.up * (tech * -50);
-		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
-		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
-        // TODO ON click show description
- 
-    }
-	private void TechInfoPopup(Skill skill, int tech,long points,int level)
+    
+	private void InfoPopup(Skill skill, int tech,long points,int level)
 	{
 
         if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
@@ -139,7 +82,6 @@ public class CreateSkillsMenu : MonoBehaviour {
         {
             GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 			menu_button.transform.SetParent (panel1.transform, false);
-//			menu_button.GetComponent<RectTransform>().
 			menu_button.GetComponent<RectTransform>().localPosition = Vector3.up * (buttonCount * -50);
             menu_button.GetComponent<Button>().onClick.AddListener(() => { BuildMenu2(skill); });
 			menu_button.GetComponentInChildren<Text>().text = skill.skill;
@@ -157,9 +99,5 @@ public class CreateSkillsMenu : MonoBehaviour {
 	}
 
 
-    public float SkillLevelCalc(int _tech, int _difficulty, long _points)
-    {
-        float level = Mathf.Log(_points, _difficulty * 3 + _tech - 1);
-        return level;
-    }
+    
 }
