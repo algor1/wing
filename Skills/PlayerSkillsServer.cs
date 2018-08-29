@@ -128,7 +128,6 @@ class PlayerSkillsServer: MonoBehaviour
                 for (int i = 0; i < _PSQ.Count; i++)
 				{
 				UpdatePlayerSkill (0,_PSQ[i].skill,playerLearningSpeed);
-
                 }
 			yield return new WaitForSeconds (60f);
 
