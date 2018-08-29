@@ -23,7 +23,10 @@ public class SkillsDB : MonoBehaviour
     {
 //        InitDB();
     }
-    
+	void OnApplicationQuit()
+	{
+		if (dbSkillCon!=null) dbSkillCon.Close();
+	}
     private void InitDB()
     {
 		string p="skill.db";
@@ -146,10 +149,14 @@ public class SkillsDB : MonoBehaviour
         SkillQueue _skillQueue= new SkillQueue();
         while (reader.Read())
         {
+			Debug.Log ("reader.read");
             if (!reader.IsDBNull(0))
             {
+				Debug.Log ("reader0 "+reader.GetInt32(0));
                 if (!reader.IsDBNull(0)) _skillQueue.skill = FindSkill(reader.GetInt32(0));
+				Debug.Log ("reader1 "+reader.GetInt32(1));
                 if (!reader.IsDBNull(1)) _skillQueue.skill.tech = reader.GetInt32(1);
+				Debug.Log ("reader2 "+reader.GetInt32(2));
                 if (!reader.IsDBNull(2)) _skillQueue.queue = reader.GetInt32(2);
                 _skillQueue.skill.points = SkillLearnedPoints(player_id, _skillQueue.skill.id, _skillQueue.skill.tech);
                 retQueue.Add(_skillQueue);
@@ -157,24 +164,7 @@ public class SkillsDB : MonoBehaviour
         }
         return retQueue;
     }
-    public List<Skill> SkillQueue(int player_id)
-    {
-        List<Skill> retQueue = new List<Skill>();
-        string qwery = "select skill_id,tech from skill_queue where player_id=" + player_id.ToString();
-        GetReader(qwery);
-        Skill _skill = new Skill();
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                _skill = FindSkill(reader.GetInt32(0));
-                if (!reader.IsDBNull(1)) _skill.tech = reader.GetInt32(1);
-                _skill.points = SkillLearnedPoints(player_id, _skill.id, _skill.tech);
-                retQueue.Add(_skill);
-            }
-        }
-        return retQueue;
-    }
+
     public void AddToQueue(int player_id,int skill_id,int tech, int level)
     {
 		string qwery = "insert into skill_queue (player_id,skill_id,tech,level) values ("+player_id.ToString()+","+skill_id.ToString()+","+tech.ToString()+","+level.ToString()+")";

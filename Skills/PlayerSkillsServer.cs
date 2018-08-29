@@ -14,35 +14,35 @@ class PlayerSkillsServer: MonoBehaviour
 {
     private Dictionary<int, Dictionary<int,Dictionary<int, long>>> playersSkillsBase; //StationLandingBase[player_id][skill_id][tech]points
   
-    [SerializeField]
-    private SkillsDatabase skillsDB;
+//    [SerializeField]
+//    private SkillsDatabase skillsDB;
     private Dictionary<int, List<Skill>> playerSkillQueue;
 
 
         
     void Awake(){
         DontDestroyOnLoad(transform.gameObject);
-        playersSkillsBase = new Dictionary<int, Dictionary<int,Dictionary<int, long>>>();
-        InitPlayer(0);
+//        playersSkillsBase = new Dictionary<int, Dictionary<int,Dictionary<int, long>>>();
+//        InitPlayer(0);
 
     }
-    public void InitPlayer(int player_id)
-    {
-        if (!playersSkillsBase.ContainsKey(player_id))
-        {
-            playersSkillsBase.Add(player_id, new Dictionary<int,Dictionary<int, long>>());
-                
-            for (int i = 0; i < skillsDB.allskills.Count; i++)
-            {
-                if (skillsDB.allskills[i].rootSkill)
-                {
-                    //if (!playersSkillsBase[player_id].ContainsKey(player_id))
-                    playersSkillsBase[player_id].Add(skillsDB.allskills[i].id, new Dictionary<int, long>{{1,0}});
-                        
-                }
-            }
-        }
-    }
+//    public void InitPlayer(int player_id)
+//    {
+//        if (!playersSkillsBase.ContainsKey(player_id))
+//        {
+//            playersSkillsBase.Add(player_id, new Dictionary<int,Dictionary<int, long>>());
+//                
+//            for (int i = 0; i < skillsDB.allskills.Count; i++)
+//            {
+//                if (skillsDB.allskills[i].rootSkill)
+//                {
+//                    //if (!playersSkillsBase[player_id].ContainsKey(player_id))
+//                    playersSkillsBase[player_id].Add(skillsDB.allskills[i].id, new Dictionary<int, long>{{1,0}});
+//                        
+//                }
+//            }
+//        }
+//    }
 
     public long SkillLearned(int player_id,int skill_id,int _tech){
 	long p = GetComponent<SkillsDB> ().SkillLearnedPoints (player_id, skill_id, _tech);
@@ -53,16 +53,16 @@ class PlayerSkillsServer: MonoBehaviour
         Skill _skill = GetComponent<SkillsDB>().FindSkill(skill_id);
         return _skill;
     }
-    public List<SkillQueue> PlayerSkillQueue(int player_id)
+	public List<SkillQueue> PlayerSkillQueue(int player_id)
     {
         return GetComponent<SkillsDB>().PlayerQueue(player_id);
     }
 	public bool AddSkillToQueue(int player_id, int skill_id, int _tech,int level)
     {
-        List<Skill> _PSQ = PlayerSkillQueue(player_id);
+        List<SkillQueue> _PSQ = PlayerSkillQueue(player_id);
         for (int i = 0; i < _PSQ.Count; i++)
         {
-			if (_PSQ[i].id == skill_id && _PSQ[i].tech == _tech && _PSQ[i].level == level)
+			if (_PSQ[i].skill.id == skill_id && _PSQ[i].skill.tech == _tech && _PSQ[i].skill.level == level)
             {
                 return false;
             }
@@ -72,10 +72,10 @@ class PlayerSkillsServer: MonoBehaviour
     }
 	public bool DleleteSkillFromQueue(int player_id, int skill_id, int _tech, int level)
     {
-        List<Skill> _PSQ = PlayerSkillQueue(player_id);
+        List<SkillQueue> _PSQ = PlayerSkillQueue(player_id);
         for (int i = 0; i < _PSQ.Count; i++)
         {
-			if (_PSQ[i].id == skill_id && _PSQ[i].tech == _tech &&_PSQ[i].level==level)
+			if (_PSQ[i].skill.id == skill_id && _PSQ[i].skill.tech == _tech &&_PSQ[i].skill.level==level)
             {
 				GetComponent<SkillsDB>().DeleteFromQueue(player_id, skill_id, _tech,level);
                 return true;
@@ -127,10 +127,14 @@ class PlayerSkillsServer: MonoBehaviour
                 List<SkillQueue> _PSQ = PlayerSkillQueue(0); //пока только один плеер
                 for (int i = 0; i < _PSQ.Count; i++)
 				{
-				UpdatePlayerSkill (0,_PSQ[i].skill,playerLearningSpeed);
-                }
-			yield return new WaitForSeconds (60f);
+				if (_PSQ[i].queue==1) UpdatePlayerSkill (0,_PSQ[i].skill,playerLearningSpeed);
 
+                }
+			yield return new WaitForSeconds (10f);
+	
 		}
+
+
+        
     }
 }

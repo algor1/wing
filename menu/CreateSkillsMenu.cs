@@ -42,6 +42,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
         skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
         BuildMenu1();
+		BuildQueueMenu ();
 	}
 
     private void BuildMenu1 ()
@@ -94,19 +95,32 @@ public class CreateSkillsMenu : MonoBehaviour {
         }
         
     }
-    private void BuildQueueMenu(Skill _skill) {
+    private void BuildQueueMenu() {
         
         foreach (Transform child in panelQueue.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-        List<SkillQueue> queue = server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0);
+		List<SkillQueue> queue = server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0);
+		Debug.Log("queue "+queue.Count);
 
         for (int i = 0; i < queue.Count; i++)
         {
+			long points = server.GetComponent<PlayerSkillsServer>().SkillLearned(0, queue[i].skill.id, queue[i].skill.tech); //0-  player_id
+			//			Debug.Log(points+" "+_skill.id);
 
+			float level = SkillLevelCalc (queue[i].skill.tech, queue[i].skill.difficulty, points);
+			QueueMenuAdd (queue[i].skill, queue[i].skill.tech, points, level);
         }
         }
+	private void QueueMenuAdd(Skill skill, int tech,long points,float level)
+	{
+		GameObject menu_button = (GameObject)Instantiate(buttonTechMenuPrefab);
+		menu_button.transform.SetParent(panelQueue.transform, false);
+		menu_button.GetComponent<RectTransform>().position += Vector3.up * (tech * -50);
+		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
+		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
+	}
     private void TechMenuAdd(Skill skill, int tech,long points,float level)
     {
         GameObject menu_button = (GameObject)Instantiate(buttonTechMenuPrefab);
@@ -122,11 +136,17 @@ public class CreateSkillsMenu : MonoBehaviour {
 
         if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
         {
-            PopupLevelButton.GetComponent<Button>().onClick.AddListener(() => { server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); });
+            PopupLevelButton.GetComponent<Button>().onClick.AddListener(() => 
+				{ 
+					server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); 
+					panelTechInfoPopup.SetActive (false);
+
+				});
         }
         else
         {
-            // PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
+			Debug.Log ("cant add to queue  "+server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count);
+			// PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
         }
 
         if (SkillLevelCalc(tech, skill.difficulty, server.GetComponent<PlayerSkillsServer>().SkillLearned(0, skill.id, tech)) >= 5)
@@ -135,6 +155,9 @@ public class CreateSkillsMenu : MonoBehaviour {
             PopupTechButton.GetComponent<Button>().onClick.AddListener(() =>
             {
                 server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech + 1, 1);
+				panelTechInfoPopup.SetActive (false);
+				BuildQueueMenu();
+
             });
             PopupTechButton.SetActive(true);
         }
