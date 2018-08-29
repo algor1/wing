@@ -57,10 +57,10 @@ public class SkillsDB : MonoBehaviour
 //		Debug.Log (reader.Read ());
 
 		while (reader.Read()){
-
+            
 			Skill _skill= new Skill();
 			if (!reader.IsDBNull(0))_skill.id=reader.GetInt32( 0);
-//			Debug.Log (_skill.id);
+            Debug.Log("reading skill : "+_skill.id);
 			if (!reader.IsDBNull(1)) _skill.skill=reader.GetString(1);
 //			Debug.Log (_skill.skill);
 			if (!reader.IsDBNull(2)) _skill.sprite_path=reader.GetString(2);
