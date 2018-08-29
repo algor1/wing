@@ -101,11 +101,11 @@ public class CreateSkillsMenu : MonoBehaviour {
 
         for (int i = 0; i < queue.Count; i++)
         {
-			long points = server.GetComponent<PlayerSkillsServer>().SkillLearned(0, queue[i].skill.id, queue[i].skill.tech); //0-  player_id
+			long points = server.GetComponent<PlayerSkillsServer>().SkillLearned(0, queue[i].skill_id, queue[i].tech); //0-  player_id
 			//			Debug.Log(points+" "+_skill.id);
-
-			float level = SkillLevelCalc (queue[i].skill.tech, queue[i].skill.difficulty, points);
-			QueueMenuAdd (queue[i].skill, queue[i].skill.tech, points, level,queue[i].queue);
+			Skill _skill=server.GetComponent<PlayerSkillsServer>().SkillFind(queue[i].skill_id);
+			float _level = SkillLevelCalc (queue[i].tech, _skill.difficulty, points);
+			QueueMenuAdd (_skill, queue[i].tech, points, _level,queue[i].queue);
         }
         }
 	private void QueueMenuAdd(Skill skill, int tech,long points,float level,int pos)
@@ -134,6 +134,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 				{ 
 					server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); 
 					panelTechInfoPopup.SetActive (false);
+					BuildQueueMenu();
 				});
         }
         else

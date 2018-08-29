@@ -144,24 +144,27 @@ public class SkillsDB : MonoBehaviour
     public List<SkillQueue> PlayerQueue(int player_id)
     {
         List<SkillQueue> retQueue = new List<SkillQueue>();
-        string qwery = "select skill_id,tech,queue from skill_queue where player_id="+player_id.ToString();
+
+        string qwery = "select skill_id,tech,level,queue from skill_queue where player_id="+player_id.ToString();
         GetReader(qwery);
-        SkillQueue _skillQueue= new SkillQueue();
         while (reader.Read())
         {
+			SkillQueue _skillQueue= new SkillQueue();
+
 			Debug.Log ("reader.read");
             if (!reader.IsDBNull(0))
             {
-				Debug.Log ("reader0 "+reader.GetInt32(0));
-                if (!reader.IsDBNull(0)) _skillQueue.skill = FindSkill(reader.GetInt32(0));
+				Debug.Log ("reader0 "+reader.GetInt32(0));            
+				_skillQueue.skill_id=reader.GetInt32(0);
 				Debug.Log ("reader1 "+reader.GetInt32(1));
-                if (!reader.IsDBNull(1)) _skillQueue.skill.tech = reader.GetInt32(1);
+                if (!reader.IsDBNull(1)) _skillQueue.tech = reader.GetInt32(1);
 				Debug.Log ("reader2 "+reader.GetInt32(2));
-                if (!reader.IsDBNull(2)) _skillQueue.queue = reader.GetInt32(2);
-                _skillQueue.skill.points = SkillLearnedPoints(player_id, _skillQueue.skill.id, _skillQueue.skill.tech);
+                if (!reader.IsDBNull(2)) _skillQueue.level = reader.GetInt32(2);
+				if (!reader.IsDBNull (3)) _skillQueue.queue = reader.GetInt32 (3);
                 retQueue.Add(_skillQueue);
             }
         }
+
         return retQueue;
     }
 
@@ -213,13 +216,13 @@ public class SkillsDB : MonoBehaviour
 		if (dbSkillCon==null){
 			InitDB();
 		}
-//		Debug.Log (dbSkillCon.Database);
+		Debug.Log (dbSkillCon.Database);
 		dbcmd = dbSkillCon.CreateCommand ();
-//		Debug.Log (dbcmd.CommandText);
+		Debug.Log (dbcmd.CommandText);
         dbcmd.CommandText = dbselect;
             // Выполняем запрос
 		reader = dbcmd.ExecuteReader();
-//		Debug.Log (reader.Read());
+		Debug.Log (reader.FieldCount);
          
                 return true;
         

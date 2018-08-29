@@ -62,7 +62,7 @@ class PlayerSkillsServer: MonoBehaviour
         List<SkillQueue> _PSQ = PlayerSkillQueue(player_id);
         for (int i = 0; i < _PSQ.Count; i++)
         {
-			if (_PSQ[i].skill.id == skill_id && _PSQ[i].skill.tech == _tech && _PSQ[i].skill.level == level)
+			if (_PSQ[i].skill_id == skill_id && _PSQ[i].tech == _tech && _PSQ[i].level == level)
             {
                 return false;
             }
@@ -75,7 +75,7 @@ class PlayerSkillsServer: MonoBehaviour
         List<SkillQueue> _PSQ = PlayerSkillQueue(player_id);
         for (int i = 0; i < _PSQ.Count; i++)
         {
-			if (_PSQ[i].skill.id == skill_id && _PSQ[i].skill.tech == _tech &&_PSQ[i].skill.level==level)
+			if (_PSQ[i].skill_id == skill_id && _PSQ[i].tech == _tech &&_PSQ[i].level==level)
             {
 				GetComponent<SkillsDB>().DeleteFromQueue(player_id, skill_id, _tech,level);
                 return true;
@@ -107,14 +107,16 @@ class PlayerSkillsServer: MonoBehaviour
 
     }
 
-	private void UpdatePlayerSkill(int player_id,Skill _skill, int pointsAdd)
+	private void UpdatePlayerSkill(int player_id,SkillQueue skillq, int pointsAdd)
     {
-		if (_skill.level>SkillLevelCalc(_skill.tech,_skill.difficulty,_skill.points+pointsAdd))
-		{
+		Skill _skill = SkillFind (skillq.skill_id);
+		long _points = SkillLearned (player_id, skillq.skill_id, skillq.tech);
+
+
 			GetComponent<SkillsDB>().AddPointsToSkill(0, _skill.id, _skill.tech, pointsAdd);
-		}
-		if (_skill.level<=SkillLevelCalc(_skill.tech,_skill.difficulty,_skill.points)){
-			GetComponent<SkillsDB> ().DeleteFromQueue (0, _skill.id, _skill.tech, _skill.level);
+		
+		if (skillq.level<=SkillLevelCalc(skillq.tech,_skill.difficulty,_points)){
+			GetComponent<SkillsDB> ().DeleteFromQueue (0, skillq.skill_id, skillq.tech, skillq.level);
 		}
     }
 
@@ -127,7 +129,7 @@ class PlayerSkillsServer: MonoBehaviour
                 List<SkillQueue> _PSQ = PlayerSkillQueue(0); //пока только один плеер
                 for (int i = 0; i < _PSQ.Count; i++)
 				{
-				if (_PSQ[i].queue==1) UpdatePlayerSkill (0,_PSQ[i].skill,playerLearningSpeed);
+				if (_PSQ[i].queue==1) UpdatePlayerSkill (0,_PSQ[i],playerLearningSpeed);
 
                 }
 			yield return new WaitForSeconds (10f);
