@@ -289,7 +289,7 @@ public class ShipMotor : MonoBehaviour {
 		switch (shipEvent)
 		{
             case SO_ship.ShipEvenentsType.stop:
-//			Debug.Log("motor " + ship.p.SO.visibleName + " ship stopped");
+			Debug.Log("motor " + ship.p.SO.visibleName + " ship stopped");
                 burner.GetComponent<BurnControl>().EngineStop();
 			break;
             case SO_ship.ShipEvenentsType.move:

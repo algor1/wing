@@ -36,6 +36,8 @@ public class SO_ship {
 		p=shipData;
 		rotationToTarget = p.SO.rotation;
         moveCommand = MoveType.move;
+		SendEvent(ShipEvenentsType.move);
+
         host = _host;
 		Debug.Log (host);
 
@@ -151,7 +153,6 @@ public class SO_ship {
 		void Accelerate(){
 		if (p.newSpeed != p.SO.speed) {
 			if (p.newSpeed > p.SO.speed) {
-                SendEvent(ShipEvenentsType.move);
 				p.SO.speed += Time.deltaTime * p.acceleration_max;
 				if (p.newSpeed < p.SO.speed) {
 					p.SO.speed = p.newSpeed;
@@ -177,8 +178,7 @@ public class SO_ship {
 
 	private void Stop(){
 		if (moveCommand == MoveType.stop) {
-			SendEvent(ShipEvenentsType.stop);
-
+//			SendEvent(ShipEvenentsType.stop);
 			p.newSpeed = 0;
 		}
 	}
@@ -301,6 +301,8 @@ public class SO_ship {
         warpCoroutineStarted = false;
 		p.SO.speed = p.max_speed * 0.1f;
 		moveCommand = MoveType.stop;
+		SendEvent(ShipEvenentsType.stop);
+
 		complexCommand = ComandType.none;
 
 
@@ -328,13 +330,18 @@ public class SO_ship {
 
 			if (Vector3.Distance(p.SO.position,targetToMove.position)> 10*p.SO.speed/p.acceleration_max)
 			{
+//				Debug.Log ("command goto");
 				moveCommand = MoveType.move;
+				SendEvent(ShipEvenentsType.move);
+
 			}
 			else
 			{
 //				Debug.Log(Vector3.Distance (p.SO.position, targetToMove.position));
 
 				moveCommand=MoveType.stop;
+				SendEvent(ShipEvenentsType.stop);
+
 				complexCommand = ComandType.none;
 			}
 		}
@@ -344,9 +351,14 @@ public class SO_ship {
 		if (complexCommand == ComandType.landTo) {
 			if (Vector3.Distance (p.SO.position, targetToMove.position) > 10 * p.max_speed / p.acceleration_max) {
 				moveCommand = MoveType.move;
+				SendEvent(ShipEvenentsType.move);
+
 			} else {
 				
 				moveCommand = MoveType.stop;
+				SendEvent(ShipEvenentsType.stop);
+
+
                 SendEvent(ShipEvenentsType.land); 
 
 			}

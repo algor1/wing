@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
     
 class PlayerSkillsServer: MonoBehaviour
 {
-    private Dictionary<int, Dictionary<int,Dictionary<int, long>>> playersSkillsBase; //StationLandingBase[player_id][skill_id][tech]points
+//    private Dictionary<int, Dictionary<int,Dictionary<int, long>>> playersSkillsBase; //StationLandingBase[player_id][skill_id][tech]points
   
 //    [SerializeField]
 //    private SkillsDatabase skillsDB;
@@ -87,10 +87,7 @@ class PlayerSkillsServer: MonoBehaviour
 
 
 
-    public Dictionary<int, Dictionary<int, long>> AllPlayerSkills(int player_id)
-	{
-		return playersSkillsBase [player_id];
-	}
+
 
     public int SkillLevelCalc(int _tech, int _difficulty, long _points)
     {

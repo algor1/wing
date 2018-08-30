@@ -13,7 +13,8 @@ public class BurnControl : MonoBehaviour {
 //        ps_em = ps.emission;
 //		ps_main = ps.main;
 		var em=ps.emission;
-			em.enabled = true;
+//			em.enabled = false;
+		EngineStop();
 		normal_duration = ps.main.duration;
 
 
@@ -22,33 +23,31 @@ public class BurnControl : MonoBehaviour {
     public void EngineStart()
     {
 		var em=ps.emission;
-		em.enabled = true;
+		var psMain = ps.main;
+		psMain.startLifetimeMultiplier = 0.5f;
+		Debug.Log ("engine   start");
+
+//		em.enabled = true;
     }
 
     public void EngineStop()
     {
-		var em=ps.emission;
-		em.enabled =false;
+		var psMain = ps.main;
+		psMain.startLifetimeMultiplier = 0.05f;
+		Debug.Log ("engine STOP");
+//		var em=ps.emission;
+//		em.enabled =false;
     }
 
     public void WarpStart()
     {
-		ps.Stop ();
-		if (!ps.isPlaying) {
-			var psm = ps.main;
-			psm.duration = normal_duration * 5;
-		}
-		ps.Play ();
+		var psMain = ps.main;
+		psMain.startLifetimeMultiplier = 2f;
     }
     public void WarpStop()
     {
-		ps.Stop ();
-		if (!ps.isPlaying) {
-			
-			var psm = ps.main;
-			psm.duration = normal_duration;
-			ps.Play ();
-		}
+		var psMain = ps.main;
+		psMain.startLifetimeMultiplier = 0.05f;
     }
     
 

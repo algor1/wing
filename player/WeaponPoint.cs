@@ -13,11 +13,11 @@ public class WeaponPoint : MonoBehaviour {
 	public void StartFire (SO_ship target)
 	{
 		gameObject.GetComponent<LaserBeam>().StartFire(target);
-		Debug.Log ("+++++pew to " + target.p.SO.visibleName);
+//		Debug.Log ("+++++pew to " + target.p.SO.visibleName);
 	}
 	public void StopFire ()
 	{
-		Debug.Log ("++++stop pew  ");
+//		Debug.Log ("++++stop pew  ");
 
 		gameObject.GetComponent<LaserBeam>().StopFire();
 	}
