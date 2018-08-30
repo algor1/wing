@@ -48,23 +48,48 @@ public class ItemDB : MonoBehaviour
     }
 
 
-//    public Item GetItem (int item_id)
-//    {
-//        Skill returnItem = new Item();
-//        string qwery = "select id,skill,sprite_path,difficulty,depend_id,depend_tech,rootSkill from skills where id=" + skill_id.ToString();
-//        GetReader(qwery);
-//        while (reader.Read())
-//        {
-//            returnItem.id = reader.GetInt32(0);
-//            returnItem.skill = reader.GetString(1);
-//            returnItem.sprite_path = reader.GetString(2);
-//            returnItem.difficulty = reader.GetInt32(3);
-//            returnItem.depend_id = reader.GetInt32(4);//skill_id
-//            returnItem.depend_tech = reader.GetInt32(5);
-//            returnItem.rootSkill = reader.GetBoolean(6);
-//        }
-//        return returnItem;
-//    }
+    public Item GetItem(int item_id)
+    {
+        Item returnItem = new Item();
+        string qwery = "SELECT id,item,item_type.type FROM items inner join item_type  where items.id=" + item_id.ToString()+" and items.type_id=item_type.id";
+        
+        GetReader(qwery);
+        while (reader.Read())
+        {
+            returnItem.id = reader.GetInt32(0);
+            returnItem.item = reader.GetString(1);
+            returnItem.itemType =  System.Enum.Parse(typeof( Item.Type_of_item),reader.GetInt32(2));
+        }
+        return returnItem;
+    }
+    public ShipItem GetShipItem(int item_id)
+    {
+        ShipItem returnShipItem = new ShipItem();
+        string qwery = "SELECT item_id,max_speed,rotation_speed, acceleration_max,hull_full,armor_full,shield_full,capasitor_full,hull_restore,armor_restore,shield_restore,capasitor_restore,agr_distance,vision_distance,mob,warpDriveStartTime,warpSpeed  FROM ship_item  where item_id=" + item_id.ToString();
 
+        GetReader(qwery);
+        while (reader.Read())
+        {
+       if (!reader.IsDBNull(0))returnShipItem.item_id = reader.GetInt32(0);
+       if (!reader.IsDBNull(1))returnShipItem.max_speed = reader.GetSingle(1);
+       if (!reader.IsDBNull(2))returnShipItem.rotation_speed = reader.GetSingle(1);
+       if (!reader.IsDBNull(3))returnShipItem.acceleration_max = reader.GetSingle(1);
+       if (!reader.IsDBNull(4))returnShipItem.hull_full = reader.GetSingle(1);
+       if (!reader.IsDBNull(5))returnShipItem.armor_full = reader.GetSingle(1);
+       if (!reader.IsDBNull(6))returnShipItem.shield_full = reader.GetSingle(1);
+       if (!reader.IsDBNull(7))returnShipItem.capasitor_full = reader.GetSingle(1);
+       if (!reader.IsDBNull(8))returnShipItem.hull_restore = reader.GetSingle(1);
+       if (!reader.IsDBNull(9))returnShipItem.armor_restore = reader.GetSingle(1);
+       if (!reader.IsDBNull(10))returnShipItem.shield_restore = reader.GetSingle(1);
+       if (!reader.IsDBNull(11))returnShipItem.capasitor_restore = reader.GetSingle(1);
+       if (!reader.IsDBNull(12))returnShipItem.agr_distance = reader.GetSingle(1);
+       if (!reader.IsDBNull(13))returnShipItem.vision_distance = reader.GetSingle(1);
+       if (!reader.IsDBNull(14))returnShipItem.mob = reader.GetInt32(1);
+       if (!reader.IsDBNull(15))returnShipItem.warpDriveStartTime = reader.GetSingle(1);
+       if (!reader.IsDBNull(16)) returnShipItem.warpSpeed = reader.GetSingle(1);
+        }
+        return returnShipItem;
+    }
+    
 
 }

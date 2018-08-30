@@ -7,7 +7,7 @@ public class Skill
     public int id;
     public string skill;
     public string sprite_path;
-    public long points;
+    public int points;
     public int level;
     public int tech;
     public int difficulty;
@@ -20,25 +20,23 @@ public class Skill
     public Skill(Skill _sk )
     {
         id = _sk.id;
-		skill = _sk.skill;
-        sprite_path = _sk.sprite_path;
+        name = _sk.name;
+        sprite = _sk.sprite;
         points = 0;
         level = 1;
         tech = 1;
-		depend_id = _sk.depend_id;
-		depend_tech = _sk.depend_tech;
+        depend = _sk.depend;
         rootSkill = _sk.rootSkill;
     }
     public Skill(Skill _sk,int _tech)
     {
         id = _sk.id;
-		skill = _sk.skill;
-        sprite_path = _sk.sprite_path;
+        name = _sk.name;
+        sprite = _sk.sprite;
         points = 0;
         level = 1;
         tech = _tech;
-        depend_id = _sk.depend_id;
-		depend_tech = _sk.depend_tech;
+        depend = _sk.depend;
         rootSkill = _sk.rootSkill;
     }
 

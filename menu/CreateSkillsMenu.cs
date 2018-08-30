@@ -77,12 +77,14 @@ public class CreateSkillsMenu : MonoBehaviour {
         {
             GameObject.Destroy(child.gameObject);
         }
+
         for (int tech=1;tech>0;tech++){
             long points = server.GetComponent<PlayerSkillsServer>().SkillLearned(0, _skill.id, tech); //0-  player_id
 			if (points > 0) {
 				float level = SkillLevelCalc (tech, _skill.difficulty, points);
 				TechMenuAdd (_skill, tech, points, level);
 			} else {
+                if (tech == 1) TechMenuAdd(_skill, tech, 0, 0);
 				break;
 			}
 			if (tech > 10)

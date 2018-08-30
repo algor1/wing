@@ -17,21 +17,16 @@ public class SkillsDB : MonoBehaviour
 	private Text debugtext;
     private IDbConnection dbSkillCon;
     private IDataReader reader;
-	private IDbCommand dbcmd;
 
     void Start()
     {
-//        InitDB();
+        InitDB();
     }
-	void OnApplicationQuit()
-	{
-		if (dbSkillCon!=null) dbSkillCon.Close();
-	}
+    
     private void InitDB()
     {
 		string p="skill.db";
 		string filepath = Application.persistentDataPath + "/" + p;
-		Debug.Log (filepath);
 		if (!File.Exists (filepath)) 
         {
 			WWW loadDB = new WWW ( "jar:file://" + Application.dataPath + "!/assets/"+ p);  // this is the path to your StreamingAssets in android
@@ -49,26 +44,18 @@ public class SkillsDB : MonoBehaviour
     public List<Skill> GetAllSkills()
     { 
         List<Skill> returnList=new List<Skill>();
-		string qwery = "select id,skill,sprite_path,difficulty,depend_id,depend_tech,rootskill from skills";
+		string qwery = "select id,skill,sprite_path,difficulty,depend_id,depend_tech,rootSkill from skills";
 		GetReader (qwery);
-//		Debug.Log (dbSkillCon.Database);
-//		Debug.Log (dbcmd.CommandText);
-//
-//		Debug.Log (reader.Read ());
-
 		while (reader.Read()){
-            
+
 			Skill _skill= new Skill();
-			if (!reader.IsDBNull(0))_skill.id=reader.GetInt32( 0);
-            Debug.Log("reading skill : "+_skill.id);
-			if (!reader.IsDBNull(1)) _skill.skill=reader.GetString(1);
-//			Debug.Log (_skill.skill);
-			if (!reader.IsDBNull(2)) _skill.sprite_path=reader.GetString(2);
-//			Debug.Log (_skill.sprite_path);
-			if (!reader.IsDBNull(3))_skill.difficulty=reader.GetInt32( 3);
-			if (!reader.IsDBNull(4))_skill.depend_id=reader.GetInt32( 4);//skill_id
-			if (!reader.IsDBNull(5))_skill.depend_tech=reader.GetInt32( 5);
-			if (!reader.IsDBNull(6))_skill.rootSkill= (reader.GetInt32(6)==1);
+            _skill.id=reader.GetInt32( 0);
+            _skill.skill=reader.GetString(1);
+            _skill.sprite_path=reader.GetString(2);
+            _skill.difficulty=reader.GetInt32( 3);
+            _skill.depend_id=reader.GetInt32( 4);//skill_id
+            _skill.depend_tech=reader.GetInt32( 5);
+            _skill.rootSkill=reader.GetBoolean( 6);
             
             returnList.Add(_skill);
             
@@ -94,14 +81,13 @@ public class SkillsDB : MonoBehaviour
             List<Skill> returnList = new List<Skill>();
 
             GetReader(qwery);
-		Debug.Log (reader.Read ());
             while (reader.Read())
             {
 
                 Skill _skill = new Skill();
                 _skill.id = reader.GetInt32(0);
-			if (!reader.IsDBNull(1)) _skill.skill = reader.GetString(1);
-			if (!reader.IsDBNull(2))_skill.sprite_path = reader.GetString(2);
+                _skill.skill = reader.GetString(1);
+                _skill.sprite_path = reader.GetString(2);
                 _skill.difficulty = reader.GetInt32(3);
                 _skill.depend_id = reader.GetInt32(4);//skill_id
                 _skill.depend_tech = reader.GetInt32(5);
@@ -141,60 +127,10 @@ public class SkillsDB : MonoBehaviour
         return returnLong;
     }
 
-    public List<SkillQueue> PlayerQueue(int player_id)
-    {
-        List<SkillQueue> retQueue = new List<SkillQueue>();
-
-        string qwery = "select skill_id,tech,level,queue from skill_queue where player_id="+player_id.ToString();
-        GetReader(qwery);
-        while (reader.Read())
-        {
-			SkillQueue _skillQueue= new SkillQueue();
-
-			Debug.Log ("reader.read");
-            if (!reader.IsDBNull(0))
-            {
-				Debug.Log ("reader0 "+reader.GetInt32(0));            
-				_skillQueue.skill_id=reader.GetInt32(0);
-				Debug.Log ("reader1 "+reader.GetInt32(1));
-                if (!reader.IsDBNull(1)) _skillQueue.tech = reader.GetInt32(1);
-				Debug.Log ("reader2 "+reader.GetInt32(2));
-                if (!reader.IsDBNull(2)) _skillQueue.level = reader.GetInt32(2);
-				if (!reader.IsDBNull (3)) _skillQueue.queue = reader.GetInt32 (3);
-                retQueue.Add(_skillQueue);
-            }
-        }
-
-        return retQueue;
-    }
-
-    public void AddToQueue(int player_id,int skill_id,int tech, int level)
-    {
-		string qwery = "insert into skill_queue (player_id,skill_id,tech,level) values ("+player_id.ToString()+","+skill_id.ToString()+","+tech.ToString()+","+level.ToString()+")";
-        GetReader(qwery);
-    }
-	public void DeleteFromQueue(int player_id,int skill_id,int tech,int level)
-    {
-		string qwery = "delete from skill_queue where (player_id = "+player_id.ToString()+" and skill_id="+skill_id.ToString()+" and tech="+tech.ToString()+"and level="+ level.ToString()+")" ;
-        GetReader(qwery);
-    }
-	public void AddPointsToSkill(int player_id,int skill_id,int tech, int _points)
-	{
-		string qwery =  "select skill_id from player_skills where skill_id="+skill_id.ToString()+" and player_id="+player_id.ToString()+" and tech=" + tech.ToString();
-		GetReader (qwery);
-		if (reader.IsDBNull (0)) 
-		{
-			qwery = "insert into player_skills (player_id,skill_id,tech,points) values (" + player_id.ToString () + "," + skill_id.ToString () + "," + tech.ToString () + ",0)";
-			GetReader (qwery);
-		}
-		qwery = "update player_skills set points= points+" + _points.ToString() + " where player_id=" + player_id.ToString () + " and skill_id=" + skill_id.ToString () + "  and tech=" + tech.ToString () + " )";
-		GetReader (qwery);
-	}
-
     public Skill FindSkill(int skill_id)
     {
         Skill returnSkill=new Skill();
-		string qwery = "select id,skill,sprite_path,difficulty,depend_id,depend_tech,rootSkill from skills where id="+skill_id.ToString();
+		string qwery = "select id,skill,sprite_path,difficulty,depend_id,depend_tech,rootSkill from skills where id="+skill_id;
 		GetReader (qwery);
         while (reader.Read())
         {
@@ -213,23 +149,18 @@ public class SkillsDB : MonoBehaviour
     {
 
         //	var sql = "SELECT * FROM skills LIMIT 1";
-		if (dbSkillCon==null){
-			InitDB();
-		}
-		Debug.Log (dbSkillCon.Database);
-		dbcmd = dbSkillCon.CreateCommand ();
-		Debug.Log (dbcmd.CommandText);
-        dbcmd.CommandText = dbselect;
+        using (IDbCommand dbcmd = dbSkillCon.CreateCommand())
+        {
+            dbcmd.CommandText = dbselect;
             // Выполняем запрос
-		reader = dbcmd.ExecuteReader();
-		Debug.Log (reader.FieldCount);
-         
+            using (IDataReader reader = dbcmd.ExecuteReader())
+            {
                 return true;
-        
+            }
 
 
-      
-//        return false;
+        }
+        return false;
     }
 
 }
