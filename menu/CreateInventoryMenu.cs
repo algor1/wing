@@ -30,19 +30,19 @@ public class CreateInventoryMenu : MonoBehaviour {
 
     private void BuildMenu1 ()
     {
-//        foreach (Transform child in panel1.transform)
-//        {
-//            GameObject.Destroy(child.gameObject);
-//        }
-//		int j = 0;
-//        for (int i = 0; i < skillsDB.Count; i++)
-//        {
-//            if (skillsDB[i].rootSkill)
-//            {
-//				j++;	
-//                MenuAdd(skillsDB[i],1,j);
-//            }
-//        }
+        foreach (Transform child in panel1.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        int j = 0;
+        for (int i = 0; i < skillsDB.Count; i++)
+        {
+            if (skillsDB[i].rootSkill)
+            {
+                j++;
+                MenuAdd(skillsDB[i], 1, j);
+            }
+        }
     }
     
 	private void InfoPopup(Skill skill, int tech,long points,int level)
