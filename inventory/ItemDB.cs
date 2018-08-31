@@ -140,4 +140,4 @@ public class ItemDB : MonoBehaviour
         //}
         //GetReader(qwery);
     }
-}
+}   
