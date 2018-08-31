@@ -15,6 +15,11 @@ class InventoryServer : MonoBehaviour
 //    {
 //
 //    }
+
+    public void PlayerInventory(int player_id, int holder_id)
+    {
+
+    }
     public void AddToInventory(int player_id, int holder_id, int item_id, int quantity)
     {
 

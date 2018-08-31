@@ -84,12 +84,60 @@ public class ItemDB : MonoBehaviour
        if (!reader.IsDBNull(11))returnShipItem.capasitor_restore = reader.GetFloat(1);
        if (!reader.IsDBNull(12))returnShipItem.agr_distance = reader.GetFloat(1);
        if (!reader.IsDBNull(13))returnShipItem.vision_distance = reader.GetFloat(1);
-			if (!reader.IsDBNull(14))returnShipItem.mob = (reader.GetInt32(1)==1);
+		if (!reader.IsDBNull(14))returnShipItem.mob = (reader.GetInt32(1)==1);
        if (!reader.IsDBNull(15))returnShipItem.warpDriveStartTime = reader.GetFloat(1);
        if (!reader.IsDBNull(16)) returnShipItem.warpSpeed = reader.GetFloat(1);
         }
         return returnShipItem;
     }
+    public List<InventoryItem> GetInventory(int player_id, int holder_id)
+    {
+        List<InventoryItem> returnInventoryItemList = new List<InventoryItem>();
+        string qwery = "SELECT item_id,tech,quantity FROM inventory where player_id=" + player_id.ToString() + " and inventory_holder_id = " + holder_id.ToString();
+        GetReader(qwery);
+        
+        while (reader.Read())
+        {
+            InventoryItem _inventoryItem = new InventoryItem();
+            if (!reader.IsDBNull(0)) _inventoryItem.item_id = reader.GetInt32(0);
+            if (!reader.IsDBNull(1)) _inventoryItem.tech = reader.GetInt32(1);
+            if (!reader.IsDBNull(2)) _inventoryItem.quantity = reader.GetInt32(2);
+            returnInventoryItemList.Add(_inventoryItem);
+        }
+        return returnInventoryItemList;
+    }
     
 
+    public void InventoryAdd(int player_id, int holder_id, int item_id,int tech, int quantity)
+    {
+        string qwery=qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString () + "," + holder_id.ToString() +"," +item_id.ToString () + "," + tech.ToString () + ","+quantity.ToString()+ ")";
+			
+        List<InventoryItem> inventoryItemList= GetInventory(player_id,holder_id);
+        
+        for (int i=0 ; i<inventoryItemList.Count;i++){
+            if ( inventoryItemList[i].item_id==item_id && inventoryItemList[i].tech==tech){
+                qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString () + " and item_id=" + item_id.ToString () + " and inventory_holder_id=" + holder_id.ToString () + "  and tech=" + tech.ToString () + " )";
+		    
+                break;
+            }
+        }
+        GetReader (qwery);
+    }
+
+    public void InventoryDelete(int player_id, int holder_id, int item_id, int tech, int quantity)
+    {
+        //string qwery = qwery = "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+        //List<InventoryItem> inventoryItemList = GetInventory(player_id, holder_id);
+
+        //for (int i = 0; i < inventoryItemList.Count; i++)
+        //{
+        //    if (inventoryItemList[i].item_id == item_id && inventoryItemList[i].tech == tech)
+        //    {
+        //        qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+
+        //        break;
+        //    }
+        //}
+        //GetReader(qwery);
+    }
 }
