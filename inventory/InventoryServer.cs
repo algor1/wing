@@ -16,10 +16,14 @@ class InventoryServer : MonoBehaviour
 //
 //    }
 
-    public void PlayerInventory(int player_id, int holder_id)
+	public List<InventoryItem> PlayerInventory(int player_id, int holder_id)
     {
-
+		return GetComponent<ItemDB> ().GetInventory (player_id, holder_id);
     }
+	public Item GetItem (int item_id)
+	{
+		return GetComponent<ItemDB> ().GetItem (item_id);
+	}
     public void AddToInventory(int player_id, int holder_id, int item_id, int quantity)
     {
 

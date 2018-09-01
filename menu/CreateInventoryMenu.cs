@@ -8,9 +8,9 @@ public class CreateInventoryMenu : MonoBehaviour {
 //	[SerializeField]
 	private GameObject server;
 	[SerializeField]
-	private GameObject panel1;
+	private GameObject panelLeft;
     [SerializeField]
-    private GameObject panel2;
+    private GameObject panelRight;
 	[SerializeField]
 	private GameObject panel3;
     [SerializeField]
@@ -25,27 +25,30 @@ public class CreateInventoryMenu : MonoBehaviour {
 		Debug.Log (server.name);
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
         //skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
-        BuildMenu1();
+		BuildMenu(panelLeft,0,200);
+		BuildMenu (panelRight, 0, 0);
 	}
 
-    private void BuildMenu1 ()
+	private void BuildMenu (GameObject panel,int player_id,int holder_id)
     {
-        foreach (Transform child in panel1.transform)
+        foreach (Transform child in panel.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
+		List<InventoryItem> panelInv = server.GetComponent<InventoryServer> ().PlayerInventory (0, 200);
+
         int j = 0;
-        for (int i = 0; i < skillsDB.Count; i++)
+		for (int i = 0; i < panelInv.Count; i++)
         {
-            if (skillsDB[i].rootSkill)
-            {
-                j++;
-                MenuAdd(skillsDB[i], 1, j);
-            }
+ 
+            j++;
+			Item item = server.GetComponent<InventoryServer> ().GetItem (panelInv [i].item_id);
+			MenuAdd(item, panelInv[i], panel, j);
         }
     }
+
     
-	private void InfoPopup(Skill skill, int tech,long points,int level)
+	private void InfoPopup(Item item,InventoryItem invItem)
 	{
 //
 //        if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
@@ -76,26 +79,14 @@ public class CreateInventoryMenu : MonoBehaviour {
 
 	}
 
-	private void MenuAdd(Skill skill,int menulev,int buttonCount)
+	private void MenuAdd(Item item, InventoryItem invItem,GameObject panel,int buttonCount)
 	{
-//        if (menulev == 1)
-//        {
-//            GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
-//			menu_button.transform.SetParent (panel1.transform, false);
-//			menu_button.GetComponent<RectTransform>().localPosition = Vector3.up * (buttonCount * -50);
-//            menu_button.GetComponent<Button>().onClick.AddListener(() => { BuildMenu2(skill); });
-//			menu_button.GetComponentInChildren<Text>().text = skill.skill;
-//        }
-//        if (menulev == 2) 
-//        {
-//            GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
-//			menu_button.transform.SetParent(panel2.transform, false);
-//            menu_button.GetComponent<RectTransform>().localPosition = Vector3.up* (buttonCount * -50  );
-//			menu_button.GetComponentInChildren<Text>().text = skill.skill;
-//            menu_button.GetComponent<Button>().onClick.AddListener(() => { BuildTechMenu(skill); });
-//
-//
-//        }
+		
+        GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
+		menu_button.transform.SetParent (panel.transform, false);
+		menu_button.GetComponent<RectTransform>().localPosition = Vector3.up * (buttonCount * -50);
+		menu_button.GetComponent<Button>().onClick.AddListener(() => { InfoPopup(item,invItem); });
+		menu_button.GetComponentInChildren<Text>().text = "id : "+ invItem.item_id.ToString()+"  quantity: "+invItem.quantity.ToString();
 	}
 
 

@@ -110,7 +110,7 @@ public class ItemDB : MonoBehaviour
 
     public void InventoryAdd(int player_id, int holder_id, int item_id,int tech, int quantity)
     {
-        string qwery=qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString () + "," + holder_id.ToString() +"," +item_id.ToString () + "," + tech.ToString () + ","+quantity.ToString()+ ")";
+        string qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString () + "," + holder_id.ToString() +"," +item_id.ToString () + "," + tech.ToString () + ","+quantity.ToString()+ ")";
 			
         List<InventoryItem> inventoryItemList= GetInventory(player_id,holder_id);
         
