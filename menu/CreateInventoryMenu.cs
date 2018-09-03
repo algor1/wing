@@ -11,11 +11,17 @@ public class CreateInventoryMenu : MonoBehaviour {
 	private GameObject panelLeft;
     [SerializeField]
     private GameObject panelRight;
+    [SerializeField]
+    private GameObject panelBottom;
 	[SerializeField]
-	private GameObject panel3;
+	private GameObject panelPopup;
     [SerializeField]
     private GameObject buttonMenuPrefab;
-
+    [SerializeField]
+    private GameObject PopupMoveButton;
+    public int leftHolder_id;
+    public int rightHolder_id;
+    private int player_id;
 
 
 
@@ -23,10 +29,13 @@ public class CreateInventoryMenu : MonoBehaviour {
 	void Start () {
 		server = GameObject.Find ("ServerGo");
 		Debug.Log (server.name);
+        leftHolder_id =200;
+        rightHolder_id=0;
+        player_id=0;
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
         //skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
-		BuildMenu(panelLeft,0,200);
-		BuildMenu (panelRight, 0, 0);
+		BuildMenu(panelLeft,0,leftHolder_id);
+		BuildMenu (panelRight, 0, rightHolder_id);
 	}
 
 	private void BuildMenu (GameObject panel,int player_id,int holder_id)
@@ -48,35 +57,28 @@ public class CreateInventoryMenu : MonoBehaviour {
     }
 
     
-	private void InfoPopup(Item item,InventoryItem invItem)
+	private void InfoPopup(Item item,InventoryItem invItem,bool directionToMove)
 	{
-//
-//        if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
-//        {
-//            PopupLevelButton.GetComponent<Button>().onClick.AddListener(() => { server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); });
-//        }
-//        else
-//        {
-//            // PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
-//        }
-//
-//        if (SkillLevelCalc(tech, skill.difficulty, server.GetComponent<PlayerSkillsServer>().SkillLearned(0, skill.id, tech)) >= 5)
-//        {
-//
-//            PopupTechButton.GetComponent<Button>().onClick.AddListener(() =>
-//            {
-//                server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech + 1, 1);
-//            });
-//            PopupTechButton.SetActive(true);
-//        }
-//        else
-//        {
-//            PopupTechButton.SetActive(false);
-//            // PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
-//        }
-//
-//		panelTechInfoPopup.SetActive (true);
-
+        int fromHolder;
+        int toHolder;
+        string arrow;
+        if (directionToMove)
+        {
+            fromHolder = leftHolder_id;
+            toHolder = rightHolder_id;
+        }
+        else
+        {
+            fromHolder = rightHolder_id;
+            toHolder = leftHolder_id;
+        }
+        PopupMoveButton.GetComponentInChildren<Text>().text = "Move to : " + toHolder.ToString();
+        PopupMoveButton.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                server.GetComponent<InventoryServer>().MoveItem(player_id,fromHolder,player_id,toHolder,invItem.item_id,invItem.tech,invItem.quantity);
+                panelPopup.SetActive(false);
+            });
+        panelPopup.SetActive (true);
 	}
 
 	private void MenuAdd(Item item, InventoryItem invItem,GameObject panel,int buttonCount)
@@ -85,7 +87,8 @@ public class CreateInventoryMenu : MonoBehaviour {
         GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 		menu_button.transform.SetParent (panel.transform, false);
 		menu_button.GetComponent<RectTransform>().localPosition = Vector3.up * (buttonCount * -50);
-		menu_button.GetComponent<Button>().onClick.AddListener(() => { InfoPopup(item,invItem); });
+        bool directionToMove = (panel == panelRight);
+		menu_button.GetComponent<Button>().onClick.AddListener(() => { InfoPopup(item,invItem,directionToMove); });
 		menu_button.GetComponentInChildren<Text>().text = "id : "+ invItem.item_id.ToString()+"  quantity: "+invItem.quantity.ToString();
 	}
 

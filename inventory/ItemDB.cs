@@ -110,34 +110,44 @@ public class ItemDB : MonoBehaviour
 
     public void InventoryAdd(int player_id, int holder_id, int item_id,int tech, int quantity)
     {
-        string qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString () + "," + holder_id.ToString() +"," +item_id.ToString () + "," + tech.ToString () + ","+quantity.ToString()+ ")";
-			
-        List<InventoryItem> inventoryItemList= GetInventory(player_id,holder_id);
-        
-        for (int i=0 ; i<inventoryItemList.Count;i++){
-            if ( inventoryItemList[i].item_id==item_id && inventoryItemList[i].tech==tech){
-                qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString () + " and item_id=" + item_id.ToString () + " and inventory_holder_id=" + holder_id.ToString () + "  and tech=" + tech.ToString () + " )";
-		    
-                break;
-            }
+        string qwery;
+        if (Quantity(player_id, holder_id, item_id, tech) == 0)
+        {
+            qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString() + "," + holder_id.ToString() + "," + item_id.ToString() + "," + tech.ToString() + "," + quantity.ToString() + ")";
+        }
+        else
+        {
+            qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
         }
         GetReader (qwery);
     }
 
-    public void InventoryDelete(int player_id, int holder_id, int item_id, int tech, int quantity)
+    public bool InventoryDelete(int player_id, int holder_id, int item_id, int tech, int quantity)
     {
-        //string qwery = qwery = "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
-        //List<InventoryItem> inventoryItemList = GetInventory(player_id, holder_id);
-
-        //for (int i = 0; i < inventoryItemList.Count; i++)
-        //{
-        //    if (inventoryItemList[i].item_id == item_id && inventoryItemList[i].tech == tech)
-        //    {
-        //        qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
-
-        //        break;
-        //    }
-        //}
-        //GetReader(qwery);
+        bool deleted = false;
+        string qwery;
+        int quantityInInv = Quantity(player_id, holder_id,  item_id, tech)
+        if (quantityInInv==quantity)
+        {
+            qwery = qwery = "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+            deleted = true;
+            GetReader(qwery);
+            
+        }else if(quantityInInv>quantity){
+            qwery = "update inventory set quantity = quantity -" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+            deleted=true;
+            GetReader(qwery);
+        }
+        return deleted;        
+    }
+    public int Quantity(int player_id, int holder_id, int item_id, int tech){
+        int retquantity = 0;
+        string qwery = "SELECT quantity FROM inventory where player_id=" + player_id.ToString() + " and inventory_holder_id = " + holder_id.ToString() + " and item_id=" + item_id.ToString() + "  and tech=" + tech.ToString();
+        GetReader(qwery);
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0)) retquantity = reader.GetInt32(0);
+        }
+        return retquantity;
     }
 }   
