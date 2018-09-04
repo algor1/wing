@@ -25,16 +25,8 @@ public class Server : MonoBehaviour {
 	void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
-
-//        LoadShips();
-		ships = new List<SO_ship> ();
-		Debug.Log ("all ship" + shipsDB.shipList.Count);
-		for (int i = 0; i < shipsDB.shipList.Count; i++)
-		{
-			SO_ship s = new SO_ship (shipsDB.shipList [i], this.gameObject);
-			ships.Add(s);
-			//            ships = shipsDB.shipList;
-		}
+        ships = new List<SO_ship>();
+        LoadShips();
     }
 
 	void Start(){
@@ -85,16 +77,50 @@ public class Server : MonoBehaviour {
 
     private void LoadShips()
     {
-		ships = new List<SO_ship> ();
-		Debug.Log ("all ship" + shipsDB.shipList.Count);
+        Debug.Log("all ship" + shipsDB.shipList.Count);
         for (int i = 0; i < shipsDB.shipList.Count; i++)
         {
-			SO_ship s = new SO_ship (shipsDB.shipList [i], this.gameObject);
-            ships.Add(s);
-//            ships = shipsDB.shipList;
+           AddShip (shipsDB.shipList[i]);
+            
+            //            ships = shipsDB.shipList;
         }
     }
 
+    private void AddShip(SO_shipData ship){
+        bool foundFlag=false ;
+
+        for (int i;i< ships.Count;i++)
+        {
+            if (ships[i].p.SO.id==ship.p.SO.id) foundFlag=true;
+        }
+        
+        if (!foundFlag)
+        {
+            SO_ship s = new SO_ship(ship, this.gameObject);
+            ships.Add(s);
+        } else{
+            Debug.Log("Cant add ship id:"+ship.p.SO.id+" Because it exists." );
+        }
+    }
+    
+    private void DeleteShip(int ship_id){
+        for (int i=0; i< ships.Count;i++)
+        {
+            if (ships[i].p.SO.id==ship_id){
+                ships.RemoveAt(i);
+                // TODO remove from DB
+                break;
+            }
+        }
+
+    }
+    private void DestrtoyShip(int ship_id)
+    {
+        DeleteShip(ship_id);
+        AddContainer();
+        GetComponent<InventoryServer>().DestroyInventory();
+        DeleteShip();
+    }
     public int RegisterPlayer(){
         return 0;
     }
@@ -180,15 +206,16 @@ public class Server : MonoBehaviour {
             case SO_ship.ShipEvenentsType.spawn:
                 Debug.Log("server" + ship.p.SO.visibleName + " ship spawn");
                 break;
-		case SO_ship.ShipEvenentsType.land:
-//			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
-//			GetComponent<SkillsDB> ().GetAllSkills ();
-			GetComponent<LandingServer>().Landing( ship.targetToMove.id,ship.p.SO.id);
+		    case SO_ship.ShipEvenentsType.land:
+    //			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
+    //			GetComponent<SkillsDB> ().GetAllSkills ();
+			    GetComponent<LandingServer>().Landing( ship.targetToMove.id,ship.p.SO.id);
                 ship.landed=true;
-
-
-
                 break;
+            case SO_ship.ShipEvenentsType.destroyed:
+                DestrtoyShip(ship.p.SO.id);
+                break;
+
         }
     }
 

@@ -19,10 +19,7 @@ public class SkillsDB : MonoBehaviour
     private IDataReader reader;
 	private IDbCommand dbcmd;
 
-    void Start()
-    {
-//        InitDB();
-    }
+
 	void OnApplicationQuit()
 	{
 		if (dbSkillCon!=null) dbSkillCon.Close();

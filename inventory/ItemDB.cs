@@ -13,7 +13,10 @@ public class ItemDB : MonoBehaviour
     private IDbCommand dbcmd;
 
 
-
+    void OnApplicationQuit()
+    {
+        if (dbSkillCon != null) dbSkillCon.Close();
+    }
     private void InitDB()
     {
         string p = "inventory.db";

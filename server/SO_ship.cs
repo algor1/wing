@@ -22,7 +22,7 @@ public class SO_ship {
     public MoveType moveCommand;
     public enum ComandType { warpTo,goTo,landTo, none};
     public ComandType complexCommand;
-    public enum ShipEvenentsType { spawn, warp, warmwarp, move, stop, land, hide, reveal };
+    public enum ShipEvenentsType { spawn, warp, warmwarp, move, stop, land, hide, reveal, destroyed };
     public bool warpActivated;
     public bool warpCoroutineStarted;
     public bool landed;
@@ -225,6 +225,7 @@ public class SO_ship {
 	}
 	private void Destroyed(){
         p.destroyed = true;
+        SendEvent(ShipEvenentsType.destroyed);
 	}
 
 	private void RestoreTick(){
