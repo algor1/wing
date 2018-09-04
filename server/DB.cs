@@ -19,7 +19,7 @@ public class DB : MonoBehaviour {
     }
     private void InitDB()
     {
-        string p = "wing.db";
+        string p = "wing_srv.db";
         string filepath = Application.persistentDataPath + "/" + p;
         Debug.Log(filepath);
         if (!File.Exists(filepath))
@@ -48,6 +48,29 @@ public class DB : MonoBehaviour {
         // Выполняем запрос
         reader = dbcmd.ExecuteReader();
         //		Debug.Log (reader.Read());
+    }
+
+    public ServerObject AddNewSO(Vector3 position, Quaternion rotation, float speed, int item_id)
+    {
+        Item _item= GetComponent<InventoryServer>().GetItem(item_id);
+        if (_item.itemType==Item.Type_of_item.ship){
+            ShipItem _shipItem=GetComponent<InventoryServer>().GetShipItem(item_id);
+            string qwery = "insert into.... ";
+            GetReader(qwery);
+            lastId();
+        }
+
+        
+    }
+    private int lastId(string dbName)
+    {
+        string qwery = "SELECT id FROM "+ dbName + " WHERE rowid=last_insert_rowid()";
+        GetReader(qwery);
+        int ret_id = 0;
+        while (reader.Read()){
+			if (!reader.IsDBNull(0)) ret_id=reader.GetInt32( 0);
+        }
+        return ret_id;
     }
 
 
