@@ -66,20 +66,83 @@ public class DB : MonoBehaviour {
                                rotation_w,
                                speed,
                                prefab_path
-                          FROM server_objects;
+                          FROM server_objects
                           where id="+SO_id.ToString();
 		GetReader (qwery);
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))returnSO.id = reader.GetInt32(0);
-            if (!reader.IsDBNull(0)){ int _type = reader.GetInt32(1);}
-            if (!reader.IsDBNull(0))returnSO.visibleName=reader.GetString(2);
+            if (!reader.IsDBNull(1)){ int _type = reader.GetInt32(1);}
+            if (!reader.IsDBNull(2))returnSO.visibleName=reader.GetString(2);
             if (!reader.IsDBNull(3)&&!reader.IsDBNull(4)&&!reader.IsDBNull(5)) returnSO.position=new Vector3 (reader.GetFloat(3),reader.GetFloat(4),reader.GetFloat(5));
             if (!reader.IsDBNull(6)&&!reader.IsDBNull(7)&&!reader.IsDBNull(8)&&!reader.IsDBNull(9)) returnSO.position=new Quaternion (reader.GetFloat(6),reader.GetFloat(7),reader.GetFloat(8),reader.GetFloat(9));
             if (!reader.IsDBNull(0))returnSO.speed=reader.GetFloat(10);
             //if (!reader.IsDBNull(0))returnSO.prefab_path=reader.GetString(11);
         }
         return returnSO; 
+    }
+
+    public SO_shipData GetSOShipData(int SO_id){
+        SO_shipData retShipData= new SO_shipData();
+        qwery = @"SELECT 
+                       SO_id,
+                       max_speed,
+                       rotation_speed,
+                       acceleration_max,
+                       newSpeed,
+                       hull_full,
+                       armor_full,
+                       shield_full,
+                       capasitor_full,
+                       hull,
+                       armor,
+                       shield,
+                       capasitor,
+                       hull_restore,
+                       armor_restore,
+                       shield_restore,
+                       capasitor_restore,
+                       agr_distance,
+                       vision_distance,
+                       destroyed,
+                       hidden,
+                       mob,
+                       warpDriveStartTime,
+                       warpSpeed
+                FROM SO_shipdata
+                WHERE SO_id=" + SO_id.ToString();
+        GetReader (qwery);
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0)){ int _id = reader.GetInt32(0);};
+            if (!reader.IsDBNull(2))retShipData.max_speed=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.rotation_speed=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.acceleration_max=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.newSpeed=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.hull_full=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.armor_full=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.shield_full=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.capasitor_full=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.hull=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.armor=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.shield=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.capasitor=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.hull_restore=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.armor_restore=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.shield_restore=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.capasitor_restore=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.agr_distance=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.vision_distance=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.destroyed=reader.GetInt32(10);
+            if (!reader.IsDBNull(2))retShipData.hidden=reader.GetInt32(10);
+            if (!reader.IsDBNull(2))retShipData.mob=reader.GetInt32(10);
+            if (!reader.IsDBNull(2))retShipData.warpDriveStartTime=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.warpSpeed=reader.GetFloat(10);
+
+        }
+        retShipData.SO= GetServerObject(SO_id);
+
+        return retShipData;
     }
 
     public ServerObject AddNewSO(Vector3 position, Quaternion rotation, int item_id)
@@ -105,13 +168,13 @@ public class DB : MonoBehaviour {
         }
         return GetServerObject(new_id);
     }
-    public SO_ship AddNewSOShip(Vector3 position, Quaternion rotation, int item_id )
+   
+    public SO_shipData AddNewSOShip(Vector3 position, Quaternion rotation, int item_id )
     {
-        ServerObject SO= AddNewSO(position,rotation,item_id)
+        ServerObject SO = AddNewSO(position, rotation, item_id);
+        SO_shipData retSOShipData;
         if (SO.type== ServerObject.typeSO.ship)
         {
-            SO_ship retSOShip;
-
             ShipItem _shipItem = GetComponent<InventoryServer>().GetShipItem(item_id);
 
             string qwery = @"insert into SO_shipdata (
@@ -160,15 +223,25 @@ public class DB : MonoBehaviour {
                    _shipItem.mob.ToString()+", "+
                    _shipItem.warpDriveStartTime.ToString()+", "+
                    _shipItem.warpSpeed.ToString()+")";
-            
-
-
+        
             GetReader(qwery);
-            int new_id = lastId("server_objects");
         }
-
-
+		retSOShipData=GetSOShipData(SO.id);
+        return retSOShipData;
     }
+
+    private void DeleteServerObject(int SO_id)
+    {
+        string qwery = "delete FROM server_objects where id="+SO_id.ToString(); 
+        GetReader(qwery);
+    }
+    public void DeleteSOShipData(int SO_id)
+    {
+        string qwery = "delete FROM SO_shipdata where id=" + SO_id.ToString();
+        GetReader(qwery);
+        DeleteServerObject(SO_id);
+    }
+
     private int lastId(string dbName)
     {
         string qwery = "SELECT id FROM "+ dbName + " WHERE rowid=last_insert_rowid()";
