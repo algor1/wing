@@ -125,8 +125,6 @@ public class Server : MonoBehaviour {
         return 0;
     }
 
-  
-
 
 	public void PlayerControl(int player_id,Command player_command,int weapon_equip_num ) {
 		SO_ship player = GetPlayer(player_id);
