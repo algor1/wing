@@ -54,7 +54,7 @@ public class ItemDB : MonoBehaviour
     public Item GetItem(int item_id)
     {
         Item returnItem = new Item();
-        string qwery = "SELECT id,item,item_type.type FROM items inner join item_type  where items.id=" + item_id.ToString()+" and items.type_id=item_type.id";
+        string qwery = "SELECT items.id,item,item_type.type FROM items inner join item_type  where items.id=" + item_id.ToString()+" and items.type_id=item_type.id";
         
         GetReader(qwery);
         while (reader.Read())
@@ -129,7 +129,7 @@ public class ItemDB : MonoBehaviour
     {
         bool deleted = false;
         string qwery;
-        int quantityInInv = Quantity(player_id, holder_id,  item_id, tech)
+		int quantityInInv = Quantity (player_id, holder_id, item_id, tech);
         if (quantityInInv==quantity)
         {
             qwery = qwery = "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
