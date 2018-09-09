@@ -75,7 +75,7 @@ public class DB : MonoBehaviour {
             if (!reader.IsDBNull(1)){ int _type = reader.GetInt32(1);}
             if (!reader.IsDBNull(2))returnSO.visibleName=reader.GetString(2);
             if (!reader.IsDBNull(3)&&!reader.IsDBNull(4)&&!reader.IsDBNull(5)) returnSO.position=new Vector3 (reader.GetFloat(3),reader.GetFloat(4),reader.GetFloat(5));
-            if (!reader.IsDBNull(6)&&!reader.IsDBNull(7)&&!reader.IsDBNull(8)&&!reader.IsDBNull(9)) returnSO.position=new Quaternion (reader.GetFloat(6),reader.GetFloat(7),reader.GetFloat(8),reader.GetFloat(9));
+			if (!reader.IsDBNull(6)&&!reader.IsDBNull(7)&&!reader.IsDBNull(8)&&!reader.IsDBNull(9)) returnSO.rotation=new Quaternion (reader.GetFloat(6),reader.GetFloat(7),reader.GetFloat(8),reader.GetFloat(9));
             if (!reader.IsDBNull(0))returnSO.speed=reader.GetFloat(10);
             //if (!reader.IsDBNull(0))returnSO.prefab_path=reader.GetString(11);
         }
@@ -84,7 +84,7 @@ public class DB : MonoBehaviour {
 
     public SO_shipData GetSOShipData(int SO_id){
         SO_shipData retShipData= new SO_shipData();
-        qwery = @"SELECT 
+        string qwery = @"SELECT 
                        SO_id,
                        max_speed,
                        rotation_speed,
@@ -115,29 +115,29 @@ public class DB : MonoBehaviour {
         while (reader.Read())
         {
             if (!reader.IsDBNull(0)){ int _id = reader.GetInt32(0);};
-            if (!reader.IsDBNull(2))retShipData.max_speed=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.rotation_speed=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.acceleration_max=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.newSpeed=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.hull_full=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.armor_full=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.shield_full=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.capasitor_full=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.hull=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.max_speed=reader.GetFloat(1);
+            if (!reader.IsDBNull(2))retShipData.rotation_speed=reader.GetFloat(2);
+            if (!reader.IsDBNull(2))retShipData.acceleration_max=reader.GetFloat(3);
+            if (!reader.IsDBNull(2))retShipData.newSpeed=reader.GetFloat(4);
+            if (!reader.IsDBNull(2))retShipData.hull_full=reader.GetFloat(5);
+            if (!reader.IsDBNull(2))retShipData.armor_full=reader.GetFloat(6);
+            if (!reader.IsDBNull(2))retShipData.shield_full=reader.GetFloat(7);
+            if (!reader.IsDBNull(2))retShipData.capasitor_full=reader.GetFloat(8);
+            if (!reader.IsDBNull(2))retShipData.hull=reader.GetFloat(9);
             if (!reader.IsDBNull(2))retShipData.armor=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.shield=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.capasitor=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.hull_restore=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.armor_restore=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.shield_restore=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.capasitor_restore=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.agr_distance=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.vision_distance=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.destroyed=reader.GetInt32(10);
-            if (!reader.IsDBNull(2))retShipData.hidden=reader.GetInt32(10);
-            if (!reader.IsDBNull(2))retShipData.mob=reader.GetInt32(10);
-            if (!reader.IsDBNull(2))retShipData.warpDriveStartTime=reader.GetFloat(10);
-            if (!reader.IsDBNull(2))retShipData.warpSpeed=reader.GetFloat(10);
+            if (!reader.IsDBNull(2))retShipData.shield=reader.GetFloat(11);
+            if (!reader.IsDBNull(2))retShipData.capasitor=reader.GetFloat(12);
+            if (!reader.IsDBNull(2))retShipData.hull_restore=reader.GetFloat(13);
+            if (!reader.IsDBNull(2))retShipData.armor_restore=reader.GetFloat(14);
+            if (!reader.IsDBNull(2))retShipData.shield_restore=reader.GetFloat(15);
+            if (!reader.IsDBNull(2))retShipData.capasitor_restore=reader.GetFloat(16);
+            if (!reader.IsDBNull(2))retShipData.agr_distance=reader.GetFloat(17);
+            if (!reader.IsDBNull(2))retShipData.vision_distance=reader.GetFloat(18);
+			if (!reader.IsDBNull(2))retShipData.destroyed=(reader.GetInt32(19)==1);
+			if (!reader.IsDBNull(2))retShipData.hidden=(reader.GetInt32(20)==1);
+			if (!reader.IsDBNull(2))retShipData.mob=(reader.GetInt32(21)==1);
+            if (!reader.IsDBNull(2))retShipData.warpDriveStartTime=reader.GetFloat(22);
+            if (!reader.IsDBNull(2))retShipData.warpSpeed=reader.GetFloat(23);
 
         }
         retShipData.SO= GetServerObject(SO_id);
@@ -147,7 +147,7 @@ public class DB : MonoBehaviour {
 
     public ServerObject AddNewSO(Vector3 position, Quaternion rotation, int item_id)
     {
-
+		int new_id = 0;
         Item _item= GetComponent<InventoryServer>().GetItem(item_id);
         if (_item.itemType==Item.Type_of_item.ship){
             string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed) values (1,"+
@@ -163,7 +163,7 @@ public class DB : MonoBehaviour {
                 ") ";
 
             GetReader(qwery);
-            int new_id=lastId("server_objects");
+            new_id=lastId("server_objects");
            
         }
         return GetServerObject(new_id);

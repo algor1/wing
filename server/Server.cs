@@ -89,9 +89,9 @@ public class Server : MonoBehaviour {
     private void AddShip(SO_shipData ship){
         bool foundFlag=false ;
 
-        for (int i;i< ships.Count;i++)
+        for (int i=0;i< ships.Count;i++)
         {
-            if (ships[i].p.SO.id==ship.p.SO.id) foundFlag=true;
+            if (ships[i].p.SO.id==ship.SO.id) foundFlag=true;
         }
         
         if (!foundFlag)
@@ -99,7 +99,7 @@ public class Server : MonoBehaviour {
             SO_ship s = new SO_ship(ship, this.gameObject);
             ships.Add(s);
         } else{
-            Debug.Log("Cant add ship id:"+ship.p.SO.id+" Because it exists." );
+            Debug.Log("Cant add ship id:"+ship.SO.id+" Because it exists." );
         }
     }
     
@@ -116,10 +116,10 @@ public class Server : MonoBehaviour {
     }
     private void DestrtoyShip(int ship_id)
     {
-        DeleteShip(ship_id);
-        AddContainer();
-        GetComponent<InventoryServer>().DestroyInventory();
-        DeleteShip();
+//        DeleteShip(ship_id);
+//        AddContainer();
+//        GetComponent<InventoryServer>().DestroyInventory();
+//        DeleteShip();
     }
     public int RegisterPlayer(){
         return 0;
