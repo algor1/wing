@@ -44,8 +44,8 @@ public class CreateInventoryMenu : MonoBehaviour {
         {
             GameObject.Destroy(child.gameObject);
         }
-		List<InventoryItem> panelInv = server.GetComponent<InventoryServer> ().PlayerInventory (0, 200);
-
+		List<InventoryItem> panelInv = server.GetComponent<InventoryServer> ().PlayerInventory (player_id, holder_id);
+		Debug.Log (holder_id + " hold " + panelInv.Count);
         int j = 0;
 		for (int i = 0; i < panelInv.Count; i++)
         {
@@ -86,7 +86,9 @@ public class CreateInventoryMenu : MonoBehaviour {
 		
         GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 		menu_button.transform.SetParent (panel.transform, false);
-		menu_button.GetComponent<RectTransform>().localPosition = Vector3.up * (buttonCount * -50);
+		Debug.Log (invItem.item_id+" item  "+ menu_button.GetComponent<RectTransform> ().localPosition);
+		menu_button.GetComponent<RectTransform>().anchoredPosition += Vector2.up*(buttonCount * -65);
+		Debug.Log (invItem.item_id+" item  "+ menu_button.GetComponent<RectTransform> ().localPosition);
         bool directionToMove = (panel == panelRight);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { InfoPopup(item,invItem,directionToMove); });
 		menu_button.GetComponentInChildren<Text>().text = "id : "+ invItem.item_id.ToString()+"  quantity: "+invItem.quantity.ToString();
