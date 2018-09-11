@@ -15,6 +15,7 @@ public class WeaponPoint : MonoBehaviour {
                 break;
             case SO_weaponData.WeaponType.missile:
                 weapon = gameObject.AddComponent<MissileLauncher>();
+                break;
         }
 
 	}
