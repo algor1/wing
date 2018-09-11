@@ -6,22 +6,24 @@ public class WeaponPoint : MonoBehaviour {
     public SO_weaponData.WeaponType type;
     public Component weapon;
 
-	void Start()
+	public void Init(SO_weaponData.WeaponType _type)
 	{
+		type = _type;
         switch (type)
         {
             case SO_weaponData.WeaponType.laser:
                 weapon = gameObject.AddComponent<LaserBeam>();
                 break;
-            case SO_weaponData.WeaponType.missile:
-                weapon = gameObject.AddComponent<MissileLauncher>();
+			case SO_weaponData.WeaponType.missile:
+				weapon = gameObject.AddComponent<MissileLauncher> ();
+				break;
         }
-
 	}
 
 
 	public void StartFire (SO_ship target)
 	{
+		Debug.Log (type);
 		gameObject.GetComponent<LaserBeam>().StartFire(target);
 //		Debug.Log ("+++++pew to " + target.p.SO.visibleName);
 	}

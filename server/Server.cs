@@ -81,7 +81,9 @@ public class Server : MonoBehaviour {
         for (int i = 0; i < shipsDB.shipList.Count; i++)
         {
            AddShip (shipsDB.shipList[i]);
-            
+			for (int j=0;j<shipsDB.shipList[i].weapons.Count;j++){
+				Debug.Log("-------------" +shipsDB.shipList[i].weapons[j].type);
+					}
             //            ships = shipsDB.shipList;
         }
     }
