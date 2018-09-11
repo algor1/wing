@@ -49,7 +49,7 @@ public class ShowEnv : MonoBehaviour {
 
 		player_id=0;
 		player_SO=serverObj.GetComponent<Server>().GetPlayer(player_id);//player id=0 
-		//inint player
+		//init player
 		player.GetComponent<ShipMotor>().Init(player_SO,serverObj,this.gameObject);
 		zeroPoint = player_SO.p.SO.position;
 		WaypointsCreate ();
