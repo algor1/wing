@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Missile : MonoBehaviour {
+    private IEnumerator coroutineLife;
 	float speed;
 	float lifetime;
 	float rotationSpeed;
@@ -14,6 +15,8 @@ public class Missile : MonoBehaviour {
 		speed = 10;
 		lifetime = 4;
 		rotationSpeed = 180;
+        coroutineLife = LifeTimeCount();
+        StartCoroutine(coroutineLife);
 		
 	}
 	
@@ -25,12 +28,14 @@ public class Missile : MonoBehaviour {
 		transform.position += transform.forward * Time.deltaTime * speed;
 		if (Vector3.SqrMagnitude (target_vector) < 1 && GetComponent<MeshRenderer>().enabled) {
 			speed = 0;
+            StopCoroutine(coroutineLife);
 			Explode ();
 		}
 		
 	}
 	private void Explode(){
 		Debug.Log ("boom");
+        
 		GetComponent<Detonator> ().Explode ();
 		GetComponent<MeshRenderer> ().enabled = false;
 
@@ -39,6 +44,10 @@ public class Missile : MonoBehaviour {
 			if (child.name=="fire"|| child.name== "smoke")
 			GameObject.Destroy(child.gameObject);
 		}
-//		Destroy (this.gameObject);
 	}
+    private IEnumerator LifeTimeCount()
+    {
+        yield return new WaitForSeconds(lifetime);
+        Explode();
+    }
 }

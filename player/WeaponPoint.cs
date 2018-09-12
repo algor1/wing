@@ -23,14 +23,29 @@ public class WeaponPoint : MonoBehaviour {
 
 	public void StartFire (SO_ship target)
 	{
-		Debug.Log (type);
-		gameObject.GetComponent<LaserBeam>().StartFire(target);
-//		Debug.Log ("+++++pew to " + target.p.SO.visibleName);
+        Debug.Log("StartFire  "+ type);
+        switch (type)
+        {
+            case SO_weaponData.WeaponType.laser:
+   
+                gameObject.GetComponent<LaserBeam>().StartFire(target);
+                break;
+            case SO_weaponData.WeaponType.missile:
+                gameObject.GetComponent<MissileLauncher>().Fire(target.host);
+                break;
+        }
 	}
+
 	public void StopFire ()
 	{
-//		Debug.Log ("++++stop pew  ");
-
-		gameObject.GetComponent<LaserBeam>().StopFire();
+        switch (type)
+        {
+            case SO_weaponData.WeaponType.laser:
+                gameObject.GetComponent<LaserBeam>().StopFire();
+                break;
+            case SO_weaponData.WeaponType.missile:
+                break;
+        }
+		
 	}
 }
