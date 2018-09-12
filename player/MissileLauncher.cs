@@ -13,7 +13,7 @@ public class MissileLauncher : MonoBehaviour {
 
     void Start()
     {
-        missilePrefab = Resources.Load("Prefabs/Missile_01") as GameObject;
+        missilePrefab = Resources.Load("prefabs/Missil_01") as GameObject;
     }
 
     public void Fire(GameObject _target)

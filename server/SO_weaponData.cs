@@ -17,10 +17,12 @@ public class SO_weaponData {
 	public SO_weaponData(){
 	}
 	public SO_weaponData(SO_weaponData val){
+		type = val.type;
 		active = val.active;
 		damage = val.damage;
 		reload = val.reload;
 		ammoSpeed = val.ammoSpeed;
+		activeTime = val.activeTime;
 		sqrDistanse_max = val.sqrDistanse_max;
 		capasitor_use = val.capasitor_use;
 	}
