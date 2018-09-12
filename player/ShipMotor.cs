@@ -75,7 +75,8 @@ public class ShipMotor : MonoBehaviour {
 		{
 			for (int i =0 ;i < thisShip.weapons.Count ;i++){
 				thisShip.weapons[i].SetWeaponPoint(weaponPoints[i]);
-				Debug.Log (thisShip.p.SO.visibleName+ " init weapon point " + i);
+				weaponPoints [i].GetComponent<WeaponPoint> ().Init (thisShip.weapons [i].p.type);
+				Debug.Log (thisShip.p.SO.visibleName+ " init weapon point "+ thisShip.weapons [i].p.type + i);
 		}
 		}
 		Server_GO = _server;

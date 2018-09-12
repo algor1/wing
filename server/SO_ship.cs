@@ -44,7 +44,7 @@ public class SO_ship {
 		newtargetToMove = null;
 		weapons= new List<SO_weapon>();
 		for (int i = 0; i < shipData.weapons.Count; i++) {
-			Debug.Log (p.SO.id+ " ---init  weapon  " + i+ "    "+ shipData.weapons.Count);
+			Debug.Log (p.SO.id+ " ---init  weapon  " + i+ "    "+ shipData.weapons[i].type+shipData.weapons.Count);
 			SO_weapon newweappon = new SO_weapon (shipData.weapons [i], this);
 			weapons.Add(newweappon);
 		}
