@@ -77,13 +77,21 @@ public class Server : MonoBehaviour {
 
     private void LoadShips()
     {
-        Debug.Log("all ship" + shipsDB.shipList.Count);
+        
         for (int i = 0; i < shipsDB.shipList.Count; i++)
         {
-           AddShip (shipsDB.shipList[i]);
+            AddShip(shipsDB.shipList[i]);
 
             //            ships = shipsDB.shipList;
         }
+
+        //Debug.Log("all ship" + shipsDB.shipList.Count);
+        //for (int i = 0; i < shipsDB.shipList.Count; i++)
+        //{
+        //   AddShip (shipsDB.shipList[i]);
+
+        //    //            ships = shipsDB.shipList;
+        //}
     }
 
     private void AddShip(SO_shipData ship){
