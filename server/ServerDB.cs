@@ -131,7 +131,7 @@ public class ServerDB : MonoBehaviour {
         while (reader.Read())
         {
 
-            if (!reader.IsDBNull(0)) { int _id = reader.GetInt32(0); };
+//            if (!reader.IsDBNull(0)) { int _id = reader.GetInt32(0); };
             if (!reader.IsDBNull(1)) retShipData.max_speed = reader.GetFloat(1);
             if (!reader.IsDBNull(2)) retShipData.rotation_speed = reader.GetFloat(2);
             if (!reader.IsDBNull(3)) retShipData.acceleration_max = reader.GetFloat(3);
@@ -218,7 +218,7 @@ public class ServerDB : MonoBehaviour {
             if (!reader.IsDBNull(10)) retShipData.SO.speed = reader.GetFloat(10);
             //if (!reader.IsDBNull(11))retShipData.SO.prefab_path=reader.GetString(11);
 
-            if (!reader.IsDBNull(12)) { int _id = reader.GetInt32(12); };
+//            if (!reader.IsDBNull(12)) { int _id = reader.GetInt32(12); };
             if (!reader.IsDBNull(13)) retShipData.max_speed = reader.GetFloat(13);
             if (!reader.IsDBNull(14)) retShipData.rotation_speed = reader.GetFloat(14);
             if (!reader.IsDBNull(15)) retShipData.acceleration_max = reader.GetFloat(15);
