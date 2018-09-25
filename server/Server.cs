@@ -8,7 +8,7 @@ public class Server : MonoBehaviour {
 	private GameObject serverLand;
 
     [SerializeField]
-	private ShipList_scrob shipsDB;
+    //private ShipList_scrob shipsDB;
 
 	private List<SO_ship> ships;
 
@@ -77,12 +77,10 @@ public class Server : MonoBehaviour {
 
     private void LoadShips()
     {
-        
-        for (int i = 0; i < shipsDB.shipList.Count; i++)
+        List<SO_shipData> shipList = GetComponent<ServerDB>().GetAllShips();
+        for (int i = 0; i < shipList.Count; i++)
         {
-            AddShip(shipsDB.shipList[i]);
-
-            //            ships = shipsDB.shipList;
+            AddShip(shipList[i]);
         }
 
         //Debug.Log("all ship" + shipsDB.shipList.Count);

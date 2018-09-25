@@ -12,11 +12,11 @@ public class ServerDB : MonoBehaviour {
     private IDataReader reader;
     private IDbCommand dbcmd;
 
-
     void OnApplicationQuit()
     {
         if (dbSkillCon != null) dbSkillCon.Close();
     }
+
     private void InitDB()
     {
         string p = "wing_srv.db";
@@ -35,6 +35,7 @@ public class ServerDB : MonoBehaviour {
         dbSkillCon = (IDbConnection)new SqliteConnection(connectionString);
         dbSkillCon.Open();
     }
+
     private void GetReader(string dbselect)
     {
         if (dbSkillCon == null)
@@ -93,6 +94,52 @@ public class ServerDB : MonoBehaviour {
         }
 
         return returnSO; 
+    }
+
+    public List<ServerObject> GetAllSO()
+    {
+        List<ServerObject> returnSOList =new List<ServerObject>();
+        string qwery = @"SELECT id,
+                               type,
+                               visibleName,
+                               position_x,
+                               position_y,
+                               position_z,
+                               rotation_x,
+                               rotation_y,
+                               rotation_z,
+                               rotation_w,
+                               speed,
+                               prefab_path
+                          FROM server_objects";
+        GetReader(qwery);
+        while (reader.Read())
+        {
+            ServerObject _SO = new ServerObject();
+            int _type = 0;
+            if (!reader.IsDBNull(0)) _SO.id = reader.GetInt32(0);
+            if (!reader.IsDBNull(1)) { _type = reader.GetInt32(1); }
+            if (!reader.IsDBNull(2)) _SO.visibleName = reader.GetString(2);
+            if (!reader.IsDBNull(3) && !reader.IsDBNull(4) && !reader.IsDBNull(5)) _SO.position = new Vector3(reader.GetFloat(3), reader.GetFloat(4), reader.GetFloat(5));
+            if (!reader.IsDBNull(6) && !reader.IsDBNull(7) && !reader.IsDBNull(8) && !reader.IsDBNull(9)) _SO.rotation = new Quaternion(reader.GetFloat(6), reader.GetFloat(7), reader.GetFloat(8), reader.GetFloat(9));
+            if (!reader.IsDBNull(10)) _SO.speed = reader.GetFloat(10);
+            //if (!reader.IsDBNull(11))returnSO.prefab_path=reader.GetString(11);
+            switch (_type)
+            {
+                case 1:
+                    _SO.type = ServerObject.typeSO.ship;
+                    break;
+                case 2:
+                    _SO.type = ServerObject.typeSO.station;
+                    break;
+                case 3:
+                    _SO.type = ServerObject.typeSO.asteroid;
+                    break;
+            }
+            returnSOList.Add(_SO);
+        }
+
+        return returnSOList;
     }
 
     public SO_shipData GetSOShipData(int SO_id){
@@ -161,7 +208,7 @@ public class ServerDB : MonoBehaviour {
         return retShipData;
     }
 
-    public List<SO_shipData> AllShips()
+    public List<SO_shipData> GetAllShips()
     {
         List<SO_shipData> retListShip = new List<SO_shipData>();
 
@@ -350,6 +397,7 @@ public class ServerDB : MonoBehaviour {
         string qwery = "delete FROM server_objects where id="+SO_id.ToString(); 
         GetReader(qwery);
     }
+
     public void DeleteSOShipData(int SO_id)
     {
         string qwery = "delete FROM SO_shipdata where id=" + SO_id.ToString();
@@ -367,6 +415,5 @@ public class ServerDB : MonoBehaviour {
         }
         return ret_id;
     }
-
 
 }

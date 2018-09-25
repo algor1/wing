@@ -6,8 +6,8 @@ public class ServerSO : MonoBehaviour {
 
 
 
-	[SerializeField]
-	private SOList_scrob SODB;
+    //[SerializeField]
+    //private SOList_scrob SODB;
 	private List<ServerObject> serverObjects;
 //	public enum Command { MoveTo,WarpTo,Atack,SetTarget};
 
@@ -15,20 +15,12 @@ public class ServerSO : MonoBehaviour {
 
 
 
-	void Awake()
+	void Start()
 	{
         DontDestroyOnLoad(transform.gameObject);
 		LoadserverObjects();
 
 	}
-
-//
-//	void Update(){
-//		Tick();	
-//
-//	}
-
-
 
 	public List<ServerObject> Nearest (int player_id){
 		SO_ship pl = GetComponent<Server>().GetPlayer (player_id);
@@ -46,12 +38,16 @@ public class ServerSO : MonoBehaviour {
 
 	private void LoadserverObjects()
 	{
+        List<ServerObject> SOList = GetComponent<ServerDB>().GetAllSO();
 		serverObjects = new List<ServerObject> ();
-		Debug.Log ("all SO count" + SODB.SOList.Count);
-		for (int i = 0; i < SODB.SOList.Count; i++)
+		Debug.Log ("all SO count" + SOList.Count);
+		for (int i = 0; i < SOList.Count; i++)
 		{
-			ServerObject s = new ServerObject (SODB.SOList [i]);
-			serverObjects.Add(s);
+            if (SOList[i].type != ServerObject.typeSO.ship)
+            {
+                ServerObject s = new ServerObject(SOList[i]);
+                serverObjects.Add(s);
+            }
 		}
 	}
 

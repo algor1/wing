@@ -5,18 +5,32 @@ class LandingServer: MonoBehaviour
     {
         private Dictionary<int,List<int>> stationLandingBase; //StationLandingBase[station_id][ship_id]
 //        private Dictionary<int, Dictionary<int, Dictionary<int, InventoryItem>>> playerSOInventoryBase; //playerStationItems[ player_id,[Inventoy_holder_id,list_of_items_in inventory]]
-        [SerializeField]
-        private StationsDatabase stationsDB;
+        
+        private List<int> stationsDB;
 
 
         
         void Awake(){
-            DontDestroyOnLoad(transform.gameObject);
+            
 		stationLandingBase = new Dictionary<int,List<int>>();
 //            playerSOInventoryBase = new Dictionary<int, Dictionary<int, Dictionary<int, InventoryItem>>>();
         }
+        void Start()
+        {
+            LoadData();
+        }
 
         private void LoadData(){
+            List<ServerObject> SOList = GetComponent<ServerDB>().GetAllSO();
+            stationsDB = new List<int>();
+            
+            for (int i = 0; i < SOList.Count; i++)
+            {
+                if (SOList[i].type != ServerObject.typeSO.station)
+                {
+                    stationsDB.Add(SOList[i].id);
+                }
+            }
         }
 
         private void SaveData(int station_id){
@@ -24,8 +38,8 @@ class LandingServer: MonoBehaviour
         }
         public bool Landing(int station_id, int serverObject_id){
             // TODO here we can check if this ship can land the station
-            for (int i=0;i<stationsDB.stations.Count;i++){
-                if (station_id == stationsDB.stations[i]){
+            for (int i=0;i<stationsDB.Count;i++){
+                if (station_id == stationsDB[i]){
 				if( stationLandingBase.ContainsKey(station_id)){
                     stationLandingBase[station_id].Add(serverObject_id);
                     return true;
@@ -39,8 +53,8 @@ class LandingServer: MonoBehaviour
             return false;
         }
         public bool TakeOff(int station_id, int serverObject_id){
-            for (int i=0;i<stationsDB.stations.Count;i++){
-                if (station_id == stationsDB.stations[i]){
+            for (int i=0;i<stationsDB.Count;i++){
+                if (station_id == stationsDB[i]){
                     for (int j=0;j<stationLandingBase[station_id].Count;j++){
                         if (stationLandingBase[station_id][i] ==serverObject_id){
                             stationLandingBase[station_id].RemoveAt(i);
@@ -54,9 +68,9 @@ class LandingServer: MonoBehaviour
         public List<int> PlayerShipList(int station_id, int player_id)
         {
             List<int> retList=new List<int>();
-            for (int i = 0; i < stationsDB.stations.Count; i++)
+            for (int i = 0; i < stationsDB.Count; i++)
             {
-                if (station_id == stationsDB.stations[i])
+                if (station_id == stationsDB[i])
                 {
                     if (stationLandingBase.ContainsKey(station_id)){
                             return stationLandingBase[station_id];
