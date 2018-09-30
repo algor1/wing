@@ -62,6 +62,7 @@ public class ShipMotor : MonoBehaviour {
 //		em.enabled = false;
 //		SetSpeedometr ();
 //		rotationTarget = transform.rotation;
+		Server_GO = GameObject.Find ("ServerGo");
 
 
 	}

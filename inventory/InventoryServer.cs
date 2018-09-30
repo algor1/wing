@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 class InventoryServer : MonoBehaviour
 {
+	public bool started;
+	void Start(){
+		started = true;
+	}
 
     public List<InventoryItem> PlayerInventory(int player_id, int holder_id)
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ServerSO : MonoBehaviour {
 
-
+	public bool started;
 
     //[SerializeField]
     //private SOList_scrob SODB;
@@ -19,6 +19,7 @@ public class ServerSO : MonoBehaviour {
 	{
         DontDestroyOnLoad(transform.gameObject);
 		LoadserverObjects();
+		started = true;
 
 	}
 
@@ -45,6 +46,8 @@ public class ServerSO : MonoBehaviour {
 		{
             if (SOList[i].type != ServerObject.typeSO.ship)
             {
+				Debug.Log ("SO " + i);
+
                 ServerObject s = new ServerObject(SOList[i]);
                 serverObjects.Add(s);
             }

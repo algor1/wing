@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
     
 class PlayerSkillsServer: MonoBehaviour
 {
+	public bool started;
 //    private Dictionary<int, Dictionary<int,Dictionary<int, long>>> playersSkillsBase; //StationLandingBase[player_id][skill_id][tech]points
   
 //    [SerializeField]
@@ -26,6 +27,10 @@ class PlayerSkillsServer: MonoBehaviour
 //        InitPlayer(0);
 
     }
+
+	void Start(){
+		started = true;
+	}
 //    public void InitPlayer(int player_id)
 //    {
 //        if (!playersSkillsBase.ContainsKey(player_id))

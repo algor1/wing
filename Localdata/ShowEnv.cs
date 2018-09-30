@@ -48,6 +48,7 @@ public class ShowEnv : MonoBehaviour {
 	void Start () {
 
 		player_id=0;
+		serverObj = GameObject.Find ("ServerGo");
 		player_SO=serverObj.GetComponent<Server>().GetPlayer(player_id);//player id=0 
 		//init player
 		player.GetComponent<ShipMotor>().Init(player_SO,serverObj,this.gameObject);
@@ -247,8 +248,8 @@ public class ShowEnv : MonoBehaviour {
 
 //	---------------------  SHIPS ---------------------------------
 	void AddShip(SO_ship ship){
-		
-		GameObject gObj = (GameObject)Instantiate(ship.p.SO.prefab, ship.p.SO.position -zeroPoint, ship.p.SO.rotation);
+		 
+		GameObject gObj = (GameObject)Instantiate(Resources.Load("prefabs/Ship", typeof(GameObject)) , ship.p.SO.position -zeroPoint, ship.p.SO.rotation );// подставить ship.p.SO.prefab
 		gObj.GetComponent<ShipMotor> ().Init ( ship,serverObj,this.gameObject);
 		gObj.GetComponent<ShipMotor> ().thisShip.SetTarget (player.GetComponent<ShipMotor> ().thisShip);
 		Debug.Log (ship.p.SO.visibleName);

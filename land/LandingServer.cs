@@ -3,6 +3,7 @@ using System.Collections.Generic;
     
 class LandingServer: MonoBehaviour
     {
+	public bool started;
         private Dictionary<int,List<int>> stationLandingBase; //StationLandingBase[station_id][ship_id]
 //        private Dictionary<int, Dictionary<int, Dictionary<int, InventoryItem>>> playerSOInventoryBase; //playerStationItems[ player_id,[Inventoy_holder_id,list_of_items_in inventory]]
         
@@ -18,6 +19,9 @@ class LandingServer: MonoBehaviour
         void Start()
         {
             LoadData();
+
+			started = true;
+
         }
 
         private void LoadData(){

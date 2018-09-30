@@ -11,6 +11,11 @@ public class ServerDB : MonoBehaviour {
     private IDbConnection dbSkillCon;
     private IDataReader reader;
     private IDbCommand dbcmd;
+	public bool started;
+
+	void Start(){
+		started = true;
+	}
 
     void OnApplicationQuit()
     {
@@ -304,8 +309,65 @@ public class ServerDB : MonoBehaviour {
             }
             retListShip.Add(retShipData);
         }
+		for (int i = 0; i < retListShip.Count; i++) {
+			retListShip [i].weapons=GetWeapons (retListShip [i].SO.id);
+			retListShip[i].equipments=GetEquip(retListShip [i].SO.id);
+		}
         return retListShip;
     }
+
+	private List<SO_equipmentData> GetEquip(int Ship_id){
+		List<SO_equipmentData> retList = new List<SO_equipmentData> ();
+		return retList;
+	}
+
+	private List<SO_weaponData> GetWeapons (int ship_id){
+		List<SO_weaponData> retList = new List<SO_weaponData> ();
+		SO_weaponData _weapon;
+		string qwery = @"SELECT 
+					SO_id ,
+ 					WeaponType, 
+					active, 
+					damage, 
+					reload, 
+					ammoSpeed, 
+					activeTime, 
+					sqrDistanse_max, 
+					capasitor_use
+					FROM SO_weapondata
+					WHERE SO_id=" + ship_id.ToString();
+		GetReader(qwery);
+		while (reader.Read ()) {
+			int _type = 0;
+			_weapon = new SO_weaponData ();
+
+//			if (!reader.IsDBNull(0)) _weapon. = reader.GetInt32(0);
+			if (!reader.IsDBNull (1))_type = reader.GetInt32 (1);
+			if (!reader.IsDBNull (2))_weapon.active = (reader.GetInt32(2) == 1);
+			if (!reader.IsDBNull (3))_weapon.damage = reader.GetFloat (3);
+			if (!reader.IsDBNull (4))_weapon.reload = reader.GetFloat (4);
+			if (!reader.IsDBNull (5))_weapon.ammoSpeed = reader.GetFloat (5);
+			if (!reader.IsDBNull (6))_weapon.activeTime = reader.GetFloat (6);
+			if (!reader.IsDBNull (7))_weapon.sqrDistanse_max = reader.GetFloat (7);
+			if (!reader.IsDBNull (8))_weapon.capasitor_use = reader.GetFloat (8);
+			switch (_type)
+			{
+			case 1:
+				_weapon.type = SO_weaponData.WeaponType.laser;
+				break;
+			case 2:
+				_weapon.type = SO_weaponData.WeaponType.missile;
+				break;
+			case 3:
+				_weapon.type = SO_weaponData.WeaponType.projective;
+				break;
+			}
+			retList.Add (_weapon);
+		}
+		return retList;
+
+		
+	}
 
     public ServerObject AddNewSO(Vector3 position, Quaternion rotation, int item_id)
     {

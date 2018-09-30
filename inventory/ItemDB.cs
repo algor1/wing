@@ -8,10 +8,14 @@ using System.Collections.Generic;
 
 public class ItemDB : MonoBehaviour
 {
+	public bool started;
     private IDbConnection dbSkillCon;
     private IDataReader reader;
     private IDbCommand dbcmd;
 
+	void Start(){
+		started = true;
+	}
 
     void OnApplicationQuit()
     {

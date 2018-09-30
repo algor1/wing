@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Server : MonoBehaviour {
+	public bool started;
    
     [SerializeField]
 	private GameObject serverLand;
@@ -32,6 +33,8 @@ public class Server : MonoBehaviour {
 	void Start(){
 		ships [1].SetTarget (ships [0]);
 		ships [1].GoToTarget();
+		started = true;
+
 	
     }
 
@@ -80,6 +83,7 @@ public class Server : MonoBehaviour {
         List<SO_shipData> shipList = GetComponent<ServerDB>().GetAllShips();
         for (int i = 0; i < shipList.Count; i++)
         {
+			Debug.Log ("add Ship " + i);
             AddShip(shipList[i]);
         }
 

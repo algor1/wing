@@ -13,12 +13,16 @@ using System.Collections.Generic;
 public class SkillsDB : MonoBehaviour
 	
 {
+	public bool started;
 	[SerializeField]
 	private Text debugtext;
     private IDbConnection dbSkillCon;
     private IDataReader reader;
 	private IDbCommand dbcmd;
 
+	void Start(){
+		started = true;
+	}
 
 	void OnApplicationQuit()
 	{
