@@ -83,7 +83,7 @@ public class ServerDB : MonoBehaviour {
             if (!reader.IsDBNull(3)&&!reader.IsDBNull(4)&&!reader.IsDBNull(5)) returnSO.position=new Vector3 (reader.GetFloat(3),reader.GetFloat(4),reader.GetFloat(5));
 			if (!reader.IsDBNull(6)&&!reader.IsDBNull(7)&&!reader.IsDBNull(8)&&!reader.IsDBNull(9)) returnSO.rotation=new Quaternion (reader.GetFloat(6),reader.GetFloat(7),reader.GetFloat(8),reader.GetFloat(9));
             if (!reader.IsDBNull(0))returnSO.speed=reader.GetFloat(10);
-            //if (!reader.IsDBNull(0))returnSO.prefab_path=reader.GetString(11);
+            if (!reader.IsDBNull(0))returnSO.prefab=reader.GetString(11);
             switch (_type)
             {
                 case 1:
@@ -128,7 +128,7 @@ public class ServerDB : MonoBehaviour {
             if (!reader.IsDBNull(3) && !reader.IsDBNull(4) && !reader.IsDBNull(5)) _SO.position = new Vector3(reader.GetFloat(3), reader.GetFloat(4), reader.GetFloat(5));
             if (!reader.IsDBNull(6) && !reader.IsDBNull(7) && !reader.IsDBNull(8) && !reader.IsDBNull(9)) _SO.rotation = new Quaternion(reader.GetFloat(6), reader.GetFloat(7), reader.GetFloat(8), reader.GetFloat(9));
             if (!reader.IsDBNull(10)) _SO.speed = reader.GetFloat(10);
-            //if (!reader.IsDBNull(11))returnSO.prefab_path=reader.GetString(11);
+            if (!reader.IsDBNull(11))_SO.prefab=reader.GetString(11);
             switch (_type)
             {
                 case 1:
@@ -268,7 +268,7 @@ public class ServerDB : MonoBehaviour {
             if (!reader.IsDBNull(3) && !reader.IsDBNull(4) && !reader.IsDBNull(5)) retShipData.SO.position = new Vector3(reader.GetFloat(3), reader.GetFloat(4), reader.GetFloat(5));
             if (!reader.IsDBNull(6) && !reader.IsDBNull(7) && !reader.IsDBNull(8) && !reader.IsDBNull(9)) retShipData.SO.rotation = new Quaternion(reader.GetFloat(6), reader.GetFloat(7), reader.GetFloat(8), reader.GetFloat(9));
             if (!reader.IsDBNull(10)) retShipData.SO.speed = reader.GetFloat(10);
-            //if (!reader.IsDBNull(11))retShipData.SO.prefab_path=reader.GetString(11);
+            if (!reader.IsDBNull(11))retShipData.SO.prefab=reader.GetString(11);
 
 //            if (!reader.IsDBNull(12)) { int _id = reader.GetInt32(12); };
             if (!reader.IsDBNull(13)) retShipData.max_speed = reader.GetFloat(13);

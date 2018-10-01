@@ -136,7 +136,7 @@ public class ItemDB : MonoBehaviour
 		int quantityInInv = Quantity (player_id, holder_id, item_id, tech);
         if (quantityInInv==quantity)
         {
-            qwery = qwery = "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+            qwery =  "delete from inventory where (player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
             deleted = true;
             GetReader(qwery);
             

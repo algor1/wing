@@ -11,7 +11,7 @@ public class ServerObject {
 	public Vector3 position;
 	public Quaternion rotation;
 	public float speed;
-	public GameObject prefab;
+	public string prefab;
 
 	public ServerObject( ServerObject so_){
 		id = so_.id;

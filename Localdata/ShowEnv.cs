@@ -148,7 +148,7 @@ public class ShowEnv : MonoBehaviour {
 		for (int i = 0; i < wp.wayPoints.Count; i++)
 			//		foreach (WayPoint wp_value in wp.wayPoints)
 		{
-			GameObject wp_obj= (GameObject)Instantiate(wp.wayPoints[i].prefab,wp.wayPoints[i].position-zeroPoint,Quaternion.Euler(Vector3.zero));
+			GameObject wp_obj= (GameObject)Instantiate(Resources.Load(wp.wayPoints[i].prefab, typeof(GameObject)),wp.wayPoints[i].position-zeroPoint,Quaternion.Euler(Vector3.zero));
 			////////////
 			Debug.Log("wp_obj "+wp_obj);
 			wp_obj.GetComponent<SOParametres>().Init(wp.wayPoints [i],this.gameObject);
@@ -174,8 +174,9 @@ public class ShowEnv : MonoBehaviour {
 //	---------------------  SO ---------------------------------
 
 	void AddSO(ServerObject so){
+		Debug.Log ("prefub " + so.prefab);
 
-		GameObject SObj = (GameObject)Instantiate(so.prefab, so.position -zeroPoint, so.rotation);
+		GameObject SObj = (GameObject)Instantiate(Resources.Load(so.prefab, typeof(GameObject)), so.position -zeroPoint, so.rotation);
 		SObj.GetComponent<SOParametres> ().Init (so,this.gameObject);
 //		Debug.Log (so.visibleName);
 		nearestSOs.Add(so.id, SObj);
@@ -248,8 +249,8 @@ public class ShowEnv : MonoBehaviour {
 
 //	---------------------  SHIPS ---------------------------------
 	void AddShip(SO_ship ship){
-		 
-		GameObject gObj = (GameObject)Instantiate(Resources.Load("prefabs/Ship", typeof(GameObject)) , ship.p.SO.position -zeroPoint, ship.p.SO.rotation );// подставить ship.p.SO.prefab
+		Debug.Log ("prefub " + ship.p.SO.prefab);
+		GameObject gObj = (GameObject)Instantiate(Resources.Load(ship.p.SO.prefab, typeof(GameObject)) , ship.p.SO.position -zeroPoint, ship.p.SO.rotation );// подставить ship.p.SO.prefab
 		gObj.GetComponent<ShipMotor> ().Init ( ship,serverObj,this.gameObject);
 		gObj.GetComponent<ShipMotor> ().thisShip.SetTarget (player.GetComponent<ShipMotor> ().thisShip);
 		Debug.Log (ship.p.SO.visibleName);
