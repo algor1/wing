@@ -140,6 +140,9 @@ public class ServerDB : MonoBehaviour {
                 case 3:
                     _SO.type = ServerObject.typeSO.asteroid;
                     break;
+                case 4:
+                    _SO.type = ServerObject.typeSO.waypoint;
+                    break;
             }
             returnSOList.Add(_SO);
         }
