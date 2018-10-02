@@ -6,7 +6,7 @@ using UnityEngine;
 public class ServerObject {
 	public int id;
 	public string visibleName;
-	public enum typeSO {asteroid,ship,station};
+	public enum typeSO {asteroid,ship,station,waypoint};
     public typeSO type;
 	public Vector3 position;
 	public Quaternion rotation;
