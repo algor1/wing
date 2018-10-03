@@ -95,6 +95,12 @@ public class ServerDB : MonoBehaviour {
                 case 3:
                     returnSO.type = ServerObject.typeSO.asteroid;
                     break;
+				case 4:
+					returnSO.type = ServerObject.typeSO.waypoint;
+					break;
+				case 5:
+					returnSO.type = ServerObject.typeSO.container;
+					break;
             }
         }
 
@@ -143,6 +149,9 @@ public class ServerDB : MonoBehaviour {
                 case 4:
                     _SO.type = ServerObject.typeSO.waypoint;
                     break;
+				case 5:
+					_SO.type = ServerObject.typeSO.container;
+					break;
             }
 			Debug.Log ("SODB  " + _SO.prefab + "  " + _SO.type);
             returnSOList.Add(_SO);

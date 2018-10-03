@@ -290,19 +290,19 @@ public class ShipMotor : MonoBehaviour {
 	{
 		switch (shipEvent)
 		{
-            case SO_ship.ShipEvenentsType.stop:
+        case SO_ship.ShipEvenentsType.stop:
 			Debug.Log("motor " + ship.p.SO.visibleName + " ship stopped");
                 burner.GetComponent<BurnControl>().EngineStop();
 			break;
-            case SO_ship.ShipEvenentsType.move:
+        case SO_ship.ShipEvenentsType.move:
 			Debug.Log("motor "  + ship.p.SO.visibleName + " ship accelerated");
             burner.GetComponent<BurnControl>().EngineStart();
 			break;
-            case SO_ship.ShipEvenentsType.warmwarp:
+        case SO_ship.ShipEvenentsType.warmwarp:
 			Debug.Log("motor "  + ship.p.SO.visibleName + " ship preparing to warp");
             burner.GetComponent<BurnControl>().WarpStart();
 			break;
-            case SO_ship.ShipEvenentsType.warp:
+        case SO_ship.ShipEvenentsType.warp:
 			
 			Debug.Log("motor "  + ship.p.SO.visibleName + " ship warping....");
 //			if player
@@ -314,14 +314,16 @@ public class ShipMotor : MonoBehaviour {
             burner.GetComponent<BurnControl>().WarpStop();
 			Spawn ();
 			break;
-            case SO_ship.ShipEvenentsType.land:
+        case SO_ship.ShipEvenentsType.land:
 			Debug.Log("server" + ship.p.SO.visibleName + " ship landing");
 			Server_GO.GetComponent<LandingServer>().Landing(ship.p.SO.id, ship.targetToMove.id);
 			ship.landed=true;
-
-
-
 			break;
+		case SO_ship.ShipEvenentsType.destroyed:
+			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing");
+			gameObject.AddComponent<Detonator> ();
+			break;
+		
 		}
 	}
 

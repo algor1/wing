@@ -13,7 +13,7 @@ public class Missile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		speed = 200;
+		speed = 100;
 		lifetime = 20;
 		rotationSpeed = 720;
         coroutineLife = LifeTimeCount();
@@ -28,7 +28,7 @@ public class Missile : MonoBehaviour {
 		var q = Quaternion.LookRotation(target_vector);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotationSpeed * Time.deltaTime);
 		transform.position += transform.forward * Time.deltaTime * speed;
-		if (Vector3.SqrMagnitude (target_vector) < 1 && !destroed) {
+		if (Vector3.SqrMagnitude (target_vector) < 100 && !destroed) {
 			Debug.Log ("magnotude " + Vector3.SqrMagnitude (target_vector));
 			speed = 0;
             StopCoroutine(coroutineLife);
