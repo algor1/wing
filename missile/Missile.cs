@@ -15,7 +15,7 @@ public class Missile : MonoBehaviour {
 	void Start () {
 		speed = 200;
 		lifetime = 20;
-		rotationSpeed = 180;
+		rotationSpeed = 720;
         coroutineLife = LifeTimeCount();
 		destroed = false;
         StartCoroutine(coroutineLife);

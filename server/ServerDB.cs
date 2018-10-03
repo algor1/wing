@@ -144,6 +144,7 @@ public class ServerDB : MonoBehaviour {
                     _SO.type = ServerObject.typeSO.waypoint;
                     break;
             }
+			Debug.Log ("SODB  " + _SO.prefab + "  " + _SO.type);
             returnSOList.Add(_SO);
         }
 

@@ -20,6 +20,7 @@ public class ServerObject {
 		rotation = so_.rotation;
 		speed = so_.speed;
 		prefab = so_.prefab;
+		type = so_.type;
 	}
 	public ServerObject(){
 	}

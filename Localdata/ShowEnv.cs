@@ -53,7 +53,7 @@ public class ShowEnv : MonoBehaviour {
 		//init player
 		player.GetComponent<ShipMotor>().Init(player_SO,serverObj,this.gameObject);
 		zeroPoint = player_SO.p.SO.position;
-		WaypointsCreate ();
+//		WaypointsCreate ();
 //		var player_transform = player.GetComponent<Transform> ();
 //		StartCoroutine (FlyObjectsListUpdate ());
 //		 shipcoroutine= StartCoroutine (ShipsListUpdate ());
@@ -74,7 +74,7 @@ public class ShowEnv : MonoBehaviour {
 	public void SetZeroPoint(Vector3 newZeroPoint)
 	{
 		zeroPoint = newZeroPoint;
-		WaypointsUpdate ();
+//		WaypointsUpdate ();
 	}
 
 	public Vector3 GetZeroPoint()
@@ -138,38 +138,38 @@ public class ShowEnv : MonoBehaviour {
 
 		
 
-	void WaypointsCreate(){
-		Debug.Log ("start waypointscreate");
-
-		wpList = new List<GameObject> ();
-		Debug.Log ("wplist " +wpList);
-		Debug.Log ("wp  "+wp.wayPoints);
-
-		for (int i = 0; i < wp.wayPoints.Count; i++)
-			//		foreach (WayPoint wp_value in wp.wayPoints)
-		{
-			GameObject wp_obj= (GameObject)Instantiate(Resources.Load(wp.wayPoints[i].prefab, typeof(GameObject)),wp.wayPoints[i].position-zeroPoint,Quaternion.Euler(Vector3.zero));
-			////////////
-			Debug.Log("wp_obj "+wp_obj);
-			wp_obj.GetComponent<SOParametres>().Init(wp.wayPoints [i],this.gameObject);
-//			wp_obj.GetComponent<PointParametres> ().thisServerObject = wp.wayPoints [i];//???
-			wp_obj.name=wp.wayPoints [i].visibleName+"_ind";
-			wpList.Add(wp_obj);
-		}
-		Debug.Log ("stop waypointscreate");
-
-	}
-
-	void WaypointsUpdate(){
-
-		for (int i = 0; i < wpList.Count; i++)
-		{
-			wpList [i].transform.position = wp.wayPoints [i].position - zeroPoint;
-
-		}
-	}
-
-//	---------------------  WP END ---------------------------------
+//	void WaypointsCreate(){
+//		Debug.Log ("start waypointscreate");
+//
+//		wpList = new List<GameObject> ();
+//		Debug.Log ("wplist " +wpList);
+//		Debug.Log ("wp  "+wp.wayPoints);
+//
+//		for (int i = 0; i < wp.wayPoints.Count; i++)
+//			//		foreach (WayPoint wp_value in wp.wayPoints)
+//		{
+//			GameObject wp_obj= (GameObject)Instantiate(Resources.Load(wp.wayPoints[i].prefab, typeof(GameObject)),wp.wayPoints[i].position-zeroPoint,Quaternion.Euler(Vector3.zero));
+//			////////////
+//			Debug.Log("wp_obj "+wp_obj);
+//			wp_obj.GetComponent<SOParametres>().Init(wp.wayPoints [i],this.gameObject);
+////			wp_obj.GetComponent<PointParametres> ().thisServerObject = wp.wayPoints [i];//???
+//			wp_obj.name=wp.wayPoints [i].visibleName+"_ind";
+//			wpList.Add(wp_obj);
+//		}
+//		Debug.Log ("stop waypointscreate");
+//
+//	}
+//
+//	void WaypointsUpdate(){
+//
+//		for (int i = 0; i < wpList.Count; i++)
+//		{
+//			wpList [i].transform.position = wp.wayPoints [i].position - zeroPoint;
+//
+//		}
+//	}
+//
+////	---------------------  WP END ---------------------------------
 
 //	---------------------  SO ---------------------------------
 
