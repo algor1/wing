@@ -64,6 +64,15 @@ public class ServerSO : MonoBehaviour {
 		return null;
 	}
 
+    public void AddContainer(int ship_id)
+    {
+        for (int i = 0; i < serverObjects.Count; i++)
+            if (serverObjects[i].id == SO_id)
+            {
+                serverObjects[i].type=ServerObject.typeSO.container;
+                //        GetComponent<InventoryServer>().DestroyShipInventory();
+            }
+    }
 //	private void Tick(){
 //		for (int i = 0; i < serverObjects.Count; i++){
 //			serverObjects[i].Tick();

@@ -127,9 +127,9 @@ public class Server : MonoBehaviour {
     private void DestrtoyShip(int ship_id)
     {
 //        DeleteShip(ship_id);
-//        AddContainer();
-//        GetComponent<InventoryServer>().DestroyInventory();
-//        DeleteShip();
+        GetComponent<ServerSO>().AddContainer(ship_id);
+
+
     }
     public int RegisterPlayer(){
         return 0;
