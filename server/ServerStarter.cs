@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ServerStarter : MonoBehaviour {
-	private bool allServerStarted=false;
 
 	
 	// Update is called once per frame

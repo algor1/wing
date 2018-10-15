@@ -50,9 +50,10 @@ public class CreateInventoryMenu : MonoBehaviour {
 		for (int i = 0; i < panelInv.Count; i++)
         {
  
-            j++;
 			Item item = server.GetComponent<InventoryServer> ().GetItem (panelInv [i].item_id);
 			MenuAdd(item, panelInv[i], panel, j);
+			j++;
+
         }
     }
 
@@ -87,11 +88,15 @@ public class CreateInventoryMenu : MonoBehaviour {
         GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 		menu_button.transform.SetParent (panel.transform, false);
 		Debug.Log (invItem.item_id+" item  "+ menu_button.GetComponent<RectTransform> ().localPosition);
-		menu_button.GetComponent<RectTransform>().anchoredPosition += Vector2.up*(buttonCount * -65);
+		menu_button.GetComponent<RectTransform>().anchoredPosition += Vector2.up*(buttonCount * -120);
 		Debug.Log (invItem.item_id+" item  "+ menu_button.GetComponent<RectTransform> ().localPosition);
         bool directionToMove = (panel == panelRight);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { InfoPopup(item,invItem,directionToMove); });
-		menu_button.GetComponentInChildren<Text>().text = "id : "+ invItem.item_id.ToString()+"  quantity: "+invItem.quantity.ToString();
+		menu_button.transform.Find ("TextName").GetComponent<Text> ().text = item.item.ToString ();
+		menu_button.transform.Find ("TextProp").GetComponent<Text> ().text = "Tech : " + invItem.tech.ToString ();
+		menu_button.transform.Find("TextQuant").GetComponent<Text>().text = invItem.quantity.ToString();
+
+
 	}
 
 

@@ -67,7 +67,7 @@ public class ServerSO : MonoBehaviour {
     public void AddContainer(int ship_id)
     {
         for (int i = 0; i < serverObjects.Count; i++)
-            if (serverObjects[i].id == SO_id)
+            if (serverObjects[i].id == ship_id)
             {
                 serverObjects[i].type=ServerObject.typeSO.container;
                 //        GetComponent<InventoryServer>().DestroyShipInventory();
