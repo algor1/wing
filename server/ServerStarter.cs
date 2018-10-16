@@ -17,7 +17,7 @@ public class ServerStarter : MonoBehaviour {
 			GetComponent<InventoryServer> ().started &&
 			GetComponent<LandingServer> ().started) {
 				Debug.Log ("All servers loaded");
-				SceneManager.LoadScene ("1");
+				SceneManager.LoadScene ("station");
 				this.enabled = false;
 		}
 	}
