@@ -52,8 +52,9 @@ public class CreateSkillsMenu : MonoBehaviour {
         {
             if (skillsDB[i].rootSkill)
             {
-				j++;	
                 MenuAdd(skillsDB[i],1,j);
+				j++;	
+
             }
         }
     }
@@ -67,8 +68,8 @@ public class CreateSkillsMenu : MonoBehaviour {
 		int j = 0;
 		for (int i = 0; i < skillsDB.Count; i++) {
 			if (skillsDB[i].depend_id ==_rootSkill.id) {
-				j++;
 				MenuAdd (skillsDB[i],2,j);
+				j++;	
 			}
 		}
 	}
@@ -122,9 +123,14 @@ public class CreateSkillsMenu : MonoBehaviour {
     {
         GameObject menu_button = (GameObject)Instantiate(buttonTechMenuPrefab);
         menu_button.transform.SetParent(panel3.transform, false);
-        menu_button.GetComponent<RectTransform>().position += Vector3.up * (tech * -50);
+        menu_button.GetComponent<RectTransform>().position += Vector3.up * (tech * -80);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
+		menu_button.GetComponentInChildren<Slider>().minValue =0.01f;
+		menu_button.GetComponentInChildren<Slider>().maxValue =5;
+		menu_button.GetComponentInChildren<Slider>().value =level;
+
+
         // TODO ON click show description
  
     }
@@ -169,7 +175,7 @@ public class CreateSkillsMenu : MonoBehaviour {
             GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 			menu_button.transform.SetParent (panel1.transform, false);
 //			menu_button.GetComponent<RectTransform>().
-			menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up * (buttonCount * -50);
+			menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up * (buttonCount * -120);
 			Debug.Log (" " + buttonCount + "   " + menu_button.GetComponent<RectTransform> ().localPosition);
             menu_button.GetComponent<Button>().onClick.AddListener(() => { BuildMenu2(skill); });
 			menu_button.GetComponentInChildren<Text>().text = skill.skill;
@@ -178,7 +184,7 @@ public class CreateSkillsMenu : MonoBehaviour {
         {
             GameObject menu_button = (GameObject)Instantiate(buttonMenuPrefab);
 			menu_button.transform.SetParent(panel2.transform, false);
-			menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up* (buttonCount * -50  );
+			menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up* (buttonCount * -120  );
 			menu_button.GetComponentInChildren<Text>().text = skill.skill;
             menu_button.GetComponent<Button>().onClick.AddListener(() => { BuildTechMenu(skill); });
         }
