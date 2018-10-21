@@ -75,7 +75,7 @@ class PlayerSkillsServer: MonoBehaviour
         GetComponent<SkillsDB>().AddToQueue(player_id, skill_id, _tech, level);
         return true;
     }
-	public bool DleleteSkillFromQueue(int player_id, int skill_id, int _tech, int level)
+	public bool DeleteSkillFromQueue(int player_id, int skill_id, int _tech, int level)
     {
         List<SkillQueue> _PSQ = PlayerSkillQueue(player_id);
         for (int i = 0; i < _PSQ.Count; i++)

@@ -25,7 +25,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 	[SerializeField]
 	private GameObject PopupCancelButton;
 	[SerializeField]
-	private GameObject PopupLevelButton;
+	private GameObject PopupButton;
 	[SerializeField]
 	private GameObject PopupTechButton;
     [SerializeField]
@@ -116,7 +116,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 		GameObject menu_button = (GameObject)Instantiate(buttonQueueMenuPrefab);
 		menu_button.transform.SetParent(panelQueue.transform, false);
 		menu_button.GetComponent<RectTransform>().position += Vector3.right * (pos * +300);
-		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
+		menu_button.GetComponent<Button>().onClick.AddListener(() => { DeleteFromQueuePopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
 		menu_button.GetComponentInChildren<Slider>().minValue =SkillPointsCalc(tech,skill.difficulty,Mathf.FloorToInt( level));
 		menu_button.GetComponentInChildren<Slider>().maxValue =SkillPointsCalc(tech,skill.difficulty,Mathf.FloorToInt( level)+1);
@@ -128,7 +128,7 @@ public class CreateSkillsMenu : MonoBehaviour {
         menu_button.transform.SetParent(panel3.transform, false);
 		menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up * ((tech-1) * -80);
 		Debug.Log (menu_button.GetComponent<RectTransform>().position);
-		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
+		menu_button.GetComponent<Button>().onClick.AddListener(() => { AddToQueuePopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
 
 		menu_button.GetComponentInChildren<Slider>().maxValue =5;
@@ -138,11 +138,11 @@ public class CreateSkillsMenu : MonoBehaviour {
         // TODO ON click show description
  
     }
-	private void TechInfoPopup(Skill skill, int tech,long points,int level)
+	private void AddToQueuePopup(Skill skill, int tech,long points,int level)
 	{
         if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
         {
-            PopupLevelButton.GetComponent<Button>().onClick.AddListener(() => 
+            PopupButton.GetComponent<Button>().onClick.AddListener(() => 
 				{ 
 					server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); 
 					panelTechInfoPopup.SetActive (false);
@@ -151,24 +151,41 @@ public class CreateSkillsMenu : MonoBehaviour {
         }
         else
         {
-			Debug.Log ("cant add to queue  "+server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count);
+			PopupButton.GetComponent<Button>().onClick.AddListener(() => 
+				{ 
+					Debug.Log ("cant add to queue  "+server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count);
+					panelTechInfoPopup.SetActive (false);
+				});
 			// PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
         }
-        if (SkillLevelCalc(tech, skill.difficulty, server.GetComponent<PlayerSkillsServer>().SkillLearned(0, skill.id, tech)) >= 5)
-        {
-            PopupTechButton.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech + 1, 1);
-				panelTechInfoPopup.SetActive (false);
-				BuildQueueMenu();
-            });
-            PopupTechButton.SetActive(true);
-        }
-        else
-        {
-            PopupTechButton.SetActive(false);
-            // PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
-        }
+//        if (SkillLevelCalc(tech, skill.difficulty, server.GetComponent<PlayerSkillsServer>().SkillLearned(0, skill.id, tech)) >= 5)
+//        {
+//            PopupTechButton.GetComponent<Button>().onClick.AddListener(() =>
+//            {
+//                server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech + 1, 1);
+//				panelTechInfoPopup.SetActive (false);
+//				BuildQueueMenu();
+//            });
+//            PopupTechButton.SetActive(true);
+//        }
+//        else
+//        {
+//            PopupTechButton.SetActive(false);
+//            // PopupLevelButton.GetComponent<Button>().onClick.AddListener(() =>   warinig message "cant add to queue" 
+//        }
+		panelTechInfoPopup.SetActive (true);
+	}
+	private void DeleteFromQueuePopup(Skill skill, int tech,long points,int level)
+	{
+		panelTechInfoPopup.GetComponentInChildren<Text>().text = "Delete from queue?";
+		PopupButton.GetComponentInChildren<Text>().text = "Delete";
+		PopupButton.GetComponent<Button>().onClick.AddListener(() => 
+				{ 
+				server.GetComponent<PlayerSkillsServer>().DeleteSkillFromQueue(0, skill.id, tech, level + 1); 
+					panelTechInfoPopup.SetActive (false);
+					BuildQueueMenu();
+				});
+		
 		panelTechInfoPopup.SetActive (true);
 	}
 

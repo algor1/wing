@@ -176,7 +176,7 @@ public class SkillsDB : MonoBehaviour
     }
 	public void DeleteFromQueue(int player_id,int skill_id,int tech,int level)
     {
-		string qwery = "delete from skill_queue where (player_id = "+player_id.ToString()+" and skill_id="+skill_id.ToString()+" and tech="+tech.ToString()+"and level="+ level.ToString()+")" ;
+		string qwery = "delete from skill_queue where (player_id = "+player_id.ToString()+" and skill_id="+skill_id.ToString()+" and tech="+tech.ToString()+" and level="+ level.ToString()+")" ;
         GetReader(qwery);
     }
 	public void AddPointsToSkill(int player_id,int skill_id,int tech, int _points)
