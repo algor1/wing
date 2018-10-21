@@ -118,15 +118,19 @@ public class CreateSkillsMenu : MonoBehaviour {
 		menu_button.GetComponent<RectTransform>().position += Vector3.right * (pos * +300);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
+		menu_button.GetComponentInChildren<Slider>().minValue =SkillPointsCalc(tech,skill.difficulty,Mathf.FloorToInt( level));
+		menu_button.GetComponentInChildren<Slider>().maxValue =SkillPointsCalc(tech,skill.difficulty,Mathf.FloorToInt( level)+1);
+		menu_button.GetComponentInChildren<Slider>().value =points;
 	}
     private void TechMenuAdd(Skill skill, int tech,long points,float level)
     {
         GameObject menu_button = (GameObject)Instantiate(buttonTechMenuPrefab);
         menu_button.transform.SetParent(panel3.transform, false);
-        menu_button.GetComponent<RectTransform>().position += Vector3.up * (tech * -80);
+		menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.up * ((tech-1) * -80);
+		Debug.Log (menu_button.GetComponent<RectTransform>().position);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { TechInfoPopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
-		menu_button.GetComponentInChildren<Slider>().minValue =0.01f;
+
 		menu_button.GetComponentInChildren<Slider>().maxValue =5;
 		menu_button.GetComponentInChildren<Slider>().value =level;
 
@@ -194,4 +198,9 @@ public class CreateSkillsMenu : MonoBehaviour {
         float level = Mathf.Log(_points, _difficulty * 3 + _tech - 1);
         return level;
     }
+	public long SkillPointsCalc(int _tech, int _difficulty, int _level)
+	{
+		long points =Mathf.FloorToInt( Mathf.Pow ( _difficulty * 3 + _tech - 1,_level));
+		return points;
+	}
 }
