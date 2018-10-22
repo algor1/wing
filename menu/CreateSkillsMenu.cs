@@ -115,7 +115,7 @@ public class CreateSkillsMenu : MonoBehaviour {
 	{
 		GameObject menu_button = (GameObject)Instantiate(buttonQueueMenuPrefab);
 		menu_button.transform.SetParent(panelQueue.transform, false);
-		menu_button.GetComponent<RectTransform>().position += Vector3.right * (pos * +300);
+		menu_button.GetComponent<RectTransform>().anchoredPosition = Vector3.right * ((pos-1) * +503);
 		menu_button.GetComponent<Button>().onClick.AddListener(() => { DeleteFromQueuePopup(skill,tech,points,Mathf.FloorToInt( level)); });
 		menu_button.GetComponentInChildren<Text>().text = "Tech: "+tech.ToString()+" Level: "+level.ToString()+" P: "+points.ToString();
 		menu_button.GetComponentInChildren<Slider>().minValue =SkillPointsCalc(tech,skill.difficulty,Mathf.FloorToInt( level));
@@ -142,6 +142,8 @@ public class CreateSkillsMenu : MonoBehaviour {
 	{
         if (server.GetComponent<PlayerSkillsServer>().PlayerSkillQueue(0).Count < 3)
         {
+			panelTechInfoPopup.GetComponentInChildren<Text>().text = "Add to queue?";
+			PopupButton.GetComponentInChildren<Text>().text = "Add to queue";
             PopupButton.GetComponent<Button>().onClick.AddListener(() => 
 				{ 
 					server.GetComponent<PlayerSkillsServer>().AddSkillToQueue(0, skill.id, tech, level + 1); 
@@ -212,8 +214,12 @@ public class CreateSkillsMenu : MonoBehaviour {
 	}
     public float SkillLevelCalc(int _tech, int _difficulty, long _points)
     {
-        float level = Mathf.Log(_points, _difficulty * 3 + _tech - 1);
-        return level;
+		if (_points == 0) {
+			return 0L;
+		} else {
+			float level = Mathf.Log (_points, _difficulty * 3 + _tech - 1);
+			return level;
+		}
     }
 	public long SkillPointsCalc(int _tech, int _difficulty, int _level)
 	{

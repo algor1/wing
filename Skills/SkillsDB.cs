@@ -152,14 +152,14 @@ public class SkillsDB : MonoBehaviour
         {
 			SkillQueue _skillQueue= new SkillQueue();
 
-			Debug.Log ("reader.read");
+//			Debug.Log ("reader.read");
             if (!reader.IsDBNull(0))
             {
-				Debug.Log ("reader0 "+reader.GetInt32(0));            
+//				Debug.Log ("reader0 "+reader.GetInt32(0));            
 				_skillQueue.skill_id=reader.GetInt32(0);
-				Debug.Log ("reader1 "+reader.GetInt32(1));
+//				Debug.Log ("reader1 "+reader.GetInt32(1));
                 if (!reader.IsDBNull(1)) _skillQueue.tech = reader.GetInt32(1);
-				Debug.Log ("reader2 "+reader.GetInt32(2));
+//				Debug.Log ("reader2 "+reader.GetInt32(2));
                 if (!reader.IsDBNull(2)) _skillQueue.level = reader.GetInt32(2);
 				if (!reader.IsDBNull (3)) _skillQueue.queue = reader.GetInt32 (3);
                 retQueue.Add(_skillQueue);
@@ -171,13 +171,61 @@ public class SkillsDB : MonoBehaviour
 
     public void AddToQueue(int player_id,int skill_id,int tech, int level)
     {
-		string qwery = "insert into skill_queue (player_id,skill_id,tech,level) values ("+player_id.ToString()+","+skill_id.ToString()+","+tech.ToString()+","+level.ToString()+")";
+		string qwery = "select count(*) from skill_queue where player_id="+player_id.ToString();
+		int queueCount=0;
+		GetReader(qwery);
+		while (reader.Read())
+		{
+			queueCount= reader.GetInt32(0);
+		}
+		queueCount++;
+		if (queueCount > 3) {
+			queueCount = 3;
+			qwery = "delete from skill_queue where (player_id = " + player_id.ToString () + " and queue = 3)";
+			GetReader (qwery);
+		}
+		qwery = "insert into skill_queue (player_id,skill_id,tech,level,queue) values ("+
+																				player_id.ToString()+","+
+																				skill_id.ToString()+","+
+																				tech.ToString()+","+
+																				level.ToString()+","+
+																				queueCount.ToString()+")";
         GetReader(qwery);
+
     }
 	public void DeleteFromQueue(int player_id,int skill_id,int tech,int level)
     {
 		string qwery = "delete from skill_queue where (player_id = "+player_id.ToString()+" and skill_id="+skill_id.ToString()+" and tech="+tech.ToString()+" and level="+ level.ToString()+")" ;
         GetReader(qwery);
+		List<SkillQueue> rebuildList = PlayerQueue (player_id);
+//		перенумерация строк в queue
+		if (rebuildList.Count > 0) {
+			int minQueue = 3;
+			int maxQueue = 0;
+			int imax = 0;
+			int imin = 0;
+			for (int i = 0; i < rebuildList.Count; i++) {
+				if (rebuildList [i].queue > maxQueue) {
+					maxQueue = rebuildList [i].queue;
+					imax = i;
+				}
+				if (rebuildList [i].queue < minQueue) {
+					minQueue = rebuildList [i].queue;
+					imin = i;
+				}
+			}
+			qwery = "UPDATE skill_queue SET queue=2 where (player_id = " + player_id.ToString () +
+			" and skill_id=" + rebuildList [imax].skill_id.ToString () +
+			" and tech=" + rebuildList [imax].tech.ToString () +
+			" and level=" + rebuildList [imax].level.ToString () + ")";
+			GetReader (qwery);
+			qwery = "UPDATE skill_queue SET queue=1 where (player_id = " + player_id.ToString () +
+			" and skill_id=" + rebuildList [imin].skill_id.ToString () +
+			" and tech=" + rebuildList [imin].tech.ToString () +
+			" and level=" + rebuildList [imin].level.ToString () + ")";
+			GetReader (qwery);
+		}
+
     }
 	public void AddPointsToSkill(int player_id,int skill_id,int tech, int _points)
 	{
@@ -217,13 +265,13 @@ public class SkillsDB : MonoBehaviour
 		if (dbSkillCon==null){
 			InitDB();
 		}
-		Debug.Log (dbSkillCon.Database);
+//		Debug.Log (dbSkillCon.Database);
 		dbcmd = dbSkillCon.CreateCommand ();
-		Debug.Log (dbcmd.CommandText);
+//		Debug.Log (dbcmd.CommandText);
         dbcmd.CommandText = dbselect;
             // Выполняем запрос
 		reader = dbcmd.ExecuteReader();
-		Debug.Log (reader.FieldCount);
+//		Debug.Log (reader.FieldCount);
          
                 return true;
         
