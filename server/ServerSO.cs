@@ -66,12 +66,10 @@ public class ServerSO : MonoBehaviour {
 
     public void AddContainer(int ship_id)
     {
-        for (int i = 0; i < serverObjects.Count; i++)
-            if (serverObjects[i].id == ship_id)
-            {
-                serverObjects[i].type=ServerObject.typeSO.container;
-                //        GetComponent<InventoryServer>().DestroyShipInventory();
-            }
+		int containerItemId = 4;// TODO  брать из базы
+		ServerObject destroyedShip = GetComponent<ServerDB>().GetServerObject(ship_id);
+		ServerObject newContainer= GetComponent<ServerDB>().AddNewSO(destroyedShip.position,destroyedShip.rotation,containerItemId);
+		GetComponent<InventoryServer>().ContainerFromShip(newContainer,destroyedShip);
     }
 //	private void Tick(){
 //		for (int i = 0; i < serverObjects.Count; i++){

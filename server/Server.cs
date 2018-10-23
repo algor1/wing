@@ -114,11 +114,11 @@ public class Server : MonoBehaviour {
     }
     
     private void DeleteShip(int ship_id){
+		GetComponent<ServerDB>().DeleteSOShipData(ship_id);
         for (int i=0; i< ships.Count;i++)
         {
             if (ships[i].p.SO.id==ship_id){
                 ships.RemoveAt(i);
-                // TODO remove from DB
                 break;
             }
         }
@@ -126,8 +126,8 @@ public class Server : MonoBehaviour {
     }
     private void DestrtoyShip(int ship_id)
     {
-//        DeleteShip(ship_id);
-        GetComponent<ServerSO>().AddContainer(ship_id);
+		GetComponent<ServerSO>().AddContainer(ship_id);
+		DeleteShip(ship_id);
 
 
     }

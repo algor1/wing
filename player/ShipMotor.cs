@@ -320,7 +320,7 @@ public class ShipMotor : MonoBehaviour {
 			ship.landed=true;
 			break;
 		case SO_ship.ShipEvenentsType.destroyed:
-			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing");
+			Debug.Log ("server" + ship.p.SO.visibleName + " ship destroyed");
 			gameObject.AddComponent<Detonator> ();
 			break;
 		

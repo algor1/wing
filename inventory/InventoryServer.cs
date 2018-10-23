@@ -45,4 +45,7 @@ class InventoryServer : MonoBehaviour
             AddToInventory(toPlayer_id, toHolder_id, item_id, tech, quantity);
         }
     }
+	public void ContainerFromShip(ServerObject cont, ServerObject ship)
+	{
+	}
 }

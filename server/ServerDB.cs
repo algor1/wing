@@ -385,24 +385,31 @@ public class ServerDB : MonoBehaviour {
     public ServerObject AddNewSO(Vector3 position, Quaternion rotation, int item_id)
     {
 		int new_id = 0;
+		int _type = 1;
         Item _item= GetComponent<InventoryServer>().GetItem(item_id);
-        if (_item.itemType==Item.Type_of_item.ship){
-            string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed) values (1,"+
-                _item.item+", "+
-                position.x + ", " +
-                position.y + ", " +
-                position.z + ", " +
-                rotation.x + ", " +
-                rotation.y + ", " +
-                rotation.z+ ", " +
-                rotation.w + ", " +
-                "0, " +
-                ") ";
+		switch (_item.itemType) {
+		case Item.Type_of_item.ship:
+			_type = 1;
+			break;
+		case Item.Type_of_item.container:
+			_type = 5;
+			break;
+		}
+        string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed) values ("+
+			_type.ToString()+", "+
+			_item.item.ToString()+", "+
+			position.x.ToString() + ", " +
+			position.y.ToString() + ", " +
+			position.z.ToString() + ", " +
+			rotation.x.ToString() + ", " +
+			rotation.y.ToString() + ", " +
+			rotation.z.ToString()+ ", " +
+			rotation.w.ToString() + ", " +
+            "0 " +
+            ") ";
 
-            GetReader(qwery);
-            new_id=lastId("server_objects");
-           
-        }
+        GetReader(qwery);
+        new_id=lastId("server_objects");      
         return GetServerObject(new_id);
     }
    
