@@ -23,7 +23,7 @@ public class WeaponPoint : MonoBehaviour {
 
 	public void StartFire (SO_ship target)
 	{
-        Debug.Log("StartFire  "+ type);
+//        Debug.Log("StartFire  "+ type);
         switch (type)
         {
             case SO_weaponData.WeaponType.laser:

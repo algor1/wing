@@ -28,7 +28,7 @@ public class ServerSO : MonoBehaviour {
 		List<ServerObject> resultSOList = new List<ServerObject> ();
 		for (int i = 0; i < serverObjects.Count; i++){
 			float dist = Vector3.Distance (pl.p.SO.position, serverObjects [i].position);
-			Debug.Log (dist + "   " + serverObjects [i].type);
+//			Debug.Log (dist + "   " + serverObjects [i].type);
 			if (dist<pl.p.vision_distance||serverObjects[i].type==ServerObject.typeSO.waypoint){ 
 				resultSOList.Add (serverObjects [i]);
 			}

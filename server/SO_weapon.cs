@@ -24,7 +24,7 @@ public class SO_weapon {
         
         currentTarget = target;
         fire = true;
-		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ p.active);
+//		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ p.active);
 	}
 	public void stop(){
         currentTarget = null;

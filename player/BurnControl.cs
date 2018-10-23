@@ -15,14 +15,14 @@ public class BurnControl : MonoBehaviour {
     {
 		var psMain = ps.main;
 		psMain.startLifetimeMultiplier = 0.5f;
-		Debug.Log ("engine   start");
+//		Debug.Log ("engine   start");
     }
 
     public void EngineStop()
     {
 		var psMain = ps.main;
 		psMain.startLifetimeMultiplier = 0.05f;
-		Debug.Log ("engine STOP");
+//		Debug.Log ("engine STOP");
     }
 
     public void WarpStart()

@@ -114,6 +114,15 @@ public class SO_ship {
             }
         
     }
+	public void StopEquipment()
+	{
+		for (int i = 0; i < equipments.Count; i++)
+		{
+			equipments[i].Stop();
+
+		}
+
+	}
     
     public void LandToTarget()
     {
@@ -197,6 +206,13 @@ public class SO_ship {
 		}
 
 	}
+	public void StopFire(int weaponnum){
+		Debug.Log (p.SO.visibleName + " stop fire ");
+		atack = false;
+		weapons [weaponnum].stop ();
+		}
+
+
 
 
 	public void Damage(float damage){
@@ -225,6 +241,10 @@ public class SO_ship {
 	}
 	private void Destroyed(){
         p.destroyed = true;
+		for (int i = 0; i < weapons.Count; i++) {
+			StopFire (i);
+		}
+		StopEquipment ();
         SendEvent(ShipEvenentsType.destroyed);
 	}
 
@@ -243,7 +263,7 @@ public class SO_ship {
 		
 	}
 	private void Agr(){
-		if (p.mob) {
+		if (p.mob&&!p.destroyed) {
 //			Debug.Log ("mob "+p.id);
 			if (newtargetToAtack != null&&!atack) {
 //				Debug.Log ("mob "+p.id+" targ "+newtargetToAtack.p.id +" dist " + Vector3.Distance(p.SO.position, newtargetToAtack.p.SO.position)+" adist "+ p.agr_distance);

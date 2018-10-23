@@ -54,6 +54,7 @@ public class Server : MonoBehaviour {
 		List<SO_ship> resultShipList = new List<SO_ship> ();
 		for (int i = 0; i < ships.Count; i++){
 			if (ships[i].p.SO.id == player_id || ships[i].p.hidden) continue;//remove player from list
+			if (ships[i].p.SO.id == player_id || ships[i].p.destroyed) continue;//remove player from list
 
 			float dist = Vector3.Distance (pl.p.SO.position, ships [i].p.SO.position);
 //			print (dist);
@@ -127,7 +128,7 @@ public class Server : MonoBehaviour {
     private void DestrtoyShip(int ship_id)
     {
 		GetComponent<ServerSO>().AddContainer(ship_id);
-		DeleteShip(ship_id);
+//		DeleteShip(ship_id);
 
 
     }

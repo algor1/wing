@@ -315,13 +315,16 @@ public class ShipMotor : MonoBehaviour {
 			Spawn ();
 			break;
         case SO_ship.ShipEvenentsType.land:
-			Debug.Log("server" + ship.p.SO.visibleName + " ship landing");
+			Debug.Log("motor" + ship.p.SO.visibleName + " ship landing");
 			Server_GO.GetComponent<LandingServer>().Landing(ship.p.SO.id, ship.targetToMove.id);
 			ship.landed=true;
 			break;
 		case SO_ship.ShipEvenentsType.destroyed:
-			Debug.Log ("server" + ship.p.SO.visibleName + " ship destroyed");
-			gameObject.AddComponent<Detonator> ();
+			Debug.Log ("motor" + ship.p.SO.visibleName + " ship destroyed");
+			var detonator = gameObject.AddComponent<Detonator> ();
+			detonator.destroyTime = 1000;
+			dataLocal.GetComponent<ShowEnv> ().DestroyShip (ship.p.SO.id);
+
 			break;
 		
 		}

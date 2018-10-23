@@ -259,11 +259,20 @@ public class ShowEnv : MonoBehaviour {
 
 	}
 
-	void DeleteShip(int ship_id){
+	public void DeleteShip(int ship_id){
 		canvasobj.GetComponent<Indicators> ().DeleteIndicator_sh (ship_id);
 		if (nearestShips.ContainsKey (ship_id)) {
 			//			if (nearestShips[ship_id].exist)
 			Destroy (nearestShips [ship_id]);
+			nearestShips.Remove (ship_id);
+		}
+
+	}
+	public void DestroyShip(int ship_id){
+		canvasobj.GetComponent<Indicators> ().DeleteIndicator_sh (ship_id);
+		if (nearestShips.ContainsKey (ship_id)) {
+			//			if (nearestShips[ship_id].exist)
+//			Destroy (nearestShips [ship_id]);
 			nearestShips.Remove (ship_id);
 		}
 
