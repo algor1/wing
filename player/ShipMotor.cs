@@ -315,85 +315,20 @@ public class ShipMotor : MonoBehaviour {
 			Spawn ();
 			break;
         case SO_ship.ShipEvenentsType.land:
-			Debug.Log("motor" + ship.p.SO.visibleName + " ship landing");
+			Debug.Log("motor " + ship.p.SO.visibleName + " ship landing");
 			Server_GO.GetComponent<LandingServer>().Landing(ship.p.SO.id, ship.targetToMove.id);
 			ship.landed=true;
 			break;
 		case SO_ship.ShipEvenentsType.destroyed:
-			Debug.Log ("motor" + ship.p.SO.visibleName + " ship destroyed");
+			Debug.Log ("motor " + ship.p.SO.visibleName + " ship destroyed");
 			var detonator = gameObject.AddComponent<Detonator> ();
-			detonator.destroyTime = 1000;
+            detonator.duration = 7;
+            detonator.destroyTime = 7;
+            detonator.size = 100;
 			dataLocal.GetComponent<ShowEnv> ().DestroyShip (ship.p.SO.id);
-
 			break;
 		
 		}
 	}
-
-//    private void Warp()	{
-//    if (_warpToTarget) {
-//            _engineOn = true;
-//
-//
-//			Quaternion targetRotation = Quaternion.LookRotation (_target - transform.position);
-//			if (!motor.Rotate (targetRotation) && !_warpStarted) {
-//				
-//			}
-//			else {
-//
-//				if (SecondCamera.GetComponent<cameraslink> ().WarpTo (_target, warpEnginePower)) {
-//					_warpStarted = true;
-//
-////                  secondCamera.GetComponent<camerasLink>().
-////					motor.Warp (warpEnginePower);
-//				} else {
-//					SecondCamera.GetComponent<cameraslink> ().WarpStop ();
-//					_warpStarted=false;
-//					_warpToTarget = false;
-//					_engineOn = false;
-////					print ("warp0");
-//					motor.Spawn (_target);
-//
-//
-//				}
-//			}
-//		}
-//    }	
-
-		
-        
-        
-        
-        
-        
-//        if (selectedTarget != null){
-//			_target = selectedTarget.transform.position;
-//			}
-
-//        if (_engineOn)
-//        {
-//            motor.Thrust(1);
-//        }
-//        else
-//        {
-//            motor.Thrust(0);
-//        }
-
-//		if (_goToTarget) {
-//			_engineOn = true;
-////		    print (Vector3.Distance (_target, transform.position));
-//
-//
-//			Quaternion targetRotation = Quaternion.LookRotation (_target - transform.position);
-//			motor.Rotate (targetRotation);
-//			if (Vector3.Distance (_target, transform.position) < 50) {
-//				_engineOn = false;
-//				_goToTarget = false;
-//
-//			}
-//		}
-		
-
-
 
 }	

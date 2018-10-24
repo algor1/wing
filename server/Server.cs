@@ -4,21 +4,9 @@ using UnityEngine;
 
 public class Server : MonoBehaviour {
 	public bool started;
-   
-    [SerializeField]
-	private GameObject serverLand;
-
-    [SerializeField]
-    //private ShipList_scrob shipsDB;
-
 	private List<SO_ship> ships;
 
     public enum Command { MoveTo,WarpTo,Atack,SetTarget,LandTo,Equipment};
-
-//	[SerializeField]
-//	private Vector3 p1;
-//	[SerializeField]
-//	private Vector3 p2;
     public enum ShipEvenentsType{spawn,warp,warmwarp,move,stop,land,hide,reveal};
 
 

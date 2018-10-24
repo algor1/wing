@@ -19,7 +19,7 @@ public class ShowEnv : MonoBehaviour {
 
 //	public List<FlyObject> allFlyObject;
 	public List<SO_ship> serverShipslist;
-	public Dictionary<int,FlyObject> nearestFlyObject;
+    //public Dictionary<int,FlyObject> nearestFlyObject;
 	public Dictionary<int,GameObject> nearestShips;
 	public List<ServerObject> serverSOlist;
 	public Dictionary<int,GameObject> nearestSOs;
@@ -40,7 +40,7 @@ public class ShowEnv : MonoBehaviour {
 
 	void Awake()
 	{
-		nearestFlyObject = new Dictionary<int,FlyObject> ();
+        //nearestFlyObject = new Dictionary<int,FlyObject> ();
 		nearestShips =new Dictionary<int,GameObject> ();
 		nearestSOs =new Dictionary<int,GameObject> ();
 
@@ -100,25 +100,13 @@ public class ShowEnv : MonoBehaviour {
 		Dictionary<int,int> SOsForDeletionList = new Dictionary<int,int> ();
 		foreach (int key in nearestSOs.Keys) { 
 			SOsForDeletionList.Add (key, key);
-			//				Debug.Log (shipsForDeletionList);
-			//				print (key);
+
 		}
 		foreach (int key in SOsForDeletionList.Keys) { 
 			Debug.Log ("so id " + key + " deleted");
 			DeleteSO (key);
 		}
 
-
-	
-
-//		foreach (int key in nearestSOs.Keys) { 
-//			DeleteSO (key);
-//		}
-//		foreach (int key in nearestShips.Keys) { 
-//			DeleteShip (key);
-//		}
-//		nearestSOs.Clear ();
-//		nearestShips.Clear ();
 	}
 	public void UpdateAll(){
 		StopCoroutine (coroutineSH);
@@ -126,50 +114,10 @@ public class ShowEnv : MonoBehaviour {
 		StartCoroutine (coroutineSH);
 		StartCoroutine (coroutineSO);
 
-//		StopCoroutine (shipcoroutine);
-//		StartCoroutine (shipcoroutine);
-//		StopCoroutine (socoroutine);
-//		StartCoroutine (socoroutine);
-//		StartCoroutine (ShipsListUpdate ());
-//		StopCoroutine (SOListUpdate ());
-//		StartCoroutine (SOListUpdate ());
 
 	}
 
-		
 
-//	void WaypointsCreate(){
-//		Debug.Log ("start waypointscreate");
-//
-//		wpList = new List<GameObject> ();
-//		Debug.Log ("wplist " +wpList);
-//		Debug.Log ("wp  "+wp.wayPoints);
-//
-//		for (int i = 0; i < wp.wayPoints.Count; i++)
-//			//		foreach (WayPoint wp_value in wp.wayPoints)
-//		{
-//			GameObject wp_obj= (GameObject)Instantiate(Resources.Load(wp.wayPoints[i].prefab, typeof(GameObject)),wp.wayPoints[i].position-zeroPoint,Quaternion.Euler(Vector3.zero));
-//			////////////
-//			Debug.Log("wp_obj "+wp_obj);
-//			wp_obj.GetComponent<SOParametres>().Init(wp.wayPoints [i],this.gameObject);
-////			wp_obj.GetComponent<PointParametres> ().thisServerObject = wp.wayPoints [i];//???
-//			wp_obj.name=wp.wayPoints [i].visibleName+"_ind";
-//			wpList.Add(wp_obj);
-//		}
-//		Debug.Log ("stop waypointscreate");
-//
-//	}
-//
-//	void WaypointsUpdate(){
-//
-//		for (int i = 0; i < wpList.Count; i++)
-//		{
-//			wpList [i].transform.position = wp.wayPoints [i].position - zeroPoint;
-//
-//		}
-//	}
-//
-////	---------------------  WP END ---------------------------------
 
 //	---------------------  SO ---------------------------------
 
@@ -262,9 +210,11 @@ public class ShowEnv : MonoBehaviour {
 	public void DeleteShip(int ship_id){
 		canvasobj.GetComponent<Indicators> ().DeleteIndicator_sh (ship_id);
 		if (nearestShips.ContainsKey (ship_id)) {
-			//			if (nearestShips[ship_id].exist)
-			Destroy (nearestShips [ship_id]);
-			nearestShips.Remove (ship_id);
+            if (!nearestShips[ship_id].GetComponent<ShipMotor>().thisShip.p.destroyed)
+            {
+                Destroy(nearestShips[ship_id]);
+                nearestShips.Remove(ship_id);
+            }
 		}
 
 	}

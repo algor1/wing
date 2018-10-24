@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Серверная часть&#xD;&#xA;">
+    <Position X="0.5" Y="0.5" Height="0.263" Width="1.323" />
+  </Comment>
+  <Class Name="ServerObject" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAiAIAIAAAABAQAAAAAAAAAAAgA=</HashCode>
+      <FileName>server\ServerObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_ship" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAASAKCpIIEABAQANEEAQIAAGAAAAAAIIEoAEAACRIM=</HashCode>
+      <FileName>server\SO_ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_shipData" Collapsed="true">
+    <Position X="1.75" Y="8.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAACAAAAQABAAAALAAGAoAIBAAAAoYAlBCQMAA=</HashCode>
+      <FileName>server\SO_shipData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_weapon" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABBAAAAAAAAAAAAJAgAAAABEgAAAAAABA=</HashCode>
+      <FileName>server\SO_weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_weaponData" Collapsed="true">
+    <Position X="1.75" Y="9.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAIAgAAAAAAAAAAAAAAJAAAQAAAAIAAAAAA=</HashCode>
+      <FileName>server\SO_weaponData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_equipment" Collapsed="true">
+    <Position X="0.5" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAQAAAABAEAAAAYEgAAQAAAAA=</HashCode>
+      <FileName>server\SO_Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SO_equipmentData" Collapsed="true">
+    <Position X="1.75" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAQAAAACAAAAAAgAAAABAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>server\SO_equipmentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShipItem" Collapsed="true">
+    <Position X="5.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAYAACAABAAABAAAALAAGAoAIBAAAAooABBCQMAA=</HashCode>
+      <FileName>inventory\ShipItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponItem" Collapsed="true">
+    <Position X="5.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAIAgAAAAAAAAAAAAAAJAAAQAAgAIAAAAAA=</HashCode>
+      <FileName>inventory\WeaponItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item" Collapsed="true">
+    <Position X="5.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAACACAAACAgA=</HashCode>
+      <FileName>inventory\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShipMotor">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="ShipMotor.ShipEvenentsType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>player\ShipMotor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAiAAQJAiIFAAEBAAMBgAQBQgRAAgIAQEJCAQAAAAI=</HashCode>
+      <FileName>player\ShipMotor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShowEnv">
+    <Position X="2.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAYBAEgAKGAAABBEAEATAAQwAgEAgARBAACACgLAgEA=</HashCode>
+      <FileName>Localdata\ShowEnv.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InventoryServer">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAIAAAAACAgAEAAAAAAAgBAIAAAAAAAAAAAAIAAEAA=</HashCode>
+      <FileName>inventory\InventoryServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

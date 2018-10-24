@@ -52,7 +52,7 @@ public class Detonator : MonoBehaviour {
 	*/
 	public float size = 10f; 
 	public Color color = Detonator._baseColor;
-	public bool explodeOnStart = true;
+	public bool explodeOnStart = false;
 	public float duration = Detonator._baseDuration;
 	public float detail = 1f; 
 	public float upwardsBias = 0f;
