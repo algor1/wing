@@ -387,6 +387,7 @@ public class ServerDB : MonoBehaviour {
 		int new_id = 0;
 		int _type = 1;
         Item _item= GetComponent<InventoryServer>().GetItem(item_id);
+		Debug.Log (_item.itemType);
 		switch (_item.itemType) {
 		case Item.Type_of_item.ship:
 			_type = 1;
@@ -397,7 +398,7 @@ public class ServerDB : MonoBehaviour {
 		}
         string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed) values ("+
 			_type.ToString()+", "+
-			_item.item.ToString()+", "+
+			"\""+_item.item.ToString()+"\", "+
 			position.x.ToString() + ", " +
 			position.y.ToString() + ", " +
 			position.z.ToString() + ", " +
@@ -409,6 +410,7 @@ public class ServerDB : MonoBehaviour {
             ") ";
 
         GetReader(qwery);
+		Debug.Log ("-");
         new_id=lastId("server_objects");      
         return GetServerObject(new_id);
     }

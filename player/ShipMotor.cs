@@ -322,9 +322,13 @@ public class ShipMotor : MonoBehaviour {
 		case SO_ship.ShipEvenentsType.destroyed:
 			Debug.Log ("motor " + ship.p.SO.visibleName + " ship destroyed");
 			var detonator = gameObject.AddComponent<Detonator> ();
-            detonator.duration = 7;
-            detonator.destroyTime = 7;
-            detonator.size = 100;
+			detonator.duration = 4;
+			detonator.destroyTime = 4;
+			detonator.size = 40;
+			detonator.autoCreateSmoke = false;
+			detonator.autoCreateHeatwave = false;
+			detonator.color = Color.white;
+			detonator.Explode ();
 			dataLocal.GetComponent<ShowEnv> ().DestroyShip (ship.p.SO.id);
 			break;
 		

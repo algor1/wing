@@ -65,7 +65,9 @@ public class ItemDB : MonoBehaviour
         {
             returnItem.id = reader.GetInt32(0);
             returnItem.item = reader.GetString(1);
+			Debug.Log(reader.GetString(2));
 			returnItem.itemType = (Item.Type_of_item) System.Enum.Parse(typeof( Item.Type_of_item),reader.GetString(2));
+			Debug.Log (returnItem.itemType);
         }
         return returnItem;
     }

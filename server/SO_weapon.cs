@@ -79,7 +79,7 @@ public class SO_weapon {
 						if (weaponPoint != null) {
 							weaponPoint.GetComponent<WeaponPoint> ().StopFire ();
 						}
-						currentTarget.Damage(p.damage);
+						if (currentTarget!=null) currentTarget.Damage(p.damage);
                     }
                 }
             }
