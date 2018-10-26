@@ -68,7 +68,9 @@ public class ServerSO : MonoBehaviour {
     {
 		int containerItemId = 4;// TODO  брать из базы
 		ServerObject destroyedShip = GetComponent<ServerDB>().GetServerObject(ship_id);
-		ServerObject newContainer= GetComponent<ServerDB>().AddNewSO(destroyedShip.position,destroyedShip.rotation,containerItemId);
+		
+        ServerObject newContainer = GetComponent<ServerDB>().AddNewSOContainer(position, rotation, item_id);
+
 		GetComponent<InventoryServer>().ContainerFromShip(newContainer,destroyedShip);
     }
 //	private void Tick(){

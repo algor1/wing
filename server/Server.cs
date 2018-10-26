@@ -29,8 +29,6 @@ public class Server : MonoBehaviour {
 
 	void FixedUpdate(){
 		Tick();	
-//		p1 = ships [0].p.SO.position;
-//		p2 = ships [1].p.SO.position;
 
 	}
 
@@ -116,8 +114,6 @@ public class Server : MonoBehaviour {
     private void DestrtoyShip(int ship_id)
     {
 		GetComponent<ServerSO>().AddContainer(ship_id);
-//		DeleteShip(ship_id);
-
 
     }
     public int RegisterPlayer(){
@@ -175,10 +171,6 @@ public class Server : MonoBehaviour {
                 {
 					StartCoroutine(ship.Warpdrive());
                 }
-                //else
-                //{
-                //    ship.p.SO.position = Vector3.MoveTowards (ship.p.SO.position,ship.p. Time.deltaTime * ship.p.warpSpeed;
-                //}
             }
         }
     }
@@ -249,24 +241,4 @@ public class Server : MonoBehaviour {
         }
 	}
 
-  //private void RemoveDestroyed(){
-    //    for (int i = 0; i < ships.Count; i++)
-    //    {
-    //        if (ships[i].destroyed)
-    //        {
-    //            if (FO_ships.ContainsKey(ships[i].id))
-    //            {
-    //                FO_ships.Remove(ships[i].id);
-    //            }
-    //            ships.RemoveAt(i);
-    //        }
-    //    }
-
-    //}
-
-    //public void DamageShip(int SO_id, float damage)
-
-    //{
-    //    ships[SO_id].Damage(damage);
-    //}
 }
