@@ -9,6 +9,7 @@ public class Item
     public enum Type_of_item { ship, weapon,equipment,material, other,container };
     public Type_of_item itemType;
     public float volume;
+	public string prefab;
 
     
 }

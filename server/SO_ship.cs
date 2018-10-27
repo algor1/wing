@@ -193,7 +193,7 @@ public class SO_ship {
 	}
 
 	public void Atack_target(int weaponnum){
-		Debug.Log ("atacking");
+//		Debug.Log ("atacking");
 		if (newtargetToAtack != null) {
 			targetToAtack = newtargetToAtack;
 			Debug.Log (p.SO.visibleName + " atacking " + targetToAtack.p.SO.visibleName);

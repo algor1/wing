@@ -158,7 +158,7 @@ public class ShowEnv : MonoBehaviour {
 	IEnumerator SOListUpdate()
 	{
 		while (true) {
-			Debug.Log(" забираем инфу с сервера ???");	
+//			Debug.Log(" забираем инфу SO с сервера ???");	
 			UpdateSOFromServer ();
 			//		print ("1");
 			//Создаем копию dict nearestShips чтобы узнать какие нужно удалить
@@ -188,8 +188,8 @@ public class ShowEnv : MonoBehaviour {
 
 
 			}
-			yield return new WaitForSeconds (10f);
-			Debug.Log ("!!!!!!!!!!!!!!!! ended !!!!!!!!!!!!!!!!");
+			yield return new WaitForSeconds (1f);
+//			Debug.Log ("!!!!!!!!!!!!!!!! ended !!!!!!!!!!!!!!!!");
 		}
 	}
 

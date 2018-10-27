@@ -396,7 +396,8 @@ public class ServerDB : MonoBehaviour {
 			_type = 5;
 			break;
 		}
-        string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed) values ("+
+		Debug.Log (_item.itemType+" "+ _item.prefab + _item.prefab.GetType());
+		string qwery = "insert into server_objects (type,visibleName,position_x,position_y,position_z,rotation_x,rotation_y,rotation_z,rotation_w,speed,prefab_path) values ("+
 			_type.ToString()+", "+
 			"\""+_item.item.ToString()+"\", "+
 			position.x.ToString() + ", " +
@@ -406,7 +407,8 @@ public class ServerDB : MonoBehaviour {
 			rotation.y.ToString() + ", " +
 			rotation.z.ToString()+ ", " +
 			rotation.w.ToString() + ", " +
-            "0 " +
+			"0 " + ", " +
+			"\""+_item.prefab.ToString()+"\" " +
             ") ";
 
         GetReader(qwery);
@@ -499,5 +501,7 @@ public class ServerDB : MonoBehaviour {
         }
         return ret_id;
     }
+
+
 
 }
