@@ -63,11 +63,12 @@ public class ItemDB : MonoBehaviour
         GetReader(qwery);
         while (reader.Read())
         {
-            returnItem.id = reader.GetInt32(0);
-            returnItem.item = reader.GetString(1);
-			Debug.Log(reader.GetString(2));
-			returnItem.itemType = (Item.Type_of_item) System.Enum.Parse(typeof( Item.Type_of_item),reader.GetString(2));
-			returnItem.prefab = reader.GetString(3);
+			Debug.Log (reader.GetInt32 (0));
+			if (!reader.IsDBNull(0))returnItem.id = reader.GetInt32(0);
+			if (!reader.IsDBNull (1)) returnItem.item = reader.GetString (1);
+			Debug.Log (reader.GetString (2));
+			if (!reader.IsDBNull (2)) returnItem.itemType = (Item.Type_of_item)System.Enum.Parse (typeof(Item.Type_of_item), reader.GetString (2));
+			if (!reader.IsDBNull(3))returnItem.prefab = reader.GetString(3);
 			Debug.Log (returnItem.itemType);
         }
         return returnItem;

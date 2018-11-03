@@ -24,6 +24,11 @@ public class CreateInventoryMenu : MonoBehaviour {
     private int player_id;
 
 
+//	void Awake()
+//	{
+//		DontDestroyOnLoad(transform.gameObject);
+//		gameObject.SetActive (false);
+//	}
 
 	// Use this for initialization
 	void Start () {

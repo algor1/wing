@@ -33,6 +33,12 @@ public class CreateSkillsMenu : MonoBehaviour {
     [SerializeField]
     private GameObject buttonQueueMenuPrefab;
 
+//	void Awake()
+//	{
+//		DontDestroyOnLoad(transform.gameObject);
+//		gameObject.SetActive (false);
+//	}
+
 	void Start () {
 		server = GameObject.Find ("ServerGo");
 		Debug.Log (server.name);
