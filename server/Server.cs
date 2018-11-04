@@ -6,7 +6,7 @@ public class Server : MonoBehaviour {
 	public bool started;
 	private List<SO_ship> ships;
 
-    public enum Command { MoveTo,WarpTo,Atack,SetTarget,LandTo,Equipment};
+    public enum Command { MoveTo,WarpTo,Atack,SetTarget,LandTo,Equipment,Open};
     public enum ShipEvenentsType{spawn,warp,warmwarp,move,stop,land,hide,reveal};
 
 
@@ -139,6 +139,9 @@ public class Server : MonoBehaviour {
             case Command.Equipment:
                 player.StartEquipment();
                 break;
+			case Command.Open:
+				player.OpenTarget();
+				break;
         }
 	}
 
@@ -204,6 +207,11 @@ public class Server : MonoBehaviour {
             case SO_ship.ShipEvenentsType.destroyed:
                 DestrtoyShip(ship.p.SO.id);
                 break;
+		case SO_ship.ShipEvenentsType.open:
+				//			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
+				//			DO NOTHING
+
+				break;
 
         }
     }

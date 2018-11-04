@@ -20,9 +20,9 @@ public class SO_ship {
 	private SO_ship newtargetToAtack;
     public enum MoveType { move, warp, stop};
     public MoveType moveCommand;
-    public enum ComandType { warpTo,goTo,landTo, none};
+    public enum ComandType { warpTo,goTo,landTo, none, open};
     public ComandType complexCommand;
-    public enum ShipEvenentsType { spawn, warp, warmwarp, move, stop, land, hide, reveal, destroyed };
+    public enum ShipEvenentsType { spawn, warp, warmwarp, move, stop, land, hide, reveal, destroyed, open };
     public bool warpActivated;
     public bool warpCoroutineStarted;
     public bool landed;
@@ -134,6 +134,16 @@ public class SO_ship {
             //			Debug.Log (targetToMove.position);
         }
     }
+	public void OpenTarget()
+	{
+		if (newtargetToMove != null)
+		{
+			complexCommand = ComandType.open;
+			targetToMove = newtargetToMove;
+			//            oldRotation = p.SO.rotation;
+			//			Debug.Log (targetToMove.position);
+		}
+	}
 
 	public bool Rotate(){
 		if (targetToMove != null) {
@@ -383,7 +393,23 @@ public class SO_ship {
                 SendEvent(ShipEvenentsType.land); 
 
 			}
+		
 		}
+		if (complexCommand == ComandType.open) {
+			if (Vector3.Distance (p.SO.position, targetToMove.position) > 10 * p.max_speed / p.acceleration_max) {
+				moveCommand = MoveType.move;
+				SendEvent(ShipEvenentsType.move);
+
+			} else {
+
+				moveCommand = MoveType.stop;
+				SendEvent (ShipEvenentsType.stop);
+				SendEvent(ShipEvenentsType.open); 
+
+			}
+
+		}
+
 	
 	}
 

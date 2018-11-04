@@ -223,6 +223,20 @@ public class ShipMotor : MonoBehaviour {
         //		Spawn ();
         //        _warpToTarget = true;
     }
+	public void OpenTarget()
+	{
+		//		SO_ship tg = Server_GO.GetComponent<Server> ().GetPlayer (1);
+		//		thisShip.SetTarget (tg);
+		//		Server_GO.GetComponent<Server> ().PlayerControl(0,Server.Command.SetTarget,tg);
+
+		Server_GO.GetComponent<Server> ().PlayerControl (0, Server.Command.Open,0);
+		thisShip.OpenTarget ();
+		//        {
+		//            Debug.Log("landed");
+		//        }
+		//		Spawn ();
+		//        _warpToTarget = true;
+	}
 
 	private void Spawn()//backlink from SO_ship
 	{
@@ -331,7 +345,13 @@ public class ShipMotor : MonoBehaviour {
 			detonator.Explode ();
 			dataLocal.GetComponent<ShowEnv> ().DestroyShip (ship.p.SO.id);
 			break;
-		
+		case SO_ship.ShipEvenentsType.open:
+			GameObject canvasObj = GameObject.Find ("Canvas");
+			canvasObj.GetComponent<tmp_button> ().PressedTmpButton ();
+			//			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
+			//			DO NOTHING
+
+			break;
 		}
 	}
 
