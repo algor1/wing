@@ -34,8 +34,8 @@ public class CreateInventoryMenu : MonoBehaviour {
 	void Start () {
 		server = GameObject.Find ("ServerGo");
 		Debug.Log (server.name);
-        leftHolder_id =200;
-        rightHolder_id=0;
+//        leftHolder_id =200;
+//        rightHolder_id=0;
         player_id=0;
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
         //skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();

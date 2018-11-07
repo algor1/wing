@@ -12,6 +12,10 @@ class InventoryServer : MonoBehaviour
     {
         return GetComponent<ItemDB>().GetInventory(player_id, holder_id);
     }
+	public List<InventoryItem> ObjectInventory( int holder_id)
+	{
+		return GetComponent<ItemDB>().GetObjectInventory(holder_id);
+	}
 
     public Item GetItem(int item_id)
     {
@@ -47,5 +51,13 @@ class InventoryServer : MonoBehaviour
     }
 	public void ContainerFromShip(ServerObject cont, ServerObject ship)
 	{
+		List<InventoryItem> objectInventory = ObjectInventory (ship.id);
+		for (int i=0;i<objectInventory.Count;i++){
+			
+			if (Random.value () > 0.8) {
+				MoveItem 
+			}
+		}
 	}
+
 }

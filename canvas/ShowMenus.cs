@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class tmp_button : MonoBehaviour {
+public class ShowMenus : MonoBehaviour {
 	[SerializeField]
 	private GameObject menuPrefab;
 
-	public void PressedTmpButton () {
+	public void ShowInventory (int player_id, int container_id) {
+		Debug.Log (" open inventory " + player_id + "  " + container_id);
 		GameObject someMenu = (GameObject)Instantiate(menuPrefab, gameObject.transform);
 //		someMenu.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
 //		someMenu.transform.SetParent(gameObject.transform, false);
-		someMenu.GetComponent<CreateInventoryMenu>().leftHolder_id=0;
-		someMenu.GetComponent<CreateInventoryMenu>().leftHolder_id=200;
+		someMenu.GetComponent<CreateInventoryMenu>().leftHolder_id=player_id;
+		someMenu.GetComponent<CreateInventoryMenu>().rightHolder_id=container_id;
 //		return true;
 	}
 }

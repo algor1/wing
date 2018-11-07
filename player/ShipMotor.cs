@@ -347,10 +347,7 @@ public class ShipMotor : MonoBehaviour {
 			break;
 		case SO_ship.ShipEvenentsType.open:
 			GameObject canvasObj = GameObject.Find ("Canvas");
-			canvasObj.GetComponent<tmp_button> ().PressedTmpButton ();
-			//			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
-			//			DO NOTHING
-
+			canvasObj.GetComponent<ShowMenus> ().ShowInventory (thisShip.p.SO.id,thisShip.targetToMove.id );
 			break;
 		}
 	}

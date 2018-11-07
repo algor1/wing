@@ -117,7 +117,23 @@ public class ItemDB : MonoBehaviour
         }
         return returnInventoryItemList;
     }
-    
+
+	public List<InventoryItem> GetObjectInventory(int holder_id)
+	{
+		List<InventoryItem> returnInventoryItemList = new List<InventoryItem>();
+		string qwery = "SELECT item_id,tech,quantity FROM inventory where inventory_holder_id = " + holder_id.ToString();
+		GetReader(qwery);
+
+		while (reader.Read())
+		{
+			InventoryItem _inventoryItem = new InventoryItem();
+			if (!reader.IsDBNull(0)) _inventoryItem.item_id = reader.GetInt32(0);
+			if (!reader.IsDBNull(1)) _inventoryItem.tech = reader.GetInt32(1);
+			if (!reader.IsDBNull(2)) _inventoryItem.quantity = reader.GetInt32(2);
+			returnInventoryItemList.Add(_inventoryItem);
+		}
+		return returnInventoryItemList;
+	}
 
     public void InventoryAdd(int player_id, int holder_id, int item_id,int tech, int quantity)
     {
