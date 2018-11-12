@@ -37,9 +37,9 @@ class InventoryServer : MonoBehaviour
         return GetComponent<ItemDB>().InventoryDelete(player_id, holder_id, item_id, tech, quantity);
     }
 
-    public void DestroyInventory(int player_id, int holder_id)
+    public void DestroyInventory(int holder_id)
     {
-
+		GetComponent<ItemDB>().DeleteHolderInventory( holder_id);
     }
 
     public void MoveItem(int fromPlayer_id, int fromHolder_id, int toPlayer_id, int toHolder_id, int item_id, int tech, int quantity)
@@ -54,10 +54,14 @@ class InventoryServer : MonoBehaviour
 		List<InventoryItem> objectInventory = ObjectInventory (ship.id);
 		for (int i=0;i<objectInventory.Count;i++){
 			
-			if (Random.value () > 0.8) {
-				MoveItem 
+			if (Random.value > 0.8) {
+				float tmp_quantity = (float)objectInventory [i].quantity;
+				MoveItem (objectInventory [i].player_id, ship.id, 0, cont.id, objectInventory [i].item_id, objectInventory [i].tech, Mathf.CeilToInt ( objectInventory [i].quantity* Random.value * 0.3f));
 			}
+
 		}
+		AddToInventory (0, cont.id, 38, 0, Mathf.CeilToInt (10 * Random.value));
+		DestroyInventory (ship.id);
 	}
 
 }

@@ -121,7 +121,7 @@ public class ItemDB : MonoBehaviour
 	public List<InventoryItem> GetObjectInventory(int holder_id)
 	{
 		List<InventoryItem> returnInventoryItemList = new List<InventoryItem>();
-		string qwery = "SELECT item_id,tech,quantity FROM inventory where inventory_holder_id = " + holder_id.ToString();
+		string qwery = "SELECT  item_id,tech,quantity, player_id FROM inventory where inventory_holder_id = " + holder_id.ToString();
 		GetReader(qwery);
 
 		while (reader.Read())
@@ -130,6 +130,7 @@ public class ItemDB : MonoBehaviour
 			if (!reader.IsDBNull(0)) _inventoryItem.item_id = reader.GetInt32(0);
 			if (!reader.IsDBNull(1)) _inventoryItem.tech = reader.GetInt32(1);
 			if (!reader.IsDBNull(2)) _inventoryItem.quantity = reader.GetInt32(2);
+			if (!reader.IsDBNull(3)) _inventoryItem.player_id = reader.GetInt32(3);
 			returnInventoryItemList.Add(_inventoryItem);
 		}
 		return returnInventoryItemList;
@@ -167,6 +168,12 @@ public class ItemDB : MonoBehaviour
         }
         return deleted;        
     }
+	public void DeleteHolderInventory(int holder_id)
+	{
+		string qwery;
+			qwery =  "delete from inventory where (inventory_holder_id=" + holder_id.ToString() +" )";
+			GetReader(qwery);
+	}
     public int Quantity(int player_id, int holder_id, int item_id, int tech){
         int retquantity = 0;
         string qwery = "SELECT quantity FROM inventory where player_id=" + player_id.ToString() + " and inventory_holder_id = " + holder_id.ToString() + " and item_id=" + item_id.ToString() + "  and tech=" + tech.ToString();
