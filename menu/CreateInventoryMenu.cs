@@ -103,7 +103,10 @@ public class CreateInventoryMenu : MonoBehaviour {
 
 
 	}
-
+	public void CloseMenu(){
+		gameObject.GetComponentInParent<ShowMenus> ().inventoryOpened = false;
+		Destroy (gameObject);
+	}
 
     
 }

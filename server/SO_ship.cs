@@ -391,6 +391,7 @@ public class SO_ship {
 
 
                 SendEvent(ShipEvenentsType.land); 
+				complexCommand = ComandType.none;
 
 			}
 		
@@ -405,6 +406,7 @@ public class SO_ship {
 				moveCommand = MoveType.stop;
 				SendEvent (ShipEvenentsType.stop);
 				SendEvent(ShipEvenentsType.open); 
+				complexCommand = ComandType.none;
 
 			}
 
