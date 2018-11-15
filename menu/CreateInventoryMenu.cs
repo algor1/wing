@@ -39,8 +39,8 @@ public class CreateInventoryMenu : MonoBehaviour {
         player_id=0;
 //		playerSkills =server.GetComponent<PlayerSkillsServer> ().AllPlayerSkills (0);
         //skillsDB = server.GetComponent<SkillsDB>().GetAllSkills();
-		BuildMenu(panelLeft,0,leftHolder_id);
-		BuildMenu (panelRight, 0, rightHolder_id);
+		BuildMenu(panelLeft,player_id,leftHolder_id);
+		BuildMenu (panelRight,player_id, rightHolder_id);
 	}
 
 	private void BuildMenu (GameObject panel,int player_id,int holder_id)
@@ -107,6 +107,26 @@ public class CreateInventoryMenu : MonoBehaviour {
 		gameObject.GetComponentInParent<ShowMenus> ().inventoryOpened = false;
 		Destroy (gameObject);
 	}
+	public void moveAll(int direction){
+		int fromHolder_id = rightHolder_id;
+		int toHolder_id = leftHolder_id;
+		if (direction == 0) {
+			fromHolder_id = leftHolder_id;
+			toHolder_id = rightHolder_id;
+		}
+		List<InventoryItem> panelInv = server.GetComponent<InventoryServer> ().PlayerInventory (player_id, fromHolder_id);
 
+		for (int i = 0; i < panelInv.Count; i++)
+		{
+			server.GetComponent<InventoryServer> ().MoveItem (player_id, fromHolder_id, player_id, toHolder_id, panelInv [i].item_id, panelInv [i].tech, panelInv [i].quantity);
+		}
+		BuildMenu(panelLeft,player_id,leftHolder_id);
+		BuildMenu (panelRight,player_id, rightHolder_id);
+
+		if (server.GetComponent<InventoryServer> ().PlayerInventory (player_id, fromHolder_id).Count==0) {
+			CloseMenu ();
+			server.GetComponent<ServerSO> ().DestroyContainer (fromHolder_id);
+		}
+	}
     
 }

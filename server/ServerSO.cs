@@ -74,8 +74,28 @@ public class ServerSO : MonoBehaviour {
 		AddSO (newContainer);
 		GetComponent<InventoryServer>().ContainerFromShip(newContainer,destroyedShip);
     }
+
+	public void DestroyContainer(int container_id){
+//		int containerItemId = 4;// TODO  брать из базы
+		if (GetSO (container_id).type == ServerObject.typeSO.container) {
+			if (GetComponent<InventoryServer> ().ObjectInventory (container_id).Count == 0) {
+				DestroySO (container_id);
+			}
+		}
+
+	}
+
 	private void AddSO(ServerObject newSO){
 		serverObjects.Add (newSO);
+	}
+	private void DestroySO(int SO_id){
+		for (int i = 0; i < serverObjects.Count; i++) {
+			
+			if (serverObjects [i].id == SO_id) {
+				GetComponent<ServerDB> ().DeleteServerObject (SO_id);
+				serverObjects.RemoveAt (i);
+			}
+		}
 	}
 
 //	private void Tick(){

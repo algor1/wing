@@ -478,10 +478,12 @@ public class ServerDB : MonoBehaviour {
         return retSOShipData;
     }
 
-    private void DeleteServerObject(int SO_id)
+    public void DeleteServerObject(int SO_id)
     {
-        string qwery = "delete FROM server_objects where id="+SO_id.ToString(); 
-        GetReader(qwery);
+//		if GetComponent<InventoryServer> ().ObjectInventory (SO_id).Count ==0) {
+			string qwery = "delete FROM server_objects where id=" + SO_id.ToString (); 
+			GetReader (qwery);
+
     }
 
     public void DeleteSOShipData(int SO_id)
