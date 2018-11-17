@@ -142,10 +142,14 @@ public class ItemDB : MonoBehaviour
         if (Quantity(player_id, holder_id, item_id, tech) == 0)
         {
             qwery = "insert into inventory (player_id,inventory_holder_id,item_id,tech,quantity) values (" + player_id.ToString() + "," + holder_id.ToString() + "," + item_id.ToString() + "," + tech.ToString() + "," + quantity.ToString() + ")";
+//			Debug.Log (qwery);
+
         }
         else
         {
-            qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() + " )";
+			
+            qwery = "update inventory set quantity = quantity +" + quantity.ToString() + " where player_id=" + player_id.ToString() + " and item_id=" + item_id.ToString() + " and inventory_holder_id=" + holder_id.ToString() + "  and tech=" + tech.ToString() ;
+//			Debug.Log (qwery);
         }
         GetReader (qwery);
     }
