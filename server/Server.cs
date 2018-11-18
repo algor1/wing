@@ -6,7 +6,7 @@ public class Server : MonoBehaviour {
 	public bool started;
 	private List<SO_ship> ships;
 
-    public enum Command { MoveTo,WarpTo,Atack,SetTarget,LandTo,Equipment,Open};
+    public enum Command { MoveTo,WarpTo,Atack,SetTarget,LandTo,Equipment,Open,TakeOff};
     public enum ShipEvenentsType{spawn,warp,warmwarp,move,stop,land,hide,reveal};
 
 
@@ -141,6 +141,9 @@ public class Server : MonoBehaviour {
                 break;
 			case Command.Open:
 				player.OpenTarget();
+				break;
+			case Command.TakeOff:
+				player.landed=false;
 				break;
         }
 	}

@@ -232,4 +232,8 @@ public class CreateSkillsMenu : MonoBehaviour {
 		long points =Mathf.FloorToInt( Mathf.Pow ( _difficulty * 3 + _tech - 1,_level));
 		return points;
 	}
+	public void CloseMenu(){
+		gameObject.GetComponentInParent<ShowMenus> ().skillsOpened = false;
+		Destroy (gameObject);
+	}
 }
