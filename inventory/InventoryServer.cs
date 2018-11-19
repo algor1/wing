@@ -55,7 +55,7 @@ class InventoryServer : MonoBehaviour
 		for (int i=0;i<objectInventory.Count;i++){
 			
 			if (Random.value > 0.8) {
-				float tmp_quantity = (float)objectInventory [i].quantity;
+//				float tmp_quantity = (float)objectInventory [i].quantity;
 				MoveItem (objectInventory [i].player_id, ship.id, 0, cont.id, objectInventory [i].item_id, objectInventory [i].tech, Mathf.CeilToInt ( objectInventory [i].quantity* Random.value * 0.3f));
 			}
 
