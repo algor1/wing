@@ -16,8 +16,8 @@ public class SO_ship {
 	public ServerObject newtargetToMove;
 //	private Quaternion oldRotation; //for roll calc
 
-	private SO_ship targetToAtack;
-	private SO_ship newtargetToAtack;
+	private ServerObject targetToAtack;
+	private ServerObject newtargetToAtack;
     public enum MoveType { move, warp, stop};
     public MoveType moveCommand;
     public enum ComandType { warpTo,goTo,landTo, none, open};
@@ -62,13 +62,15 @@ public class SO_ship {
 	public void SetTarget(ServerObject newtarget){
 		Debug.Log ("new target  " + newtarget.visibleName);
 		newtargetToMove = newtarget;
+		newtargetToAtack=newtarget;
+
 //		newtargetToAtack=null;
 	}
 	public void SetTarget(SO_ship newtarget){	
 //		Debug.Log ("new target  " + newtarget.p.visibleName);
 		newtargetToMove = newtarget.p.SO;
 		newtargetToAtack=newtarget;
-		Debug.Log (p.SO.visibleName +" p"+p.SO.position+ " set target to " + newtargetToAtack.p.SO.visibleName+" p "+newtargetToAtack.p.SO.position);
+		Debug.Log (p.SO.visibleName +" p"+p.SO.position+ " set target to " + newtargetToAtack.visibleName+" p "+newtargetToAtack.position);
 //		Debug.Log (newtargetToMove.position);
 
 	}
@@ -206,7 +208,7 @@ public class SO_ship {
 //		Debug.Log ("atacking");
 		if (newtargetToAtack != null) {
 			targetToAtack = newtargetToAtack;
-			Debug.Log (p.SO.visibleName + " atacking " + targetToAtack.p.SO.visibleName);
+			Debug.Log (p.SO.visibleName + " atacking " + targetToAtack.visibleName);
 
 			atack = true;
 			weapons[weaponnum].Atack_target(targetToAtack);

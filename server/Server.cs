@@ -235,6 +235,22 @@ public class Server : MonoBehaviour {
             }
         }
     }
+	private void Mine(SO_ship ship)
+	{
+		if (ship.atack)
+		{
+			for (int i = 0; i < ship.weapons.Count; i++)
+			{
+				if (ship.weapons[i].fire && !ship.weapons[i].p.active)
+
+				{
+					//					Debug.Log (ship.weapons [i].GetHashCode ());
+					StartCoroutine(ship.weapons[i].Attack());
+				}
+
+			}
+		}
+	}
     private void Equipment(SO_ship ship){
         for (int i = 0; i < ship.equipments.Count; i++){
             if (ship.equipments[i].activate&&!ship.equipments[i].coroutineStarted)

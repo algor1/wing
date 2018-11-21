@@ -7,6 +7,7 @@ public class SO_weapon {
     public SO_weaponData p; //weapon properties
 
 	private SO_ship currentTarget;
+	private ServerObject mineTarget;
 	private SO_ship host;
 	private GameObject weaponPoint;
     public bool fire;
@@ -22,9 +23,19 @@ public class SO_weapon {
 	}
 	public  void Atack_target(SO_ship target){
         
-        currentTarget = target;
-        fire = true;
+		if (target.p.SO.type == ServerObject.typeSO.ship) {
+			currentTarget = target;
+			fire = true;
 //		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ p.active);
+		}
+	}
+	public  void Mine_target(ServerObject target){
+
+		if (target.type == ServerObject.typeSO.asteroid) {
+			currentTarget = target;
+			fire = true;
+			//		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ p.active);
+		}
 	}
 	public void stop(){
         currentTarget = null;
