@@ -193,7 +193,7 @@ public class Indicators : MonoBehaviour {
 //					print (results [0]);
 					if (indicatorsList_sh.Contains (results [0].gameObject)) {
 						Debug.Log (results [0].gameObject.GetComponent<IndicatorEvents> ().linkedObj);//.GetComponent<ShipMotor>().thisShip.p.visibleName);
-						playerobj.GetComponent<ShipMotor> ().SetTarget(results [0].gameObject.GetComponent<IndicatorEvents> ().linkedObj.GetComponent<ShipMotor>().thisShip);
+						playerobj.GetComponent<ShipMotor> ().SetTarget(results [0].gameObject.GetComponent<IndicatorEvents> ().linkedObj.GetComponent<ShipMotor>().thisShip.p.SO);
 					}
 					if (indicatorsList_wp.Contains (results [0].gameObject)||indicatorsList_so.Contains (results [0].gameObject)) {
 						Debug.Log (results [0].gameObject.GetComponent<IndicatorEvents> ().linkedObj);//.GetComponent<ShipMotor>().thisShip.p.visibleName);

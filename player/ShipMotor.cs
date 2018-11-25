@@ -164,15 +164,15 @@ public class ShipMotor : MonoBehaviour {
 		Server_GO.GetComponent<Server>().PlayerControlSetTarget(thisShip.p.SO.id, Server.Command.SetTarget, tg);
 
 	}
-	public void SetTarget(SO_ship tg)
-	{
-		//SO_ship tg = Server_GO.GetComponent<Server> ().GetPlayer (1);
-		//		thisShip.SetTarget (tg);
-
-		thisShip.SetTarget(tg);
-		Server_GO.GetComponent<Server>().PlayerControlSetTargetShip(thisShip.p.SO.id, Server.Command.SetTarget, tg);
-
-	}
+//	public void SetTarget(SO_ship tg)
+//	{
+//		//SO_ship tg = Server_GO.GetComponent<Server> ().GetPlayer (1);
+//		//		thisShip.SetTarget (tg);
+//
+//		thisShip.SetTarget(tg);
+//		Server_GO.GetComponent<Server>().PlayerControlSetTargetShip(thisShip.p.SO.id, Server.Command.SetTarget, tg);
+//
+//	}
 
 	public void GoTotarget()
     {

@@ -55,25 +55,35 @@ public class SO_ship {
 			SO_equipment neweq = new SO_equipment(shipData.equipments[i], this);
 			equipments.Add(neweq);
 		}
-
+		this.p.SO.ship = this;
 
 	}
-	
+	public void BeforeDestroy(){
+		for (int i = 0; i < weapons.Count; i++) {
+			weapons [i].BeforeDestroy ();
+			weapons.RemoveAt (i);
+		}
+		for (int i = 0; i < equipments.Count; i++) {
+			equipments [i].BeforeDestroy ();
+			equipments.RemoveAt (i);
+
+		}
+	}
 	public void SetTarget(ServerObject newtarget){
 		Debug.Log ("new target  " + newtarget.visibleName);
 		newtargetToMove = newtarget;
-		newtargetToAtack=newtarget;
-
+		newtargetToAtack =newtarget;
+		Debug.Log (p.SO.visibleName +" p"+p.SO.position+ " set target to " + newtargetToAtack.visibleName+" p "+newtargetToAtack.position);
 //		newtargetToAtack=null;
 	}
-	public void SetTarget(SO_ship newtarget){	
-//		Debug.Log ("new target  " + newtarget.p.visibleName);
-		newtargetToMove = newtarget.p.SO;
-		newtargetToAtack=newtarget;
-		Debug.Log (p.SO.visibleName +" p"+p.SO.position+ " set target to " + newtargetToAtack.visibleName+" p "+newtargetToAtack.position);
-//		Debug.Log (newtargetToMove.position);
-
-	}
+//	public void SetTarget(SO_ship newtarget){	
+////		Debug.Log ("new target  " + newtarget.p.visibleName);
+//		newtargetToMove = newtarget.p.SO;
+//		newtargetToAtack=newtarget;
+//		Debug.Log (p.SO.visibleName +" p"+p.SO.position+ " set target to " + newtargetToAtack.visibleName+" p "+newtargetToAtack.position);
+////		Debug.Log (newtargetToMove.position);
+//
+//	}
 	public void GoToTarget(){
 		if (newtargetToMove != null) {
 			
@@ -228,6 +238,7 @@ public class SO_ship {
 
 
 	public void Damage(float damage){
+		Debug.Log (p.SO.visibleName  + " damage recieved");
         if (p.shield - damage > 0)
         {
             p.shield += -damage;
@@ -279,7 +290,7 @@ public class SO_ship {
 //			Debug.Log ("mob "+p.id);
 			if (newtargetToAtack != null&&!atack) {
 //				Debug.Log ("mob "+p.id+" targ "+newtargetToAtack.p.id +" dist " + Vector3.Distance(p.SO.position, newtargetToAtack.p.SO.position)+" adist "+ p.agr_distance);
-                if (Vector3.Distance(p.SO.position, newtargetToAtack.p.SO.position) < p.agr_distance)
+                if (Vector3.Distance(p.SO.position, newtargetToAtack.position) < p.agr_distance)
                 {
 //					Debug.Log ("agr");
 					SetTarget (newtargetToAtack);

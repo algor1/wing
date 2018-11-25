@@ -12,6 +12,7 @@ public class ServerObject {
 	public Quaternion rotation;
 	public float speed;
 	public string prefab;
+	public SO_ship ship;
 
 	public ServerObject( ServerObject so_){
 		id = so_.id;
@@ -21,6 +22,7 @@ public class ServerObject {
 		speed = so_.speed;
 		prefab = so_.prefab;
 		type = so_.type;
+		ship = so_.ship;
 	}
 	public ServerObject(){
 	}

@@ -200,7 +200,7 @@ public class ShowEnv : MonoBehaviour {
 		Debug.Log ("prefub " + ship.p.SO.prefab);
 		GameObject gObj = (GameObject)Instantiate(Resources.Load(ship.p.SO.prefab, typeof(GameObject)) , ship.p.SO.position -zeroPoint, ship.p.SO.rotation );// подставить ship.p.SO.prefab
 		gObj.GetComponent<ShipMotor> ().Init ( ship,serverObj,this.gameObject);
-		gObj.GetComponent<ShipMotor> ().thisShip.SetTarget (player.GetComponent<ShipMotor> ().thisShip);
+		gObj.GetComponent<ShipMotor> ().thisShip.SetTarget (player.GetComponent<ShipMotor> ().thisShip.p.SO);
 		Debug.Log (ship.p.SO.visibleName);
 		nearestShips.Add(ship.p.SO.id, gObj);
 		canvasobj.GetComponent<Indicators> ().AddIndicator_sh (gObj);
@@ -212,6 +212,8 @@ public class ShowEnv : MonoBehaviour {
 		if (nearestShips.ContainsKey (ship_id)) {
             if (!nearestShips[ship_id].GetComponent<ShipMotor>().thisShip.p.destroyed)
             {
+				nearestShips [ship_id].GetComponent<ShipMotor> ().thisShip.BeforeDestroy ();
+				nearestShips [ship_id].GetComponent<ShipMotor> ().thisShip = null;
                 Destroy(nearestShips[ship_id]);
                 nearestShips.Remove(ship_id);
             }
@@ -219,14 +221,8 @@ public class ShowEnv : MonoBehaviour {
 
 	}
 	public void DestroyShip(int ship_id){
-		canvasobj.GetComponent<Indicators> ().DeleteIndicator_sh (ship_id);
-		if (nearestShips.ContainsKey (ship_id)) {
-			//			if (nearestShips[ship_id].exist)
-//			Destroy (nearestShips [ship_id]);
-			nearestShips.Remove (ship_id);
+		DeleteShip (ship_id);
 		}
-
-	}
 
 	void UpdateShip(SO_ship ship){
 //        var control = nearestShips[ship.p.id].GetComponent<ShipMotor>();

@@ -19,7 +19,7 @@ public class Server : MonoBehaviour {
     }
 
 	void Start(){
-		ships [1].SetTarget (ships [0]);
+		ships [1].SetTarget (ships [0].p.SO);
 		ships [1].GoToTarget();
 		started = true;
 
@@ -48,7 +48,7 @@ public class Server : MonoBehaviour {
 				resultShipList.Add (ships [i]);
 			}
 			if (dist<ships[i].p.vision_distance&&!ships[i].atack){ 
-				ships [i].SetTarget(pl);//playerid=0
+				ships [i].SetTarget(pl.p.SO);//playerid=0
 			}
 		}
 //		if (resultShipList.Count>0)
@@ -105,7 +105,10 @@ public class Server : MonoBehaviour {
         for (int i=0; i< ships.Count;i++)
         {
             if (ships[i].p.SO.id==ship_id){
-                ships.RemoveAt(i);
+				ships [i].BeforeDestroy();
+				ships [i] = null;
+				ships.RemoveAt(i);
+
                 break;
             }
         }
@@ -114,7 +117,7 @@ public class Server : MonoBehaviour {
     private void DestrtoyShip(int ship_id)
     {
 		GetComponent<ServerSO>().AddContainer(ship_id);
-
+		DeleteShip (ship_id);
     }
     public int RegisterPlayer(){
         return 0;
@@ -148,14 +151,13 @@ public class Server : MonoBehaviour {
         }
 	}
 
-	public void PlayerControlSetTargetShip(int player_id,Command player_command ,SO_ship target) {
-		SO_ship player = GetPlayer(player_id);
-		SO_ship tg = GetPlayer(target.p.SO.id);
-		if (player_command==Command.SetTarget){
-			player.SetTarget(tg);
-		}
-
-	}
+//	public void PlayerControlSetTargetShip(int player_id,Command player_command ,SO_ship target) {
+//		SO_ship player = GetPlayer(player_id);
+//		SO_ship tg = GetPlayer(target.p.SO.id);
+//		if (player_command==Command.SetTarget){
+//			player.SetTarget(tg);
+//		}
+//	}
 	public void PlayerControlSetTarget(int player_id, Command player_command, ServerObject target)
 	{
 		SO_ship player = GetPlayer(player_id);
@@ -265,6 +267,7 @@ public class Server : MonoBehaviour {
             Warp(ships[i]);
             Atack(ships[i]);
             Equipment(ships[i]);
+			Mine (ships [i]);
         }
 	}
 

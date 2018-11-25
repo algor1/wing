@@ -20,6 +20,8 @@ public class SO_equipment {
 		activate = false;
         coroutineStarted = false;
 	}
+	public void BeforeDestroy(){
+	}
 
 	public  void Use(){
 
