@@ -11,6 +11,7 @@ public class SO_equipment {
 	private GameObject weaponPoint;
     public bool coroutineStarted;
     public bool activate;
+	public Coroutine use_co;
     
 
     public SO_equipment(SO_equipmentData _data, SO_ship _host)

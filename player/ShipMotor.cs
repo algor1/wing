@@ -281,11 +281,21 @@ public class ShipMotor : MonoBehaviour {
 
 				if (thisShip.weapons[i].fire && !thisShip.weapons[i].p.active)
 				{
-					StartCoroutine(thisShip.weapons[i].Attack());
-				}
+					thisShip.weapons[i].atack_co= StartCoroutine(thisShip.weapons[i].Attack());
 
+				}
 			}
 //		}
+	}
+	private void StopAtacking()
+	{
+		for (int i = 0; i < thisShip.weapons.Count; i++)
+		{
+			if (thisShip.weapons[i].p.active)
+			{
+				StopCoroutine (thisShip.weapons [i].atack_co);
+			}
+		}
 	}
 
     private void Equipment()
@@ -294,61 +304,78 @@ public class ShipMotor : MonoBehaviour {
         {
             if (thisShip.equipments[i].activate && !thisShip.equipments[i].coroutineStarted)
             {
-                StartCoroutine(thisShip.equipments[i].UseEq());
+				thisShip.equipments [i].use_co=StartCoroutine(thisShip.equipments[i].UseEq());
             }
         }
     }
+	private void StopEquipments()
+	{
+		for (int i = 0; i < thisShip.equipments.Count; i++)
+		{
+			if (thisShip.equipments[i].coroutineStarted)
+			{
+				StopCoroutine (thisShip.equipments [i].use_co);
+			}
+		}
+	}
 
 
     public void Events(SO_ship.ShipEvenentsType shipEvent, SO_ship ship)
 	{
-		switch (shipEvent)
-		{
-        case SO_ship.ShipEvenentsType.stop:
-			Debug.Log("motor " + ship.p.SO.visibleName + " ship stopped");
-                burner.GetComponent<BurnControl>().EngineStop();
-			break;
-        case SO_ship.ShipEvenentsType.move:
-			Debug.Log("motor "  + ship.p.SO.visibleName + " ship accelerated");
-            burner.GetComponent<BurnControl>().EngineStart();
-			break;
-        case SO_ship.ShipEvenentsType.warmwarp:
-			Debug.Log("motor "  + ship.p.SO.visibleName + " ship preparing to warp");
-            burner.GetComponent<BurnControl>().WarpStart();
-			break;
-        case SO_ship.ShipEvenentsType.warp:
+		if (ship == thisShip) {
+			switch (shipEvent) {
+			case SO_ship.ShipEvenentsType.stop:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship stopped");
+				burner.GetComponent<BurnControl> ().EngineStop ();
+				break;
+			case SO_ship.ShipEvenentsType.move:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship accelerated");
+				burner.GetComponent<BurnControl> ().EngineStart ();
+				break;
+			case SO_ship.ShipEvenentsType.warmwarp:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship preparing to warp");
+				burner.GetComponent<BurnControl> ().WarpStart ();
+				break;
+			case SO_ship.ShipEvenentsType.warp:
 			
-			Debug.Log("motor "  + ship.p.SO.visibleName + " ship warping....");
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship warping....");
 //			if player
-			dataLocal.GetComponent<Effects>().PlayerWarp(thisShip.targetToMove.position,thisShip.p.warpSpeed);
-			break;
-		case SO_ship.ShipEvenentsType.spawn:
-			Debug.Log ("motor " + ship.p.SO.visibleName + " ship spawn");
-			dataLocal.GetComponent<Effects>().PlayerWarpStop();
-            burner.GetComponent<BurnControl>().WarpStop();
-			Spawn ();
-			break;
-        case SO_ship.ShipEvenentsType.land:
-			Debug.Log("motor " + ship.p.SO.visibleName + " ship landing");
-			Server_GO.GetComponent<LandingServer>().Landing(ship.p.SO.id, ship.targetToMove.id);
-			ship.landed=true;
-			break;
-		case SO_ship.ShipEvenentsType.destroyed:
-			Debug.Log ("motor " + ship.p.SO.visibleName + " ship destroyed");
-			var detonator = gameObject.AddComponent<Detonator> ();
-			detonator.duration = 4;
-			detonator.destroyTime = 4;
-			detonator.size = 40;
-			detonator.autoCreateSmoke = false;
-			detonator.autoCreateHeatwave = false;
-			detonator.color = Color.white;
-			detonator.Explode ();
-			dataLocal.GetComponent<ShowEnv> ().DestroyShip (ship.p.SO.id);
-			break;
-		case SO_ship.ShipEvenentsType.open:
-			GameObject canvasObj = GameObject.Find ("Canvas");
-			canvasObj.GetComponent<ShowMenus> ().ShowInventory (thisShip.p.SO.id,thisShip.targetToMove.id );
-			break;
+				dataLocal.GetComponent<Effects> ().PlayerWarp (thisShip.targetToMove.position, thisShip.p.warpSpeed);
+				break;
+			case SO_ship.ShipEvenentsType.spawn:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship spawn");
+				dataLocal.GetComponent<Effects> ().PlayerWarpStop ();
+				burner.GetComponent<BurnControl> ().WarpStop ();
+				Spawn ();
+				break;
+			case SO_ship.ShipEvenentsType.land:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship landing");
+				Server_GO.GetComponent<LandingServer> ().Landing (thisShip.p.SO.id, thisShip.targetToMove.id);
+				thisShip.landed = true;
+				break;
+			case SO_ship.ShipEvenentsType.destroyed:
+				Debug.Log ("motor " + thisShip.p.SO.visibleName + " ship destroyed");
+				StopAtacking ();
+				StopEquipments ();
+//			thisShip = null;
+				var detonator = gameObject.AddComponent<Detonator> ();
+				detonator.duration = 4;
+				detonator.destroyTime = 4;
+				detonator.size = 40;
+				detonator.autoCreateSmoke = false;
+				detonator.autoCreateHeatwave = false;
+				detonator.color = Color.white;
+				detonator.destroyObj = false;
+				detonator.Explode ();
+				thisShip.p.destroyed = true;
+				Debug.Log ("********************       explosion");
+				dataLocal.GetComponent<ShowEnv> ().DestroyShip (thisShip.p.SO.id);
+				break;
+			case SO_ship.ShipEvenentsType.open:
+				GameObject canvasObj = GameObject.Find ("Canvas");
+				canvasObj.GetComponent<ShowMenus> ().ShowInventory (thisShip.p.SO.id, thisShip.targetToMove.id);
+				break;
+			}
 		}
 	}
 

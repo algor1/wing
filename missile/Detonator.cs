@@ -53,6 +53,7 @@ public class Detonator : MonoBehaviour {
 	public float size = 10f; 
 	public Color color = Detonator._baseColor;
 	public bool explodeOnStart = false;
+	public bool destroyObj=true;
 	public float duration = Detonator._baseDuration;
 	public float detail = 1f; 
 	public float upwardsBias = 0f;
@@ -207,7 +208,7 @@ public class Detonator : MonoBehaviour {
     {
 		if (destroyTime > 0f)
 		{
-			if (_lastExplosionTime + destroyTime <= Time.time)
+			if (_lastExplosionTime + destroyTime <= Time.time && destroyObj)
 			{
 				Destroy(gameObject);
 			}
