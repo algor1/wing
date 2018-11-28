@@ -356,7 +356,7 @@ public class ServerDB : MonoBehaviour {
 
 //			if (!reader.IsDBNull(0)) _weapon. = reader.GetInt32(0);
 			if (!reader.IsDBNull (1))_type = reader.GetInt32 (1);
-			if (!reader.IsDBNull (2))_weapon.active = (reader.GetInt32(2) == 1);
+//			if (!reader.IsDBNull (2))_weapon.active = (reader.GetInt32(2) == 1);
 			if (!reader.IsDBNull (3))_weapon.damage = reader.GetFloat (3);
 			if (!reader.IsDBNull (4))_weapon.reload = reader.GetFloat (4);
 			if (!reader.IsDBNull (5))_weapon.ammoSpeed = reader.GetFloat (5);

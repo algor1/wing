@@ -123,7 +123,6 @@ public class Server : MonoBehaviour {
         return 0;
     }
 
-
 	public void PlayerControl(int player_id,Command player_command,int weapon_equip_num ) {
 		SO_ship player = GetPlayer(player_id);
         switch(player_command){
@@ -209,10 +208,11 @@ public class Server : MonoBehaviour {
 			    GetComponent<LandingServer>().Landing( ship.targetToMove.id,ship.p.SO.id);
                 ship.landed=true;
                 break;
-            case SO_ship.ShipEvenentsType.destroyed:
+			case SO_ship.ShipEvenentsType.destroyed:
+				StopAllCoroutines (ship);
                 DestrtoyShip(ship.p.SO.id);
                 break;
-		case SO_ship.ShipEvenentsType.open:
+			case SO_ship.ShipEvenentsType.open:
 				//			Debug.Log ("server" + ship.p.SO.visibleName + " ship landing " + ship.targetToMove.id);
 				//			DO NOTHING
 
@@ -227,7 +227,7 @@ public class Server : MonoBehaviour {
         {
             for (int i = 0; i < ship.weapons.Count; i++)
             {
-                if (ship.weapons[i].fire && !ship.weapons[i].p.active)
+                if (ship.weapons[i].fire && !ship.weapons[i].activated)
 					
                 {
 //					Debug.Log (ship.weapons [i].GetHashCode ());
@@ -243,11 +243,11 @@ public class Server : MonoBehaviour {
 		{
 			for (int i = 0; i < ship.weapons.Count; i++)
 			{
-				if (ship.weapons[i].fire && !ship.weapons[i].p.active)
+				if (ship.weapons[i].fire && !ship.weapons[i].activated)
 
 				{
 					//					Debug.Log (ship.weapons [i].GetHashCode ());
-					StartCoroutine(ship.weapons[i].Attack());
+					StartCoroutine(ship.weapons[i].Mine());
 				}
 
 			}
@@ -261,6 +261,21 @@ public class Server : MonoBehaviour {
             }
         }
     }
+	private void StopAllCoroutines (SO_ship ship)
+		{
+		for (int i = 0; i < ship.weapons.Count; i++) {
+			if (ship.weapons [i].activated) {
+				StopCoroutine (ship.weapons [i].atack_co);
+			}
+		}
+		for (int i = 0; i < ship.equipments.Count; i++) {
+			if (ship.equipments [i].activate) {
+				StopCoroutine (ship.equipments [i].use_co);
+			}
+		}
+			
+	}
+
 	private void Tick(){
 		for (int i = 0; i < ships.Count; i++){
 			ships[i].Tick();
@@ -270,5 +285,8 @@ public class Server : MonoBehaviour {
 			Mine (ships [i]);
         }
 	}
+
+
+
 
 }

@@ -13,11 +13,12 @@ public class SO_weapon {
     public bool fire;
 	public bool mine;
 	public Coroutine atack_co;
+	public bool activated;
 
 	public SO_weapon (SO_weaponData _data, SO_ship _host){
 		p = new SO_weaponData(_data);
 		host = _host;
-		p.active = false;
+		activated = false;
 		fire = false;
 	}
 	public void BeforeDestroy(){
@@ -36,7 +37,7 @@ public class SO_weapon {
 		if (target.type == ServerObject.typeSO.asteroid) {
 			mineTarget = target;
 			mine = true;
-//		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ p.active);
+//		Debug.Log (host.p.SO.visibleName + " qqqqqqq " + target.p.SO.visibleName+  fire+ activated);
 		}
 	}
 
@@ -49,7 +50,7 @@ public class SO_weapon {
 
 	public IEnumerator Attack()
 	{
-		p.active = true;
+		activated = true;
 		while (fire)
 		{
 			if (!currentTarget.p.destroyed)
@@ -95,7 +96,7 @@ public class SO_weapon {
 						if (weaponPoint != null) {
 							weaponPoint.GetComponent<WeaponPoint> ().StopFire ();
 						}
-						Debug.Log ("******  damage from " + host.p.SO.visibleName + " to " + currentTarget.p.SO.visibleName);
+						Debug.Log ("******  damage from " + host.p.SO.visibleName + " to " + currentTarget.p.SO.visibleName+ "  co  "+atack_co.GetHashCode());
 						if (currentTarget!=null) currentTarget.Damage(p.damage);
 					}
 				}
@@ -105,67 +106,67 @@ public class SO_weapon {
 				stop();
 			}
 		}
-		p.active = false;
+		activated = false;
 	}
 
-//	public IEnumerator Mine()
-//    {
-//        p.active = true;
-//        while (mine)
-//        {
-////            if (!currentTarget.p.destroyed)
-////            {
-//				if (host.p.capasitor >= p.capasitor_use) {
-//					host.p.capasitor += -p.capasitor_use;
-//				} else {
-//					stop ();
-//				}
-//
-//                float sqrDistance = (currentTarget.p.SO.position - host.p.SO.position).sqrMagnitude;
-//                if (sqrDistance > p.sqrDistanse_max * 4)
-//                {
-//                    stop();
-//                }
-//                else
-//                {
-//                    yield return new WaitForSeconds(p.reload);
-//
-//                    if (sqrDistance < p.sqrDistanse_max)
-//                    {
-//						if (weaponPoint!=null){
-////							Debug.Log(host.p.SO.visibleName +  " weaponpoint not null");
-////							Debug.Log (weaponPoint.GetComponent<WeaponPoint> ());
-//
-//							weaponPoint.GetComponent<WeaponPoint>().StartFire (currentTarget);}
-//						yield return new WaitForSeconds(2);
-//
-//                        if (p.type == SO_weaponData.WeaponType.laser)
-//                        {
-//                            yield return new WaitForSeconds(p.activeTime);
-//                        }
-//                        else
-//                        {
-//                            yield return new WaitForSeconds(Mathf.Sqrt(sqrDistance) / p.ammoSpeed);
-//                        }    
-//                        if(host.host != null) {
-////							Debug.Log (host.host.name + "  " + host.p.SO.visibleName + "----pew----  to " + currentTarget.p.SO.visibleName); 
-//						} else{
-////							Debug.Log ("server  " + host.p.SO.visibleName + "----pew----  to " + currentTarget.p.SO.visibleName); 
-//						}
-////							Debug.Log (weaponPoint.GetComponent<WeaponPoint> ());
-//						if (weaponPoint != null) {
-//							weaponPoint.GetComponent<WeaponPoint> ().StopFire ();
-//						}
-//						if (currentTarget!=null) currentTarget.Damage(p.damage);
-//                    }
-//                }
-////            }
-////            else
-////            {
-////                stop();
-////            }
-//        }
-//        p.active = false;
-//    }
+	public IEnumerator Mine()
+    {
+        activated = true;
+        while (mine)
+        {
+//            if (!currentTarget.p.destroyed)
+//            {
+				if (host.p.capasitor >= p.capasitor_use) {
+					host.p.capasitor += -p.capasitor_use;
+				} else {
+					stop ();
+				}
+
+                float sqrDistance = (currentTarget.p.SO.position - host.p.SO.position).sqrMagnitude;
+                if (sqrDistance > p.sqrDistanse_max * 4)
+                {
+                    stop();
+                }
+                else
+                {
+                    yield return new WaitForSeconds(p.reload);
+
+                    if (sqrDistance < p.sqrDistanse_max)
+                    {
+						if (weaponPoint!=null){
+//							Debug.Log(host.p.SO.visibleName +  " weaponpoint not null");
+//							Debug.Log (weaponPoint.GetComponent<WeaponPoint> ());
+
+							weaponPoint.GetComponent<WeaponPoint>().StartFire (currentTarget);}
+						yield return new WaitForSeconds(2);
+
+                        if (p.type == SO_weaponData.WeaponType.laser)
+                        {
+						yield return new WaitForSeconds(p.activeTime);
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(Mathf.Sqrt(sqrDistance) / p.ammoSpeed);
+                        }    
+                        if(host.host != null) {
+//							Debug.Log (host.host.name + "  " + host.p.SO.visibleName + "----pew----  to " + currentTarget.p.SO.visibleName); 
+						} else{
+//							Debug.Log ("server  " + host.p.SO.visibleName + "----pew----  to " + currentTarget.p.SO.visibleName); 
+						}
+//							Debug.Log (weaponPoint.GetComponent<WeaponPoint> ());
+						if (weaponPoint != null) {
+							weaponPoint.GetComponent<WeaponPoint> ().StopFire ();
+						}
+						if (currentTarget!=null) currentTarget.Damage(p.damage);
+                    }
+                }
+//            }
+//            else
+//            {
+//                stop();
+//            }
+        }
+        activated = false;
+    }
 
 }

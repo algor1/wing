@@ -279,9 +279,10 @@ public class ShipMotor : MonoBehaviour {
 //				Debug.Log ("atack  " + thisShip.p.id + "  weap  " +i + " fire " + thisShip.weapons[i].fire + "  "+ thisShip.weapons[i].p.active);
 //				Debug.Log ("M" +thisShip.weapons [i]);
 
-				if (thisShip.weapons[i].fire && !thisShip.weapons[i].p.active)
+			if (thisShip.weapons[i].fire && !thisShip.weapons[i].activated)
 				{
 					thisShip.weapons[i].atack_co= StartCoroutine(thisShip.weapons[i].Attack());
+				Debug.Log ("*************      atack_co    " + thisShip.weapons [i].atack_co.GetHashCode());
 
 				}
 			}
@@ -291,8 +292,9 @@ public class ShipMotor : MonoBehaviour {
 	{
 		for (int i = 0; i < thisShip.weapons.Count; i++)
 		{
-			if (thisShip.weapons[i].p.active)
+			if (thisShip.weapons[i].activated)
 			{
+				Debug.Log ("stopping atack couroutine id " + thisShip.weapons [i].atack_co.GetHashCode ());
 				StopCoroutine (thisShip.weapons [i].atack_co);
 			}
 		}

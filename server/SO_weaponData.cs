@@ -6,7 +6,6 @@ using UnityEngine;
 public class SO_weaponData {
 	public enum WeaponType {laser,missile,projective};
     public WeaponType type;
-	public bool active;	
 	public float damage;
     public float reload;
 	public float ammoSpeed;
@@ -18,7 +17,7 @@ public class SO_weaponData {
 	}
 	public SO_weaponData(SO_weaponData val){
 		type = val.type;
-		active = val.active;
+//		active = val.active;
 		damage = val.damage;
 		reload = val.reload;
 		ammoSpeed = val.ammoSpeed;

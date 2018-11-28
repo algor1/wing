@@ -21,11 +21,12 @@ public class LaserBeam : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (laser_shot.enabled && target!=null) {
+		if (laser_shot.enabled  && target!=null) {
 //			Debug.Log("from "+ transform.position+ "!!!!!!!!pew to " + target.p.SO.visibleName+" p "+ target.host.transform.position);
-			laser_shot.SetPosition (0,transform.position);
-			laser_shot.SetPosition(1, target.host.GetComponent<Transform>().position);
-
+			if (target.host != null) {
+				laser_shot.SetPosition (0, transform.position);
+				laser_shot.SetPosition (1, target.host.GetComponent<Transform> ().position);
+			}
 		}
 		if (target == null) {
 //
