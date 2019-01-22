@@ -48,7 +48,7 @@ public class Missile : MonoBehaviour {
 	private void Explode(){
 		Debug.Log ("boom");
         
-		GetComponent<Detonator> ().Explode ();
+		//GetComponent<Detonator> ().Explode ();
 		destroed = true;
 //		GetComponent<MeshRenderer> ().enabled = false;
 
