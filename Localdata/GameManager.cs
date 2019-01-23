@@ -10,12 +10,20 @@ namespace Game
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject ShowEnv;
         #region Events
 
-        public delegate void NearestShipsDataEventHandler(string friendName);
+        public delegate void NearestShipsDataEventHandler(SO_shipData[] nearestShipData);
+        public delegate void PlayerShipDataEventHandler(SO_shipData shipData);
+
 
 
         public static event NearestShipsDataEventHandler onNearestShipData;
+        public static event PlayerShipDataEventHandler onPlayerShipData;
+
+
+
 
 
         #endregion
@@ -47,6 +55,13 @@ namespace Game
                 }
             }
         }
+        public static void SendPlayerInit ()
+        {
+            using (var msg = Message.CreateEmpty(GameTags.InitPlayer))
+            {
+                GameControl.Client.SendMessage(msg, SendMode.Reliable);
+            }
+        }
         #endregion
 
         private static void OnDataHandler(object sender, MessageReceivedEventArgs e)
@@ -60,10 +75,12 @@ namespace Game
                 switch (message.Tag)
                 {
                     // New friend request received
-                    case FriendTags.FriendRequest:
+                    case GameTags.NearestSpaceObjects:
                         {
                             using (var reader = message.GetReader())
                             {
+
+
                                 var friendName = reader.ReadString();
                                 ChatManager.ServerMessage(friendName + " wants to add you as a friend!", MessageType.Info);
 
